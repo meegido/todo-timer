@@ -1,0 +1,26 @@
+name: Run CI
+run-name: ${{ github.actor }} is running GitHub Actions 🚀
+on: [push]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: checkout_node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: install dependencies
+        run: npm install
+
+      - name: run ESLint
+        run: npm run lint
+
+      - name: run Prettier
+        run: npm run format
+
+      - name: test
+        run: npm run test
