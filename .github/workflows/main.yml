@@ -11,10 +11,13 @@ jobs:
       - name: checkout_node
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: '20.x'
 
       - name: install dependencies
         run: npm install
 
       - name: run ESLint
         run: npm run lint
+
+      - name: test
+        run: npm run test
