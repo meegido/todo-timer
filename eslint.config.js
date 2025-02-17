@@ -7,6 +7,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import testingLibrary from 'eslint-plugin-testing-library';
 import jestDom from 'eslint-plugin-jest-dom';
+import vitest from '@vitest/eslint-plugin';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -19,10 +20,13 @@ export default tseslint.config(
       eslintConfigPrettier,
       eslintPluginPrettierRecommended,
     ],
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{ts,tsx, tests/**}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...vitest.environments.env.globals,
+      },
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
@@ -33,6 +37,7 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
       testingLibrary,
       'jest-dom': jestDom,
+      vitest,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -48,6 +53,13 @@ export default tseslint.config(
       'jest-dom/prefer-enabled-disabled': 'error',
       'jest-dom/prefer-required': 'error',
       'jest-dom/prefer-to-have-attribute': 'error',
+      ...vitest.configs.recommended.rules,
+      'vitest/max-nested-describe': ['error', { max: 3 }],
+    },
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
     },
   }
 );
