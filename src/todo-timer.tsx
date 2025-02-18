@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './todo-timer.module.css';
+import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
 
 interface Todo {
   id: string;
@@ -14,6 +15,14 @@ const data = [
 function TodoTimer() {
   const [todos, setTodos] = React.useState<Todo[]>(data);
   const [inputTodoValue, setInputTodoValue] = React.useState<string>('');
+  const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
+
+  React.useEffect(() => {
+    if (isEditMode && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditMode]);
 
   const handleCreateTodo = () => {
     setTodos((prevTodos: Todo[]) => [
@@ -41,13 +50,39 @@ function TodoTimer() {
                 checked={false}
               />
             </fieldset>
-            <p key={todo.id} aria-label={'todo'}>
-              {todo.title}
-            </p>
+            {isEditMode ? (
+              <fieldset className={`${styles.card}`}>
+                <label className={styles.visually__hidden} htmlFor="todo-text">
+                  Create a todo
+                </label>
+                <textarea
+                  ref={inputRef}
+                  name="todo-text"
+                  id="todo-text"
+                  value={inputTodoValue}
+                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setInputTodoValue(event.target.value)
+                  }
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      event.preventDefault();
+                      handleCreateTodo();
+                    }
+                  }}
+                />
+              </fieldset>
+            ) : (
+              <p
+                tabIndex={0}
+                aria-label={'todo'}
+                onClick={() => setIsEditMode(true)}
+              >
+                {todo.title}
+              </p>
+            )}
           </article>
         ))}
       </section>
-
       <section className={`${styles.input__card__wrapper}`}>
         <fieldset className={`${styles.card}`}>
           <label className={styles.visually__hidden} htmlFor="todo-text">

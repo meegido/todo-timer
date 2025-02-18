@@ -38,7 +38,7 @@ fieldset {
 }
 
 .card {
-  background-color: gainsboro;
+  background-color: #f3f5f7;
 }
 
 .card.created {
@@ -47,4 +47,11 @@ fieldset {
 
 .input__card__wrapper {
   margin-top: auto;
+}
+
+.input__card__wrapper textarea {
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid black;
+  min-width: 320px;
 }
