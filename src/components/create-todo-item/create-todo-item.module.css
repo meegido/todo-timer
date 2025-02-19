@@ -1,0 +1,38 @@
+.visually__hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0); /* Legacy property for Internet Explorer */
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.todo__input__wrapper {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+}
+
+.todo__input {
+  border: none;
+  padding: 0 6px;
+  margin: 0;
+  width: inherit;
+  display: flex;
+  height: 40px;
+  align-items: center;
+  gap: 6px;
+}
+
+.todo__input input {
+  height: 32px;
+  width: 100%;
+  border: none;
+}
+
+.todo__input input:focus {
+  outline: none;
+}

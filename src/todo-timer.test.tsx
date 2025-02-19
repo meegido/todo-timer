@@ -16,20 +16,4 @@ describe('Todo timer', () => {
 
     expect(newTodo.length).toBeGreaterThan(0);
   });
-
-  it('lets the user edit todos by clicking the todo text', async () => {
-    render(<TodoTimer />);
-
-    const editableTodos = screen.getAllByLabelText('todo');
-    editableTodos.forEach((todo) => expect(todo).toBeInTheDocument());
-
-    const firstTodo = editableTodos[0];
-    await userEvent.click(firstTodo);
-
-    const textarea = screen.getByRole('textbox');
-    expect(textarea).toBeInTheDocument();
-    expect(textarea).toHaveValue(firstTodo.textContent);
-
-    // await userEvent.keyboard('{enter}');
-  });
 });

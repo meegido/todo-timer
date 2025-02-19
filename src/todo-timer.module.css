@@ -6,21 +6,6 @@ main {
   flex-direction: column;
 }
 
-fieldset {
-  border: none;
-  padding: 0;
-}
-
-.visually__hidden:not(:focus):not(:active) {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0); /* Legacy property for Internet Explorer */
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 .card__wrapper {
   display: flex;
   justify-content: flex-start;
@@ -28,30 +13,6 @@ fieldset {
   gap: 24px;
 }
 
-.card {
-  display: flex;
-  align-items: center;
-  min-width: 320px;
-  padding: 2em 1em;
-  color: black;
-  border-radius: 12px;
-}
-
-.card {
-  background-color: #f3f5f7;
-}
-
-.card.created {
-  background-color: #f7e8fd;
-}
-
 .input__card__wrapper {
   margin-top: auto;
-}
-
-.input__card__wrapper textarea {
-  border: none;
-  background: transparent;
-  border-bottom: 1px solid black;
-  min-width: 320px;
 }

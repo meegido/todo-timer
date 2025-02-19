@@ -1,0 +1,26 @@
+.visually__hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0); /* Legacy property for Internet Explorer */
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  min-width: 320px;
+  padding: 2em 1em;
+  color: black;
+  border-radius: 12px;
+}
+
+.card {
+  background-color: #f3f5f7;
+}
+
+.card.created {
+  background-color: #f7e8fd;
+}
