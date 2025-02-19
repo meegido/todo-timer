@@ -3,14 +3,14 @@ import styles from './create-todo-item.module.css';
 import { Plus } from 'lucide-react';
 
 interface CreateTodoItemProps {
-  inputTodoValue: string;
-  setInputTodoValue: React.Dispatch<React.SetStateAction<string>>;
+  inputCreateValue: string;
+  setInputCreateValue: React.Dispatch<React.SetStateAction<string>>;
   handleCreateTodo: () => void;
 }
 
 const CreateTodoItem = ({
-  inputTodoValue,
-  setInputTodoValue,
+  inputCreateValue,
+  setInputCreateValue,
   handleCreateTodo,
 }: CreateTodoItemProps) => {
   return (
@@ -24,10 +24,11 @@ const CreateTodoItem = ({
           type="text"
           name="todo-text"
           id="todo-text"
-          placeholder="add a task"
-          value={inputTodoValue}
+          aria-label="create-input"
+          placeholder="Add a task"
+          value={inputCreateValue}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setInputTodoValue(event.target.value)
+            setInputCreateValue(event.target.value)
           }
           onKeyDown={(event) => {
             if (event.key === 'Enter') {

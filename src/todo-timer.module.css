@@ -6,13 +6,8 @@ main {
   flex-direction: column;
 }
 
-.card__wrapper {
+.list__wrapper {
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
   gap: 24px;
-}
-
-.input__card__wrapper {
-  margin-top: auto;
 }
