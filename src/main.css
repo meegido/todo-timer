@@ -1,5 +1,8 @@
 :root {
-  font-family: Inter, sans-serif;
+  font:
+    16px/1.4 system-ui,
+    -apple-system,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
