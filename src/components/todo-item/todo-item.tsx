@@ -10,6 +10,13 @@ interface TodoItemProps {
 const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (inputRef && inputRef.current && isEditMode) {
+      inputRef.current.focus();
+    }
+  }, [isEditMode]);
 
   const handleSave = () => {
     onUpdateTodo(todo.id, { ...todo, title: editTodoValue });
@@ -17,13 +24,27 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   };
 
   return (
-    <form>
+    <form className={styles.card}>
+      <fieldset className={styles.check__wrapper}>
+        <label htmlFor="done" className={styles.visually__hidden}>
+          Check todo as done
+        </label>
+        <input
+          type="radio"
+          name="done"
+          id="done"
+          aria-label="check-done"
+          value="done"
+          checked={false}
+        />
+      </fieldset>
       {isEditMode ? (
-        <fieldset>
+        <fieldset className={styles.input__wrapper}>
           <label className={styles.visually__hidden} htmlFor="todo">
             Edit todo
           </label>
           <input
+            ref={inputRef}
             type="text"
             name="todo"
             id="todo"
@@ -39,6 +60,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
                 handleSave();
               }
             }}
+            onBlur={() => setIsEditMode}
           />
         </fieldset>
       ) : (
@@ -48,44 +70,6 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
       )}
     </form>
   );
-  // return (
-  //   <div>
-  //     <fieldset>
-  //       <label className={styles.visually__hidden} htmlFor="check-todo">
-  //         Check todo
-  //       </label>
-  //       <input
-  //         type="radio"
-  //         name="check-todo"
-  //         id="check-todo"
-  //         value="check-todo"
-  //         checked={false}
-  //       />
-  //     </fieldset>
-  //     <fieldset className={`${styles.card}`}>
-  //       <label className={styles.visually__hidden} htmlFor="todo-text">
-  //         Create a todo
-  //       </label>
-  //       <textarea
-  //         name="todo-text"
-  //         id="todo-text"
-  //         value={inputTodoValue}
-  //         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-  //           setInputTodoValue(event.target.value)
-  //         }
-  //         onKeyDown={(event) => {
-  //           if (event.key === 'Enter') {
-  //             event.preventDefault();
-  //             handleCreateTodo();
-  //           }
-  //         }}
-  //       />
-  //       <p tabIndex={0} aria-label={'todo'} onClick={() => setIsEditMode(true)}>
-  //         {todo.title}
-  //       </p>
-  //     </fieldset>
-  //   </div>
-  // );
 };
 
 export default TodoItem;

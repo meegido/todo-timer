@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,6 +13,60 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  isolation: isolate;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  place-items: center;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -20,19 +74,6 @@ a {
 }
 a:hover {
   color: #535bf2;
-}
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
 }
 
 h1 {

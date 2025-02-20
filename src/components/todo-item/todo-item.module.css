@@ -9,18 +9,46 @@
 }
 
 .card {
+  box-sizing: border-box;
   display: flex;
-  align-items: center;
-  min-width: 320px;
-  padding: 2em 1em;
-  color: black;
-  border-radius: 12px;
-}
-
-.card {
-  background-color: #f3f5f7;
-}
-
-.card.created {
+  justify-content: flex-start;
+  align-items: baseline;
+  width: 500px;
+  height: 120px;
   background-color: #f7e8fd;
+  gap: 8px;
+}
+
+.card p {
+  cursor: pointer;
+  text-wrap: wrap;
+  font-size: 16px;
+}
+
+.card fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+  display: flex;
+  height: fit-content;
+}
+
+.input__wrapper input {
+  width: 450px;
+  border: 2px solid transparent;
+  background-color: transparent;
+  border: none;
+  font-size: inherit;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  transition: none;
+}
+
+.card input:focus-visible,
+.card input:focus {
+  outline: none;
+  box-shadow: 0 0 2px hsla(220, 100%, 50%, 80%);
+  transition: none;
 }
