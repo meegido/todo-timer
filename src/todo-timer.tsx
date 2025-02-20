@@ -16,7 +16,6 @@ const data = [
 function TodoTimer() {
   const [todos, setTodos] = React.useState<Todo[]>(data);
   const [inputCreateValue, setInputCreateValue] = React.useState<string>('');
-  const [inputEditValue, setInputEditValue] = React.useState<string>('');
 
   const handleCreateTodo = () => {
     setTodos((prevTodos: Todo[]) => [
@@ -24,6 +23,10 @@ function TodoTimer() {
       { id: Date.now().toString(), title: inputCreateValue },
     ]);
     setInputCreateValue('');
+  };
+
+  const handleUpdateTodo = (id: string, updatedTodo: Todo) => {
+    setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
   };
 
   return (
@@ -36,12 +39,7 @@ function TodoTimer() {
       />
       <section className={styles.list__wrapper}>
         {todos.map((todo) => (
-          <TodoList
-            key={todo.id}
-            todo={todo}
-            inputEditValue={inputEditValue}
-            setInputEditValue={setInputEditValue}
-          />
+          <TodoList key={todo.id} todo={todo} onUpdateTodo={handleUpdateTodo} />
         ))}
       </section>
     </main>
