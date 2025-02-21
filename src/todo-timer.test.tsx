@@ -61,5 +61,13 @@ describe('Todo timer', () => {
 
     await userEvent.click(firstRadioInput);
     expect(firstRadioInput).toBeChecked();
+
+    const doneTitle = screen.getAllByLabelText('Todo title');
+    doneTitle.forEach((title) => {
+      expect(title).toBeInTheDocument();
+    });
+
+    const firstDoneTitle = doneTitle[0];
+    expect(firstDoneTitle).toHaveClass('done');
   });
 });
