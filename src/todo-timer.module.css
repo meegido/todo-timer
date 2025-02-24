@@ -14,7 +14,7 @@ main {
   max-width: var(--container-width);
   width: 100%;
 
-  @media (min-width: 1200px) {
+  @media (min-width: 768px) {
     flex-direction: row;
     flex-wrap: wrap;
   }

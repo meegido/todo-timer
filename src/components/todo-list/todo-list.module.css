@@ -1,27 +1,12 @@
-.visually__hidden:not(:focus):not(:active) {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0); /* Legacy property for Internet Explorer */
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 .card__wrapper {
-  box-sizing: border-box;
   display: flex;
   justify-content: flex-start;
   flex: 1 1 calc(33.333% - 16px);
-  padding: 1em;
-  border-radius: 8px;
-  background-color: #f7e8fd;
   min-width: 324px;
+  max-width: 494px;
   width: 100%;
 
-  @media (min-width: 1400px) {
-    max-width: 494px;
+  @media (min-width: 1200px) {
     min-width: 324px;
-    width: 100%;
   }
 }
