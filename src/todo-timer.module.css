@@ -11,9 +11,12 @@ main {
   flex-direction: column;
   gap: 24px;
   padding: 2em 0;
+  max-width: var(--container-width);
+  width: 100%;
 
   @media (min-width: 1200px) {
     flex-direction: row;
+    flex-wrap: wrap;
   }
 }
 
