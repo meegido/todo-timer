@@ -20,14 +20,14 @@ const CreateTodoItem = ({
           Create a todo
         </label>
         <Plus />
-        <input
-          type="text"
+        <textarea
           name="todo-text"
           id="todo-text"
           aria-label="create-input"
           placeholder="Add a task"
+          maxLength={200}
           value={inputCreateValue}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
             setInputCreateValue(event.target.value)
           }
           onKeyDown={(event) => {

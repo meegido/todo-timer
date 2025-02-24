@@ -9,7 +9,7 @@ describe('Todo timer', () => {
 
     const input = screen.getByLabelText('create-input');
     await userEvent.type(input, 'Buy avocado.');
-    expect(input as HTMLInputElement).toHaveValue('Buy avocado.');
+    expect(input as HTMLTextAreaElement).toHaveValue('Buy avocado.');
 
     await userEvent.type(input, '{enter}');
     const newTodo = screen.queryAllByLabelText('Todo title');

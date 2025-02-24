@@ -16,4 +16,10 @@
   background-color: #f7e8fd;
   min-width: fit-content;
   width: 100%;
+
+  @media (min-width: 1200px) {
+    max-width: 368px;
+    min-width: 298px;
+    width: 100%;
+  }
 }

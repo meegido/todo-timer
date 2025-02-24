@@ -11,7 +11,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
 
   React.useEffect(() => {
     if (inputRef && inputRef.current && isEditMode) {
@@ -45,13 +45,13 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
           <label className={styles.visually__hidden} htmlFor="todo">
             Edit your todo title
           </label>
-          <input
+          <textarea
             ref={inputRef}
-            type="text"
             name="todo"
             id="todo"
             aria-label="Edit your todo title"
             placeholder={todo.title}
+            maxLength={200}
             value={editTodoValue || todo.title}
             onChange={(event) => {
               setEditTodoValue(event.target.value);
@@ -68,6 +68,11 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
                 setEditTodoValue(todo.title);
               }
             }}
+            // onBlur={(event) => {
+            //   event.preventDefault();
+            //   setIsEditMode(false);
+            //   setEditTodoValue(todo.title);
+            // }}
           />
         </fieldset>
       ) : (

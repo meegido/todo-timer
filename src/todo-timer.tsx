@@ -2,6 +2,7 @@ import React from 'react';
 import CreateTodoItem from './components/create-todo-item/create-todo';
 import TodoList from './components/todo-list/todo-list';
 import styles from './todo-timer.module.css';
+import Header from './shared/header/header';
 export interface Todo {
   id: string;
   title: string;
@@ -31,12 +32,16 @@ function TodoTimer() {
 
   return (
     <main>
-      <h1>Todo Timer</h1>
-      <CreateTodoItem
-        inputCreateValue={inputCreateValue}
-        setInputCreateValue={setInputCreateValue}
-        handleCreateTodo={handleCreateTodo}
-      />
+      <Header />
+      <section className={styles.todo__timer__wrapper}>
+        <CreateTodoItem
+          inputCreateValue={inputCreateValue}
+          setInputCreateValue={setInputCreateValue}
+          handleCreateTodo={handleCreateTodo}
+        />
+        <p>25:00</p>
+      </section>
+
       <section className={styles.list__wrapper}>
         {todos.map((todo) => (
           <TodoList key={todo.id} todo={todo} onUpdateTodo={handleUpdateTodo} />

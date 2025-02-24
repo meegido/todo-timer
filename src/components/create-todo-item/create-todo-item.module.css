@@ -7,6 +7,7 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
 .todo__input__wrapper {
   width: 100%;
   border: 1px solid black;
@@ -14,6 +15,11 @@
   background: transparent;
   display: flex;
   align-items: center;
+
+  @media (min-width: 1200px) {
+    max-width: 420px;
+    flex: 1;
+  }
 }
 
 .todo__input {
@@ -27,12 +33,13 @@
   gap: 6px;
 }
 
-.todo__input input {
+.todo__input textarea {
   height: 32px;
   width: 100%;
   border: none;
+  resize: none;
 }
 
-.todo__input input:focus {
+.todo__input textarea:focus {
   outline: none;
 }

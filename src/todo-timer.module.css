@@ -1,13 +1,29 @@
 main {
-  min-width: 320px;
-  /* please change it */
-  min-height: 90vh;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+
+  width: var(--container-width);
 }
 
 .list__wrapper {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding: 2em 0;
+
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
+}
+
+.todo__timer__wrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  gap: 24px;
+
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
 }
