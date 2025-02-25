@@ -10,7 +10,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 2em 0;
+  padding: 4em 0;
   max-width: var(--container-width);
   width: 100%;
 
@@ -24,9 +24,10 @@ main {
   display: flex;
   flex-direction: column-reverse;
   justify-content: space-between;
-  gap: 24px;
+  gap: 40px;
 
   @media (min-width: 1200px) {
     flex-direction: row;
+    align-items: baseline;
   }
 }

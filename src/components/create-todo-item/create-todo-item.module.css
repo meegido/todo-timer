@@ -19,6 +19,7 @@
   @media (min-width: 1200px) {
     max-width: 420px;
     flex: 1;
+    height: 48px;
   }
 }
 

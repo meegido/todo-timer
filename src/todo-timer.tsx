@@ -3,6 +3,7 @@ import CreateTodoItem from './components/create-todo-item/create-todo';
 import TodoList from './components/todo-list/todo-list';
 import styles from './todo-timer.module.css';
 import Header from './shared/header/header';
+import Timer from './components/timer/timer';
 export interface Todo {
   id: string;
   title: string;
@@ -42,7 +43,7 @@ function TodoTimer() {
           setInputCreateValue={setInputCreateValue}
           handleCreateTodo={handleCreateTodo}
         />
-        <p>25:00</p>
+        <Timer />
       </section>
 
       <section className={styles.list__wrapper}>
