@@ -56,6 +56,26 @@ body {
   -webkit-font-smoothing: antialiased;
   display: flex;
   place-items: center;
+  font:
+    16px/1.4 system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+button,
+input {
+  overflow: visible;
 }
 
 img,
@@ -72,6 +92,10 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+input[type='text'] {
+  border-radius: 0;
 }
 
 p,

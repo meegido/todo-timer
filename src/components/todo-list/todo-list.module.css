@@ -1,10 +1,12 @@
 .card__wrapper {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
   flex: 1 1 calc(33.333% - 16px);
   min-width: 324px;
   max-width: 494px;
   width: 100%;
+  height: 120px;
 
   @media (min-width: 1200px) {
     min-width: 324px;

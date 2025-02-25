@@ -25,8 +25,8 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   };
 
   return (
-    <form className={styles.card}>
-      <fieldset className={styles.check__wrapper}>
+    <div className={styles.card}>
+      <div className={styles.check__wrapper}>
         <label htmlFor="done" className={styles.visually__hidden}>
           Check or uncheck the todo as done
         </label>
@@ -39,9 +39,9 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
           checked={isTodoDone}
           onChange={() => setIsTodoDone(!isTodoDone)}
         />
-      </fieldset>
+      </div>
       {isEditMode ? (
-        <fieldset className={styles.input__wrapper}>
+        <div className={styles.input__wrapper}>
           <label className={styles.visually__hidden} htmlFor="todo">
             Edit your todo title
           </label>
@@ -52,6 +52,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
             aria-label="Edit your todo title"
             placeholder={todo.title}
             maxLength={200}
+            rows={1}
             value={editTodoValue || todo.title}
             onChange={(event) => {
               setEditTodoValue(event.target.value);
@@ -74,7 +75,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
             //   setEditTodoValue(todo.title);
             // }}
           />
-        </fieldset>
+        </div>
       ) : (
         <p
           className={isTodoDone ? styles.done : styles.todo__title}
@@ -85,7 +86,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
           {todo.title}
         </p>
       )}
-    </form>
+    </div>
   );
 };
 
