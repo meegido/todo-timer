@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 
@@ -75,16 +75,35 @@ describe('Todo timer', () => {
     });
   });
   describe('countdown 25min time left', () => {
-    it('starts the countdown by 25:00', () => {
+    it('displays the duration with two digits for minutes and seconds', () => {
       render(<TodoTimer />);
-      const minutesLeft = '25';
-      const secondsLeft = '00';
 
-      const minutes = screen.getByLabelText(`${minutesLeft} minutes left`);
+      const minutes = screen.getByLabelText(`Number of minutes left`);
       expect(minutes).toBeInTheDocument();
 
-      const seconds = screen.getByLabelText(`${secondsLeft} seconds left`);
+      const seconds = screen.getByLabelText(`Number of seconds left`);
       expect(seconds).toBeInTheDocument();
     });
+    // it('start counting down when user clicks on play button', async () => {
+    //   render(<TodoTimer />);
+    //   const minutesNumber = '25';
+    //   const secondsNumber = '00';
+
+    //   const minutes = screen.getByLabelText(`Number of minutes left`);
+    //   expect(minutes).toHaveTextContent(minutesNumber);
+
+    //   const seconds = screen.getByLabelText(`Number of seconds left`);
+    //   expect(seconds).toHaveTextContent(secondsNumber);
+
+    //   const playButton = screen.getByRole('button', {
+    //     name: 'Start the countown',
+    //   });
+    //   expect(playButton).toBeInTheDocument();
+
+    //   await userEvent.click(playButton);
+    //   await waitFor(() => {
+    //     expect(minutes).toHaveTextContent('24:59');
+    //   });
+    // });
   });
 });

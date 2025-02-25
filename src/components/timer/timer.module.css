@@ -1,12 +1,45 @@
+.countdown__wrapper {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+
+  width: 246px;
+
+  @media (min-width: 1200px) {
+    width: 346px;
+  }
+}
+
+.controls__wrapper {
+  display: flex;
+  gap: 16px;
+}
+
+.controls__wrapper button {
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  padding: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .timer__wrapper {
   display: flex;
-
   gap: 8px;
 }
 
 .time__wrapper {
   display: flex;
   flex-direction: column;
+}
+
+.time__wrapper span {
+  width: 142px;
 }
 
 .divider,
