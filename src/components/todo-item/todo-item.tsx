@@ -26,20 +26,22 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
 
   return (
     <div className={styles.card}>
-      <div className={styles.check__wrapper}>
-        <label htmlFor="done" className={styles.visually__hidden}>
-          Check or uncheck the todo as done
-        </label>
-        <input
-          type="checkbox"
-          name="done"
-          id="done"
-          value="done"
-          aria-label="Check or uncheck the todo as done"
-          checked={isTodoDone}
-          onChange={() => setIsTodoDone(!isTodoDone)}
-        />
-      </div>
+      {
+        <div className={styles.check__wrapper}>
+          <label htmlFor="done" className={styles.visually__hidden}>
+            Check or uncheck the todo as done
+          </label>
+          <input
+            type="checkbox"
+            name="done"
+            id="done"
+            value="done"
+            aria-label="Check or uncheck the todo as done"
+            checked={isTodoDone}
+            onChange={() => setIsTodoDone(!isTodoDone)}
+          />
+        </div>
+      }
       {isEditMode ? (
         <div className={styles.input__wrapper}>
           <label className={styles.visually__hidden} htmlFor="todo">

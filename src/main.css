@@ -67,15 +67,17 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: inherit;
-  font-size: 100%;
-  line-height: 1.15;
+  font: inherit;
   margin: 0;
 }
 
 button,
 input {
   overflow: visible;
+}
+
+*:focus {
+  outline-offset: 0;
 }
 
 img,
@@ -91,11 +93,10 @@ input,
 button,
 textarea,
 select {
-  font: inherit;
-}
-
-input[type='text'] {
-  border-radius: 0;
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.5;
+  margin: 0;
 }
 
 p,

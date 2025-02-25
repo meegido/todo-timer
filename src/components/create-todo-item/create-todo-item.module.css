@@ -38,6 +38,7 @@
   width: 100%;
   border: none;
   resize: none;
+  line-height: 1.8;
 }
 
 .todo__input textarea:focus {
