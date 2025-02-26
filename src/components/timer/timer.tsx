@@ -60,7 +60,7 @@ const Timer = () => {
       <CountdownDisplay timeLeft={timeLeft} />
       <TimerControls
         setIsCountdownActive={setIsCountdownActive}
-        handleResetCountdown={handleResetCountdown}
+        onResetCountdown={handleResetCountdown}
       />
     </section>
   );

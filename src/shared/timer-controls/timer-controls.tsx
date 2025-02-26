@@ -5,18 +5,18 @@ import { Pause } from 'lucide-react';
 
 interface TimerControlsProps {
   setIsCountdownActive: React.Dispatch<React.SetStateAction<boolean>>;
-  handleResetCountdown: () => void;
+  onResetCountdown: () => void;
 }
 
 const TimerControls = ({
   setIsCountdownActive,
-  handleResetCountdown,
+  onResetCountdown,
 }: TimerControlsProps) => {
   return (
     <section className={styles.controls__wrapper}>
       <button
         aria-label="Reset the countown"
-        onClick={() => handleResetCountdown()}
+        onClick={() => onResetCountdown()}
       >
         <RotateCcw size={18} />
       </button>
