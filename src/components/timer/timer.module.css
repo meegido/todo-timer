@@ -12,33 +12,3 @@
     width: 346px;
   }
 }
-
-.timer__wrapper {
-  display: flex;
-  gap: 8px;
-}
-
-.time__wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.time__wrapper span {
-  width: 142px;
-}
-
-.divider,
-.time__wrapper span:first-of-type {
-  font-size: 84px;
-
-  @media (min-width: 1200px) {
-    font-size: 120px;
-  }
-}
-
-.time__wrapper span:last-of-type {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 16px;
-  line-height: 0;
-}

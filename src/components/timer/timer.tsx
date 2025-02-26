@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './timer.module.css';
 import TimerControls from '../../shared/timer-controls/timer-controls';
+import CountdownDisplay from './countdown-display/countdow-display';
 
-interface TimeLeft {
+export interface TimeLeft {
   minutes: number;
   seconds: number;
 }
@@ -56,25 +57,7 @@ const Timer = () => {
 
   return (
     <section className={styles.countdown__wrapper}>
-      <div className={styles.timer__wrapper}>
-        <div className={styles.time__wrapper}>
-          <span aria-label={`Number of minutes left`}>
-            {timeLeft.minutes.toString().length <= 1
-              ? `${'0' + timeLeft.minutes}`
-              : timeLeft.minutes.toString()}
-          </span>
-          <span>Minutes</span>
-        </div>
-        <span className={styles.divider}>:</span>
-        <div className={styles.time__wrapper}>
-          <span aria-label={`Number of seconds left`}>
-            {timeLeft.seconds.toString().length <= 1
-              ? `${'0' + timeLeft.seconds}`
-              : timeLeft.seconds.toString()}
-          </span>
-          <span>Seconds</span>
-        </div>
-      </div>
+      <CountdownDisplay timeLeft={timeLeft} />
       <TimerControls
         setIsCountdownActive={setIsCountdownActive}
         handleResetCountdown={handleResetCountdown}
