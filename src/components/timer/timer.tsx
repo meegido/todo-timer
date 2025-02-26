@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './timer.module.css';
-import { Play } from 'lucide-react';
-import { RotateCcw } from 'lucide-react';
-import { Pause } from 'lucide-react';
+import TimerControls from '../../shared/timer-controls/timer-controls';
 
 interface TimeLeft {
   minutes: number;
@@ -77,23 +75,10 @@ const Timer = () => {
           <span>Seconds</span>
         </div>
       </div>
-      <div className={styles.controls__wrapper}>
-        <button aria-label="Reset the countown" onClick={handleResetCountdown}>
-          <RotateCcw size={18} />
-        </button>
-        <button
-          aria-label="Pause the countown"
-          onClick={() => setIsCountdownActive(false)}
-        >
-          <Pause size={18} />
-        </button>
-        <button
-          aria-label="Start the countown"
-          onClick={() => setIsCountdownActive(true)}
-        >
-          <Play size={18} />
-        </button>
-      </div>
+      <TimerControls
+        setIsCountdownActive={setIsCountdownActive}
+        handleResetCountdown={handleResetCountdown}
+      />
     </section>
   );
 };
