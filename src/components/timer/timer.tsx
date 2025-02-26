@@ -14,8 +14,8 @@ const Timer = () => {
     minutes: 25,
     seconds: 0,
   });
-  const [start, setStart] = React.useState<boolean>(false);
-  const [reset, setReset] = React.useState<boolean>(false);
+  const [isCountdownActive, setIsCountdownActive] =
+    React.useState<boolean>(false);
   const intervalRef = React.useRef<number | null>(0);
 
   const duration = timeLeft.minutes * 60 * 1000 + timeLeft.seconds * 1000; // Convert to milliseconds
@@ -35,28 +35,7 @@ const Timer = () => {
       });
     };
 
-    if (remaining <= 0 && intervalRef.current) {
-      window.clearInterval(intervalRef.current);
-      setTimeLeft(() => {
-        return {
-          minutes: 0,
-          seconds: 0,
-        };
-      });
-      setStart(false);
-    }
-
-    if (reset && intervalRef.current) {
-      window.clearInterval(intervalRef.current);
-      setTimeLeft(() => {
-        return {
-          minutes: 0,
-          seconds: 0,
-        };
-      });
-    }
-
-    if (start) {
+    if (isCountdownActive) {
       intervalRef.current = window.setInterval(updateCountdown, 1000);
     }
 
@@ -65,7 +44,17 @@ const Timer = () => {
         window.clearInterval(intervalRef.current);
       }
     };
-  }, [durationTimestamp, start, reset]);
+  }, [durationTimestamp, isCountdownActive]);
+
+  const handleResetCountdown = () => {
+    setIsCountdownActive(false);
+    setTimeLeft(() => {
+      return {
+        minutes: 25,
+        seconds: 0,
+      };
+    });
+  };
 
   return (
     <section className={styles.countdown__wrapper}>
@@ -89,16 +78,19 @@ const Timer = () => {
         </div>
       </div>
       <div className={styles.controls__wrapper}>
-        <button aria-label="Reset the countown" onClick={() => setReset(true)}>
+        <button aria-label="Reset the countown" onClick={handleResetCountdown}>
           <RotateCcw size={18} />
         </button>
         <button
           aria-label="Pause the countown"
-          onClick={() => setStart(!start)}
+          onClick={() => setIsCountdownActive(false)}
         >
           <Pause size={18} />
         </button>
-        <button aria-label="Start the countown" onClick={() => setStart(true)}>
+        <button
+          aria-label="Start the countown"
+          onClick={() => setIsCountdownActive(true)}
+        >
           <Play size={18} />
         </button>
       </div>
