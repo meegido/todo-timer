@@ -1,6 +1,7 @@
 .timer__wrapper {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 
 .time__wrapper {

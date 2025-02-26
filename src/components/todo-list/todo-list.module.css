@@ -9,6 +9,7 @@
   height: 120px;
 
   @media (min-width: 1200px) {
-    min-width: 324px;
+    min-width: 456px;
+    max-width: 512px;
   }
 }
