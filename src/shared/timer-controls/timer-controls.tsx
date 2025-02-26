@@ -4,12 +4,14 @@ import { RotateCcw } from 'lucide-react';
 import { Pause } from 'lucide-react';
 
 interface TimerControlsProps {
-  setIsCountdownActive: React.Dispatch<React.SetStateAction<boolean>>;
   onResetCountdown: () => void;
+  onPlayCountdown: () => void;
+  onPauseCountdown: () => void;
 }
 
 const TimerControls = ({
-  setIsCountdownActive,
+  onPlayCountdown,
+  onPauseCountdown,
   onResetCountdown,
 }: TimerControlsProps) => {
   return (
@@ -20,16 +22,10 @@ const TimerControls = ({
       >
         <RotateCcw size={18} />
       </button>
-      <button
-        aria-label="Pause the countown"
-        onClick={() => setIsCountdownActive(false)}
-      >
+      <button aria-label="Pause the countown" onClick={onPauseCountdown}>
         <Pause size={18} />
       </button>
-      <button
-        aria-label="Start the countown"
-        onClick={() => setIsCountdownActive(true)}
-      >
+      <button aria-label="Start the countown" onClick={onPlayCountdown}>
         <Play size={18} />
       </button>
     </section>
