@@ -2,6 +2,7 @@ import React from 'react';
 import { Todo } from '../../todo-timer';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
+import CheckboxDone from './checkbox-done/checkbox-done';
 
 interface TodoItemProps {
   todo: Todo;
@@ -28,23 +29,11 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   return (
     <div className={styles.card}>
       <section className={styles.content__wrapper}>
-        <div className={styles.check__wrapper}>
-          <label
-            htmlFor={`done-${todo.id}`}
-            className={styles.visually__hidden}
-          >
-            Check or uncheck the todo as done
-          </label>
-          <input
-            type="checkbox"
-            name="done"
-            id={`done-${todo.id}`}
-            value="done"
-            aria-label="Check or uncheck the todo as done"
-            checked={isTodoDone}
-            onChange={() => setIsTodoDone(!isTodoDone)}
-          />
-        </div>
+        <CheckboxDone
+          todo={todo}
+          isTodoDone={isTodoDone}
+          setIsTodoDone={setIsTodoDone}
+        />
 
         {isEditMode ? (
           <EditTextarea
