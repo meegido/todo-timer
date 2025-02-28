@@ -8,7 +8,7 @@ interface EditTextareaProps {
   setEditTodoValue: React.Dispatch<string>;
   setIsEditMode: React.Dispatch<boolean>;
   onSave: () => void;
-  inputRef: React.RefObject<HTMLTextAreaElement> | null;
+  inputRef: React.RefObject<HTMLTextAreaElement | null>;
 }
 
 const EditTextarea: React.FC<EditTextareaProps> = ({
