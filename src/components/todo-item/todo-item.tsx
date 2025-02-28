@@ -1,7 +1,6 @@
 import React from 'react';
 import { Todo } from '../../todo-timer';
 import styles from './todo-item.module.css';
-import TimerControls from '../../shared/timer-controls/timer-controls';
 
 interface TodoItemProps {
   todo: Todo;
@@ -93,9 +92,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
           </p>
         )}
       </section>
-      <section className={styles.controls__wrapper}>
-        <TimerControls />
-      </section>
+      <section className={styles.controls__wrapper}></section>
     </div>
   );
 };

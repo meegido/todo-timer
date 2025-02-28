@@ -1,9 +1,4 @@
-.controls__wrapper {
-  display: flex;
-  gap: 16px;
-}
-
-.controls__wrapper button {
+.play__button {
   border-radius: 50%;
   width: 42px;
   height: 42px;
