@@ -1,0 +1,30 @@
+.visually__hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0); /* Legacy property for Internet Explorer */
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.input__wrapper {
+  height: 32px;
+  width: 100%;
+}
+
+.input__wrapper textarea {
+  height: inherit;
+  width: inherit;
+  line-height: 1.8;
+  border: none;
+  resize: both;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+  padding: 0;
+}
+
+.card textarea:focus {
+  box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+  padding: 0;
+}

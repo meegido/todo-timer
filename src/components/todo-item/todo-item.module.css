@@ -55,27 +55,6 @@
   align-items: center;
 }
 
-.input__wrapper {
-  height: 32px;
-  width: 100%;
-}
-
-.input__wrapper textarea {
-  height: inherit;
-  width: inherit;
-  line-height: 1.8;
-  border: none;
-  resize: both;
-  outline: none;
-  transition: border-color 0.2s ease-in-out;
-  padding: 0;
-}
-
-.card textarea:focus {
-  box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
-  padding: 0;
-}
-
 .card input[type='checkbox'] {
   /* Add if not using autoprefixer */
   -webkit-appearance: none;
