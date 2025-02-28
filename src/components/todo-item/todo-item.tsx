@@ -3,6 +3,8 @@ import { Todo } from '../../todo-timer';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
+import PlayButton from '../../shared/timer-controls/play-button';
+import useTimerControls from '../../hooks/useTimerControls';
 
 interface TodoItemProps {
   todo: Todo;
@@ -14,6 +16,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
+  const { handlePlayCountdown } = useTimerControls();
 
   React.useEffect(() => {
     if (inputRef && inputRef.current && isEditMode) {
@@ -55,7 +58,9 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
           </p>
         )}
       </section>
-      <section className={styles.controls__wrapper}></section>
+      <section className={styles.controls__wrapper}>
+        <PlayButton onPlayCountdown={handlePlayCountdown} />
+      </section>
     </div>
   );
 };

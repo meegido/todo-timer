@@ -5,6 +5,7 @@ import { Pause } from 'lucide-react';
 import styles from './timer.module.css';
 import CountdownDisplay from './countdown-display/countdow-display';
 import PlayButton from '../../shared/timer-controls/play-button';
+import useTimerControls from '../../hooks/useTimerControls';
 
 export interface TimeLeft {
   minutes: number;
@@ -16,10 +17,13 @@ const Timer = () => {
     minutes: 25,
     seconds: 0,
   });
-
-  const [isCountdownActive, setIsCountdownActive] =
-    React.useState<boolean>(false);
   const intervalRef = React.useRef<number | null>(0);
+  const {
+    isCountdownActive,
+    setIsCountdownActive,
+    handlePlayCountdown,
+    handlePauseCountdown,
+  } = useTimerControls();
 
   const duration = timeLeft.minutes * 60 * 1000 + timeLeft.seconds * 1000; // Convert to milliseconds
   const durationTimestamp = new Date().getTime() + duration; // Calculate the target timestamp - future
@@ -57,14 +61,6 @@ const Timer = () => {
         seconds: 0,
       };
     });
-  };
-
-  const handlePlayCountdown = () => {
-    setIsCountdownActive(true);
-  };
-
-  const handlePauseCountdown = () => {
-    setIsCountdownActive(false);
   };
 
   return (
