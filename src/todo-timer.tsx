@@ -4,6 +4,7 @@ import TodoList from './components/todo-list/todo-list';
 import styles from './todo-timer.module.css';
 import Header from './shared/header/header';
 import Timer from './components/timer/timer';
+import TimerProvider from './providers/timer-provider';
 export interface Todo {
   id: string;
   title: string;
@@ -37,20 +38,26 @@ function TodoTimer() {
   return (
     <main>
       <Header />
-      <section className={styles.todo__timer__wrapper}>
-        <CreateTodoItem
-          inputCreateValue={inputCreateValue}
-          setInputCreateValue={setInputCreateValue}
-          handleCreateTodo={handleCreateTodo}
-        />
-        <Timer />
-      </section>
+      <TimerProvider>
+        <section className={styles.todo__timer__wrapper}>
+          <CreateTodoItem
+            inputCreateValue={inputCreateValue}
+            setInputCreateValue={setInputCreateValue}
+            handleCreateTodo={handleCreateTodo}
+          />
+          <Timer />
+        </section>
 
-      <section className={styles.list__wrapper}>
-        {todos.map((todo) => (
-          <TodoList key={todo.id} todo={todo} onUpdateTodo={handleUpdateTodo} />
-        ))}
-      </section>
+        <section className={styles.list__wrapper}>
+          {todos.map((todo) => (
+            <TodoList
+              key={todo.id}
+              todo={todo}
+              onUpdateTodo={handleUpdateTodo}
+            />
+          ))}
+        </section>
+      </TimerProvider>
     </main>
   );
 }

@@ -5,6 +5,7 @@ import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
 import PlayButton from '../../shared/timer-controls/play-button';
 import useTimerControls from '../../hooks/useTimer';
+import TimerContext from '../../context/timer-context';
 
 interface TodoItemProps {
   todo: Todo;
@@ -16,7 +17,11 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
-  const { handlePlayCountdown } = useTimerControls();
+  const timerContext = React.useContext(TimerContext);
+  if (!timerContext) {
+    throw new Error('Timer must be used within a TimerProvider');
+  }
+  const { handlePlayCountdown } = timerContext;
 
   React.useEffect(() => {
     if (inputRef && inputRef.current && isEditMode) {
