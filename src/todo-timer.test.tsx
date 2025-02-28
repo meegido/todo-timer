@@ -1,11 +1,15 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
+import TimerProvider from './providers/timer-provider';
+import TodoItem from './components/todo-item/todo-item';
+import { Timer } from 'lucide-react';
+import TodoList from './components/todo-list/todo-list';
 
 describe('Todo timer', () => {
   describe('create, edit and list todos', () => {
-    it('provides an input to create a todo when press enter', async () => {
+    it('the user create the todo when click enter after writing', async () => {
       render(<TodoTimer />);
 
       const input = screen.getByLabelText('create-input');
@@ -18,7 +22,7 @@ describe('Todo timer', () => {
       expect(newTodo.length).toBeGreaterThan(0);
     });
 
-    it('enters in edit mode when the user clicks on the task', async () => {
+    it('the user edit the todo if clicks on the todo text', async () => {
       render(<TodoTimer />);
 
       const todo =
@@ -33,7 +37,7 @@ describe('Todo timer', () => {
       expect(input).toHaveValue(firstTodo.textContent);
     });
 
-    it('exit the edit mode when the user enters Escape key keeping the original todo title', async () => {
+    it('the user exit the todo edit mode when press escape key', async () => {
       render(<TodoTimer />);
 
       const todo =
@@ -49,7 +53,7 @@ describe('Todo timer', () => {
       expect(input).toHaveValue(firstTodo.textContent);
     });
 
-    it('mark the todo as done when the user check the radio input', async () => {
+    it('the user check the todo as done by clicking the checkbox input', async () => {
       render(<TodoTimer />);
 
       const radioInput = screen.getAllByLabelText(
@@ -73,9 +77,29 @@ describe('Todo timer', () => {
       const firstDoneTitle = doneTitle[0];
       expect(firstDoneTitle).toHaveClass('done');
     });
+
+    it.skip(`the user check the todo as done when there aren't other todos in edit mode`, () => {});
+    it('the user starts the countdown from the todo play button', async () => {
+      const todo = {
+        title: 'Read the article about Testing Library',
+        id: 'i234234',
+      };
+      const handleUpdateTodo = vi.fn();
+      const handlePlayCountdown = vi.fn();
+      handlePlayCountdown();
+      render(
+        <TimerProvider>
+          <Timer></Timer>
+          <TodoList todo={todo} onUpdateTodo={handleUpdateTodo}></TodoList>
+        </TimerProvider>
+      );
+      const playButtonInTodo = screen.getByLabelText('Start the countown');
+      await userEvent.click(playButtonInTodo);
+      expect(handlePlayCountdown).toHaveBeenCalledOnce();
+    });
   });
   describe('countdown 25min time left', () => {
-    it('displays the duration with two digits for minutes and seconds', () => {
+    it('always displays the duration with two digits for minutes and seconds', () => {
       render(<TodoTimer />);
 
       const minutes = screen.getByLabelText(`Number of minutes left`);

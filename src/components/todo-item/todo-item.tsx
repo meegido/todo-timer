@@ -4,7 +4,6 @@ import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
 import PlayButton from '../../shared/timer-controls/play-button';
-import useTimerControls from '../../hooks/useTimer';
 import TimerContext from '../../context/timer-context';
 
 interface TodoItemProps {
