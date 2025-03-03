@@ -31,6 +31,11 @@
   justify-content: flex-end;
 }
 
+.controls__wrapper,
+.controls__wrapper .play__button {
+  display: none;
+}
+
 .todo__title,
 .done {
   cursor: pointer;

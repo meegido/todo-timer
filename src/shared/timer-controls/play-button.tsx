@@ -3,7 +3,7 @@ import { Play } from 'lucide-react';
 
 interface PlayButtonProps {
   onPlayCountdown: () => void;
-  label: string;
+  label?: string;
 }
 
 const PlayButton = ({

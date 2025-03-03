@@ -87,6 +87,15 @@ describe('Todo timer', () => {
       const seconds = screen.getByLabelText(`Number of seconds left`);
       expect(seconds).toBeInTheDocument();
     });
+  });
+  describe('the todo timer starts when user clicks the todo play button', () => {
+    it('should show the play button on hover the todo', async () => {
+      render(<TodoTimer />);
+      const [firstTodo] = await screen.findAllByRole('article');
+      const playButton = await within(firstTodo).findByRole('button');
+      expect(playButton).not.toBeVisible();
+    });
+    it.skip('should play the timer when user focus a todo item and click enter', () => {});
     it('should click the first todo button to start the countdown', async () => {
       vi.stubGlobal('jest', {
         advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
@@ -126,5 +135,6 @@ describe('Todo timer', () => {
       vi.runOnlyPendingTimers();
       vi.useRealTimers();
     }, 10000);
+    it.skip('should change the todo bg color when the timer starts', () => {});
   });
 });
