@@ -18,18 +18,32 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
 
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
+  const cardRef = React.useRef<HTMLDivElement | null>(null);
 
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
     throw new Error('Timer must be used within a TimerProvider');
   }
-  const { handlePlayCountdown } = timerContext;
+  const { handlePlayCountdown, isCountdownActive } = timerContext;
 
   React.useEffect(() => {
     if (inputRef && inputRef.current && isEditMode) {
       inputRef.current.focus();
     }
   }, [isEditMode]);
+
+  React.useEffect(() => {
+    if (cardRef && cardRef.current && !isCountdownActive) {
+      return;
+    }
+    // si añado hover sí que lo hace pero no es el rollo porque tengo que saber el id
+    // para que no se pueda dar play a otros.
+    if (cardRef && cardRef.current && isCountdownActive) {
+      const card = cardRef.current;
+
+      card.className = `${styles.card__green}`;
+    }
+  }, [isCountdownActive, todo.id, isTodoHover]);
 
   const handleSave = () => {
     onUpdateTodo(todo.id, { ...todo, title: editTodoValue });
@@ -38,9 +52,10 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
 
   return (
     <div
-      className={styles.card}
+      className={`${styles.card}`}
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}
+      ref={cardRef}
     >
       <section className={styles.content__wrapper}>
         <CheckboxDone

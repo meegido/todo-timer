@@ -102,7 +102,12 @@ describe('Todo timer', () => {
         expect(within(firstTodo).queryByRole('button')).toBeVisible();
       });
     });
-    it.skip('should play the timer when user focus a todo item and click enter', () => {});
+    it.skip('should play the timer when user focus a todo item and click enter', () => {
+      // click on the todo
+      // focus the todo or getting it with ref
+      // show it's focused
+      // enter to play the timer
+    });
     it('should click the first todo button to start the countdown', async () => {
       vi.stubGlobal('jest', {
         advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
