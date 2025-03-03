@@ -29,16 +29,11 @@ const useTimer = (): Timer => {
   const durationTimestamp = new Date().getTime() + duration; // Calculate the target timestamp - future
 
   React.useEffect(() => {
-    const currentTimeStamp = new Date().getTime();
-    const remaining = durationTimestamp - currentTimeStamp;
-
     const updateCountdown = () => {
-      const newTimeLeft = remaining;
-      setTimeLeft(() => {
-        return {
-          minutes: Math.floor((newTimeLeft / 1000 / 60) % 60),
-          seconds: Math.floor((newTimeLeft / 1000) % 60),
-        };
+      const remaining = durationTimestamp - new Date().getTime();
+      setTimeLeft({
+        minutes: Math.floor((remaining / 1000 / 60) % 60),
+        seconds: Math.floor((remaining / 1000) % 60),
       });
     };
 

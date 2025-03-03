@@ -3,13 +3,17 @@ import { Play } from 'lucide-react';
 
 interface PlayButtonProps {
   onPlayCountdown: () => void;
+  label: string;
 }
 
-const PlayButton = ({ onPlayCountdown }: PlayButtonProps) => {
+const PlayButton = ({
+  onPlayCountdown,
+  label = 'Start the countown',
+}: PlayButtonProps) => {
   return (
     <button
       className={styles.play__button}
-      aria-label="Start the countown"
+      aria-label={label}
       onClick={onPlayCountdown}
     >
       <Play size={18} />

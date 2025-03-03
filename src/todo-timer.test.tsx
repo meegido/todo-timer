@@ -1,11 +1,20 @@
-import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 import TimerProvider from './providers/timer-provider';
-import TodoItem from './components/todo-item/todo-item';
 import { Timer } from 'lucide-react';
 import TodoList from './components/todo-list/todo-list';
+import { act } from 'react';
 
 describe('Todo timer', () => {
   describe('create, edit and list todos', () => {
@@ -79,24 +88,6 @@ describe('Todo timer', () => {
     });
 
     it.skip(`the user check the todo as done when there aren't other todos in edit mode`, () => {});
-    it('the user starts the countdown from the todo play button', async () => {
-      const todo = {
-        title: 'Read the article about Testing Library',
-        id: 'i234234',
-      };
-      const handleUpdateTodo = vi.fn();
-      const handlePlayCountdown = vi.fn();
-      handlePlayCountdown();
-      render(
-        <TimerProvider>
-          <Timer></Timer>
-          <TodoList todo={todo} onUpdateTodo={handleUpdateTodo}></TodoList>
-        </TimerProvider>
-      );
-      const playButtonInTodo = screen.getByLabelText('Start the countown');
-      await userEvent.click(playButtonInTodo);
-      expect(handlePlayCountdown).toHaveBeenCalledOnce();
-    });
   });
   describe('countdown 25min time left', () => {
     it('always displays the duration with two digits for minutes and seconds', () => {
@@ -108,24 +99,44 @@ describe('Todo timer', () => {
       const seconds = screen.getByLabelText(`Number of seconds left`);
       expect(seconds).toBeInTheDocument();
     });
-    it.skip('start counting down when user clicks on play button', async () => {
-      render(<TodoTimer />);
-      const minutesNumber = '25';
-      const secondsNumber = '00';
-
-      const minutes = screen.getByLabelText(`Number of minutes left`);
-      expect(minutes).toHaveTextContent(minutesNumber);
-
-      const seconds = screen.getByLabelText(`Number of seconds left`);
-      expect(seconds).toHaveTextContent(secondsNumber);
-
-      const playButton = screen.getByRole('button', {
-        name: 'Start the countown',
+    it('should click the first todo button to start the countdown', async () => {
+      vi.stubGlobal('jest', {
+        advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
       });
+
+      vi.useFakeTimers();
+
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+      render(<TodoTimer />);
+
+      const [firstTodo] = await screen.findAllByRole('article');
+      const playButton = within(firstTodo).getByRole('button');
       expect(playButton).toBeInTheDocument();
 
-      await userEvent.click(playButton);
-      expect(minutes).toHaveTextContent('24:59');
-    });
+      const minutes = screen.getByLabelText('Number of minutes left');
+      expect(minutes).toHaveTextContent('25');
+
+      await user.click(playButton);
+
+      await waitFor(async () => {
+        expect(
+          await screen.findByLabelText('Number of minutes left')
+        ).toHaveTextContent('25');
+      });
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(600000); // Advance by ten minutes
+      });
+
+      await waitFor(async () => {
+        expect(
+          await screen.findByLabelText('Number of minutes left')
+        ).toHaveTextContent('15');
+      });
+
+      vi.runOnlyPendingTimers();
+      vi.useRealTimers();
+    }, 10000);
   });
 });

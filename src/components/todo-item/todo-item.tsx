@@ -63,7 +63,10 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
         )}
       </section>
       <section className={styles.controls__wrapper}>
-        <PlayButton onPlayCountdown={handlePlayCountdown} />
+        <PlayButton
+          label={`Start the countdown on todo ${todo.id}`}
+          onPlayCountdown={handlePlayCountdown}
+        />
       </section>
     </div>
   );
