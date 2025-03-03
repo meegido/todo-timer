@@ -36,8 +36,6 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
     setIsEditMode(false);
   };
 
-  console.log(isTodoHover);
-
   return (
     <div
       className={styles.card}

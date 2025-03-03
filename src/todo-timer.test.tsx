@@ -103,7 +103,7 @@ describe('Todo timer', () => {
       });
     });
     it.skip('should play the timer when user focus a todo item and click enter', () => {});
-    it.skip('should click the first todo button to start the countdown', async () => {
+    it('should click the first todo button to start the countdown', async () => {
       vi.stubGlobal('jest', {
         advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
       });
@@ -113,24 +113,14 @@ describe('Todo timer', () => {
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
       render(<TodoTimer />);
-
       const [firstTodo] = await screen.findAllByRole('article');
-      await userEvent.hover(firstTodo);
+      expect(firstTodo).toBeInTheDocument();
 
-      const minutes = screen.getByLabelText('Number of minutes left');
-      expect(minutes).toHaveTextContent('25');
+      const playButton = await within(firstTodo).findByRole('button');
+      expect(playButton).toHaveClass('hidden');
 
       await waitFor(async () => {
-        expect(
-          await screen.findByLabelText('Number of minutes left')
-        ).toHaveTextContent('25');
-      });
-
-      const playButton = within(firstTodo).getByRole('button');
-      expect(playButton).toHaveClass('play__button');
-
-      await waitFor(() => {
-        expect(within(firstTodo).queryByRole('button')).toBeVisible();
+        await userEvent.hover(firstTodo);
       });
 
       await user.click(playButton);
@@ -148,6 +138,7 @@ describe('Todo timer', () => {
       vi.runOnlyPendingTimers();
       vi.useRealTimers();
     }, 10000);
+
     it.skip('should change the todo bg color when the timer starts', () => {});
   });
 });
