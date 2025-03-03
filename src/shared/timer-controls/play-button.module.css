@@ -3,7 +3,10 @@
   width: 42px;
   height: 42px;
   padding: 0.5em;
-  display: flex;
+  display: inherit;
   justify-content: center;
   align-items: center;
+}
+.hidden {
+  visibility: hidden;
 }

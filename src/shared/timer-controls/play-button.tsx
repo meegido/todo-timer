@@ -4,15 +4,19 @@ import { Play } from 'lucide-react';
 interface PlayButtonProps {
   onPlayCountdown: () => void;
   label?: string;
+  className?: string;
+  isTodoHover?: boolean;
 }
 
 const PlayButton = ({
   onPlayCountdown,
   label = 'Start the countown',
+
+  isTodoHover = true,
 }: PlayButtonProps) => {
   return (
     <button
-      className={styles.play__button}
+      className={`${isTodoHover ? styles.play__button : styles.hidden}`}
       aria-label={label}
       onClick={onPlayCountdown}
     >

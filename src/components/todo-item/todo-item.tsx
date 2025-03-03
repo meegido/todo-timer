@@ -15,7 +15,10 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
+  const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
+
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
+
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
     throw new Error('Timer must be used within a TimerProvider');
@@ -33,8 +36,14 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
     setIsEditMode(false);
   };
 
+  console.log(isTodoHover);
+
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onMouseEnter={() => setIsTodoHover(true)}
+      onMouseLeave={() => setIsTodoHover(false)}
+    >
       <section className={styles.content__wrapper}>
         <CheckboxDone
           todo={todo}
@@ -62,12 +71,11 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
           </p>
         )}
       </section>
-      <section className={styles.controls__wrapper}>
-        <PlayButton
-          label={`Start the countdown on todo ${todo.id}`}
-          onPlayCountdown={handlePlayCountdown}
-        />
-      </section>
+      <PlayButton
+        isTodoHover={isTodoHover}
+        label={`Start the countdown on todo ${todo.id}`}
+        onPlayCountdown={handlePlayCountdown}
+      />
     </div>
   );
 };

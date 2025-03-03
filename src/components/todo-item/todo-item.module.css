@@ -28,11 +28,10 @@
 
 .controls__wrapper {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: flex-end;
 }
 
-.controls__wrapper,
-.controls__wrapper .play__button {
+.hidden {
   display: none;
 }
 
