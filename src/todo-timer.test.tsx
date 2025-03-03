@@ -1,19 +1,7 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
-import TimerProvider from './providers/timer-provider';
-import { Timer } from 'lucide-react';
-import TodoList from './components/todo-list/todo-list';
 import { act } from 'react';
 
 describe('Todo timer', () => {
