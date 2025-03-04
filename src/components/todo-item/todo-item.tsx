@@ -16,15 +16,15 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
+  const [isTodoOngoing, setIsTodoOngoing] = React.useState<boolean>(false);
 
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
-  const cardRef = React.useRef<HTMLDivElement | null>(null);
 
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
     throw new Error('Timer must be used within a TimerProvider');
   }
-  const { handlePlayCountdown, isCountdownActive } = timerContext;
+  const { handlePlayCountdown } = timerContext;
 
   React.useEffect(() => {
     if (inputRef && inputRef.current && isEditMode) {
@@ -32,30 +32,21 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
     }
   }, [isEditMode]);
 
-  React.useEffect(() => {
-    if (cardRef && cardRef.current && !isCountdownActive) {
-      return;
-    }
-    // si añado hover sí que lo hace pero no es el rollo porque tengo que saber el id
-    // para que no se pueda dar play a otros.
-    if (cardRef && cardRef.current && isCountdownActive) {
-      const card = cardRef.current;
-
-      card.className = `${styles.card__green}`;
-    }
-  }, [isCountdownActive, todo.id, isTodoHover]);
-
   const handleSave = () => {
     onUpdateTodo(todo.id, { ...todo, title: editTodoValue });
     setIsEditMode(false);
   };
 
+  const handleActiveTodo = () => {
+    setIsTodoOngoing(true);
+  };
+  const cardClass = isTodoOngoing ? styles.card__green : styles.card;
   return (
     <div
-      className={`${styles.card}`}
+      className={cardClass}
+      aria-label={`Todo item ${todo.id}`}
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}
-      ref={cardRef}
     >
       <section className={styles.content__wrapper}>
         <CheckboxDone
@@ -87,7 +78,10 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
       <PlayButton
         isTodoHover={isTodoHover}
         label={`Start the countdown on todo ${todo.id}`}
-        onPlayCountdown={handlePlayCountdown}
+        onPlayCountdown={() => {
+          handleActiveTodo();
+          handlePlayCountdown();
+        }}
       />
     </div>
   );

@@ -3,6 +3,9 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react';
+import TodoItem from './components/todo-item/todo-item';
+import TimerProvider from './providers/timer-provider';
+import { Timer } from 'lucide-react';
 
 describe('Todo timer', () => {
   describe('create, edit and list todos', () => {
@@ -144,6 +147,27 @@ describe('Todo timer', () => {
       vi.useRealTimers();
     }, 10000);
 
-    it.skip('should change the todo bg color when the timer starts', () => {});
+    it('should apply a green background color when the play button is clicked', async () => {
+      const todo = { id: '1', title: 'Test Todo' };
+      render(
+        <TimerProvider>
+          <TodoItem todo={todo} onUpdateTodo={() => {}}></TodoItem>
+        </TimerProvider>
+      );
+      const [firstTodo] = screen.getAllByLabelText(`Todo item ${todo.id}`);
+      expect(firstTodo).toBeInTheDocument();
+      expect(firstTodo).not.toHaveClass('car__green');
+
+      const playButton = await within(firstTodo).findByRole('button');
+      expect(playButton).toHaveClass('hidden');
+
+      await waitFor(async () => {
+        await userEvent.hover(firstTodo);
+      });
+
+      await userEvent.click(playButton);
+
+      expect(firstTodo).toHaveClass('card__green');
+    });
   });
 });
