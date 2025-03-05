@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './timer.module.css';
 import { RotateCcw } from 'lucide-react';
-import { Pause } from 'lucide-react';
 import CountdownDisplay from './countdown-display/countdow-display';
 import PlayButton from '../../shared/play-button/play-button';
 import TimerContext from '../../context/timer-context';
