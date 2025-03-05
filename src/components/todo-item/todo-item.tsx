@@ -9,14 +9,21 @@ interface TodoItemProps {
   todo: Todo;
   onUpdateTodo: (id: string, handleUpdateTodo: Todo) => void;
   onHandlePlay: () => void;
+  onSetActiveTodo: () => void;
+  isActiveTodo: boolean;
 }
 
-const TodoItem = ({ todo, onUpdateTodo, onHandlePlay }: TodoItemProps) => {
+const TodoItem = ({
+  todo,
+  onUpdateTodo,
+  onHandlePlay,
+  onSetActiveTodo,
+  isActiveTodo,
+}: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
-  const [isTodoOngoing, setIsTodoOngoing] = React.useState<boolean>(false);
 
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
 
@@ -31,10 +38,8 @@ const TodoItem = ({ todo, onUpdateTodo, onHandlePlay }: TodoItemProps) => {
     setIsEditMode(false);
   };
 
-  const handleActiveTodo = () => {
-    setIsTodoOngoing(true);
-  };
-  const cardClass = isTodoOngoing ? styles.card__green : styles.card;
+  const cardClass = isActiveTodo ? styles.card__green : styles.card;
+  console.log(isActiveTodo, cardClass, 'Active and class');
   return (
     <div
       className={cardClass}
@@ -73,7 +78,7 @@ const TodoItem = ({ todo, onUpdateTodo, onHandlePlay }: TodoItemProps) => {
         isTodoHover={isTodoHover}
         label={`Start the countdown on todo ${todo.id}`}
         onPlayCountdown={() => {
-          handleActiveTodo();
+          onSetActiveTodo();
           onHandlePlay();
         }}
       />

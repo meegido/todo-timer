@@ -149,6 +149,8 @@ describe('Todo timer', () => {
             todo={todo}
             onUpdateTodo={() => {}}
             onHandlePlay={() => {}}
+            isActiveTodo={true}
+            onSetActiveTodo={() => {}}
           ></TodoItem>
         </TimerProvider>
       );

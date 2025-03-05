@@ -9,6 +9,8 @@ interface TodoListProps {
   onUpdateTodo: (id: string, handleUpdateTodo: Todo) => void;
 }
 const TodoList = ({ todo, onUpdateTodo }: TodoListProps) => {
+  const [activeTodo, setActiveTodo] = React.useState<string>('0');
+
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
     throw new Error('Timer must be used within a TimerProvider');
@@ -21,6 +23,10 @@ const TodoList = ({ todo, onUpdateTodo }: TodoListProps) => {
         todo={todo}
         onUpdateTodo={onUpdateTodo}
         onHandlePlay={handlePlayCountdown}
+        isActiveTodo={activeTodo === todo.id}
+        onSetActiveTodo={() => {
+          setActiveTodo(todo.id);
+        }}
       />
     </article>
   );
