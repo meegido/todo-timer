@@ -15,7 +15,12 @@ const TodoList = ({ todo, onUpdateTodo }: TodoListProps) => {
   if (!timerContext) {
     throw new Error('Timer must be used within a TimerProvider');
   }
-  const { handlePlayCountdown } = timerContext;
+  const {
+    handlePlayCountdown,
+    handlePauseCountdown,
+    isCountdownActive,
+    isCountdownPaused,
+  } = timerContext;
 
   return (
     <article className={styles.card__wrapper}>
@@ -23,10 +28,13 @@ const TodoList = ({ todo, onUpdateTodo }: TodoListProps) => {
         todo={todo}
         onUpdateTodo={onUpdateTodo}
         onHandlePlay={handlePlayCountdown}
+        onHandlePause={handlePauseCountdown}
         isActiveTodo={activeTodo === todo.id}
         onSetActiveTodo={() => {
           setActiveTodo(todo.id);
         }}
+        isCountdownActive={isCountdownActive}
+        isCountdownPaused={isCountdownPaused}
       />
     </article>
   );

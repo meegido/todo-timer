@@ -10,6 +10,7 @@ interface Timer {
   setTimeLeft: React.Dispatch<React.SetStateAction<TimeLeft>>;
   isCountdownActive: boolean;
   setIsCountdownActive: React.Dispatch<React.SetStateAction<boolean>>;
+  isCountdownPaused: boolean;
   handlePlayCountdown: () => void;
   handlePauseCountdown: () => void;
   handleResetCountdown: () => void;
@@ -21,6 +22,9 @@ const useTimer = (): Timer => {
     seconds: 0,
   });
   const [isCountdownActive, setIsCountdownActive] =
+    React.useState<boolean>(false);
+
+  const [isCountdownPaused, setIsCountdownPaused] =
     React.useState<boolean>(false);
 
   const intervalRef = React.useRef<number | null>(0);
@@ -64,12 +68,14 @@ const useTimer = (): Timer => {
 
   const handlePauseCountdown = () => {
     setIsCountdownActive(!isCountdownActive);
+    setIsCountdownPaused(true);
   };
 
   return {
     timeLeft,
     setTimeLeft,
     isCountdownActive,
+    isCountdownPaused,
     setIsCountdownActive,
     handlePlayCountdown,
     handlePauseCountdown,

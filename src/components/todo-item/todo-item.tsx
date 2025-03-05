@@ -3,22 +3,29 @@ import { Todo } from '../../todo-timer';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
-import PlayButton from '../../shared/timer-controls/play-button';
+import PlayButton from '../../shared/play-button/play-button';
+import PauseButton from '../../shared/pause-button/pause-button';
 
 interface TodoItemProps {
   todo: Todo;
   onUpdateTodo: (id: string, handleUpdateTodo: Todo) => void;
   onHandlePlay: () => void;
+  onHandlePause: () => void;
   onSetActiveTodo: () => void;
   isActiveTodo: boolean;
+  isCountdownActive: boolean;
+  isCountdownPaused: boolean;
 }
 
 const TodoItem = ({
   todo,
   onUpdateTodo,
   onHandlePlay,
+  onHandlePause,
   onSetActiveTodo,
   isActiveTodo,
+  isCountdownActive,
+  isCountdownPaused,
 }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
@@ -38,11 +45,21 @@ const TodoItem = ({
     setIsEditMode(false);
   };
 
-  const cardClass = isActiveTodo ? styles.card__green : styles.card;
-  console.log(isActiveTodo, cardClass, 'Active and class');
+  const activeCardClass =
+    isActiveTodo && isCountdownActive ? styles.card__green : styles.card;
+  console.log(
+    isActiveTodo,
+    activeCardClass,
+    isCountdownActive,
+    'Active and class'
+  );
+
+  const pausedCardClass =
+    isActiveTodo && isCountdownPaused ? styles.card__yellow : styles.card;
+
   return (
     <div
-      className={cardClass}
+      className={activeCardClass || pausedCardClass}
       aria-label={`Todo item ${todo.id}`}
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}
@@ -74,14 +91,22 @@ const TodoItem = ({
           </p>
         )}
       </section>
-      <PlayButton
-        isTodoHover={isTodoHover}
-        label={`Start the countdown on todo ${todo.id}`}
-        onPlayCountdown={() => {
-          onSetActiveTodo();
-          onHandlePlay();
-        }}
-      />
+      {isActiveTodo ? (
+        <PauseButton
+          isTodoHover={isTodoHover}
+          label={`Pause the countdown on todo ${todo.id}`}
+          onPauseCountdown={onHandlePause}
+        />
+      ) : (
+        <PlayButton
+          isTodoHover={isTodoHover}
+          label={`Start the countdown on todo ${todo.id}`}
+          onPlayCountdown={() => {
+            onSetActiveTodo();
+            onHandlePlay();
+          }}
+        />
+      )}
     </div>
   );
 };

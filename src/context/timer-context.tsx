@@ -5,6 +5,7 @@ interface TimerContextProps {
   timeLeft: TimeLeft;
   setTimeLeft: React.Dispatch<React.SetStateAction<TimeLeft>>;
   isCountdownActive: boolean;
+  isCountdownPaused: boolean;
   setIsCountdownActive: React.Dispatch<React.SetStateAction<boolean>>;
   handlePlayCountdown: () => void;
   handlePauseCountdown: () => void;
