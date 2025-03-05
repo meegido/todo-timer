@@ -48,14 +48,16 @@ const TodoItem = ({
   const activeCardClass =
     isActiveTodo && isCountdownActive ? styles.card__green : styles.card;
   console.log(
+    'todo active-> ',
     isActiveTodo,
-    activeCardClass,
-    isCountdownActive,
-    'Active and class'
+    'paused ->',
+    isCountdownPaused,
+    'countdown ->',
+    isCountdownActive
   );
 
   const pausedCardClass =
-    isActiveTodo && isCountdownPaused ? styles.card__yellow : styles.card;
+    isActiveTodo && !isCountdownActive ? styles.card__yellow : styles.card;
 
   return (
     <div
@@ -91,7 +93,7 @@ const TodoItem = ({
           </p>
         )}
       </section>
-      {isActiveTodo ? (
+      {isActiveTodo && isCountdownActive ? (
         <PauseButton
           isTodoHover={isTodoHover}
           label={`Pause the countdown on todo ${todo.id}`}
