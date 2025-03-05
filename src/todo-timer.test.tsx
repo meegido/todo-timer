@@ -2,10 +2,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react';
 import TodoItem from './components/todo-item/todo-item';
 import TimerProvider from './providers/timer-provider';
-import { Timer } from 'lucide-react';
 
 describe('Todo timer', () => {
   describe('create, edit and list todos', () => {
@@ -133,15 +131,11 @@ describe('Todo timer', () => {
 
       await user.click(playButton);
 
-      await act(async () => {
-        await vi.advanceTimersByTimeAsync(600000); // Advance by ten minutes
-      });
+      await vi.advanceTimersByTimeAsync(600000); // Advance by ten minutes
 
-      await waitFor(async () => {
-        expect(
-          await screen.findByLabelText('Number of minutes left')
-        ).toHaveTextContent('15');
-      });
+      expect(
+        await screen.findByLabelText('Number of minutes left')
+      ).toHaveTextContent('15');
 
       vi.runOnlyPendingTimers();
       vi.useRealTimers();
@@ -151,7 +145,11 @@ describe('Todo timer', () => {
       const todo = { id: '1', title: 'Test Todo' };
       render(
         <TimerProvider>
-          <TodoItem todo={todo} onUpdateTodo={() => {}}></TodoItem>
+          <TodoItem
+            todo={todo}
+            onUpdateTodo={() => {}}
+            onHandlePlay={() => {}}
+          ></TodoItem>
         </TimerProvider>
       );
       const [firstTodo] = screen.getAllByLabelText(`Todo item ${todo.id}`);

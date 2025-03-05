@@ -4,14 +4,14 @@ import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
 import PlayButton from '../../shared/timer-controls/play-button';
-import TimerContext from '../../context/timer-context';
 
 interface TodoItemProps {
   todo: Todo;
   onUpdateTodo: (id: string, handleUpdateTodo: Todo) => void;
+  onHandlePlay: () => void;
 }
 
-const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
+const TodoItem = ({ todo, onUpdateTodo, onHandlePlay }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
@@ -19,12 +19,6 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
   const [isTodoOngoing, setIsTodoOngoing] = React.useState<boolean>(false);
 
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
-
-  const timerContext = React.useContext(TimerContext);
-  if (!timerContext) {
-    throw new Error('Timer must be used within a TimerProvider');
-  }
-  const { handlePlayCountdown } = timerContext;
 
   React.useEffect(() => {
     if (inputRef && inputRef.current && isEditMode) {
@@ -80,7 +74,7 @@ const TodoItem = ({ todo, onUpdateTodo }: TodoItemProps) => {
         label={`Start the countdown on todo ${todo.id}`}
         onPlayCountdown={() => {
           handleActiveTodo();
-          handlePlayCountdown();
+          onHandlePlay();
         }}
       />
     </div>
