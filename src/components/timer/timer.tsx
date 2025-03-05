@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './timer.module.css';
 import { RotateCcw } from 'lucide-react';
-import { Pause } from 'lucide-react';
 import CountdownDisplay from './countdown-display/countdow-display';
-import PlayButton from '../../shared/timer-controls/play-button';
+import PlayButton from '../../shared/play-button/play-button';
 import TimerContext from '../../context/timer-context';
+import PauseButton from '../../shared/pause-button/pause-button';
 
 export interface TimeLeft {
   minutes: number;
@@ -35,9 +35,7 @@ const Timer = () => {
         >
           <RotateCcw size={18} />
         </button>
-        <button aria-label="Pause the countown" onClick={handlePauseCountdown}>
-          <Pause size={18} />
-        </button>
+        <PauseButton onPauseCountdown={handlePauseCountdown} />
         <PlayButton onPlayCountdown={handlePlayCountdown} />
       </section>
     </section>

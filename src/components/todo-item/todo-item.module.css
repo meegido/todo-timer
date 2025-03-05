@@ -14,9 +14,34 @@
   gap: 8px;
 
   width: 100%;
+  height: 80px;
   background: aliceblue;
   padding: 2rem 1rem;
   border-radius: 8px;
+}
+
+.card__green {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  height: 80px;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+  background: aquamarine;
+}
+
+.card__yellow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  height: 80px;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+  background: rgba(239, 239, 83, 0.892);
 }
 
 .content__wrapper {

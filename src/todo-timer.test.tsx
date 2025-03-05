@@ -2,7 +2,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react';
+import TodoItem from './components/todo-item/todo-item';
+import TimerProvider from './providers/timer-provider';
 
 describe('Todo timer', () => {
   describe('create, edit and list todos', () => {
@@ -102,7 +103,12 @@ describe('Todo timer', () => {
         expect(within(firstTodo).queryByRole('button')).toBeVisible();
       });
     });
-    it.skip('should play the timer when user focus a todo item and click enter', () => {});
+    it.skip('should play the timer when user focus a todo item and click enter', () => {
+      // click on the todo
+      // focus the todo or getting it with ref
+      // show it's focused
+      // enter to play the timer
+    });
     it('should click the first todo button to start the countdown', async () => {
       vi.stubGlobal('jest', {
         advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
@@ -125,20 +131,82 @@ describe('Todo timer', () => {
 
       await user.click(playButton);
 
-      await act(async () => {
-        await vi.advanceTimersByTimeAsync(600000); // Advance by ten minutes
-      });
+      await vi.advanceTimersByTimeAsync(600000); // Advance by ten minutes
 
-      await waitFor(async () => {
-        expect(
-          await screen.findByLabelText('Number of minutes left')
-        ).toHaveTextContent('15');
-      });
+      expect(
+        await screen.findByLabelText('Number of minutes left')
+      ).toHaveTextContent('15');
 
       vi.runOnlyPendingTimers();
       vi.useRealTimers();
     }, 10000);
 
-    it.skip('should change the todo bg color when the timer starts', () => {});
+    it('should apply a green background color when the play button is clicked', async () => {
+      const todo = { id: '1', title: 'Test Todo' };
+      render(
+        <TimerProvider>
+          <TodoItem
+            todo={todo}
+            onUpdateTodo={() => {}}
+            onHandlePlay={() => {}}
+            onHandlePause={() => {}}
+            isActiveTodo={true}
+            onSetActiveTodo={() => {}}
+            isCountdownActive={true}
+            isCountdownPaused={false}
+          ></TodoItem>
+        </TimerProvider>
+      );
+      const [firstTodo] = screen.getAllByLabelText(`Todo item ${todo.id}`);
+      expect(firstTodo).toBeInTheDocument();
+      expect(firstTodo).not.toHaveClass('car__green');
+
+      const playButton = await within(firstTodo).findByRole('button');
+      expect(playButton).toHaveClass('hidden');
+
+      await waitFor(async () => {
+        await userEvent.hover(firstTodo);
+      });
+
+      await userEvent.click(playButton);
+
+      expect(firstTodo).toHaveClass('card__green');
+    });
+    it.skip('should apply a yellow background color when the pause button is clicked', async () => {
+      // it fails when getting the buttons by label because the timer in the test is not paused.
+      // The timer must to be mocked and in the proper file.
+      const todo = { id: '1', title: 'Test Todo' };
+      render(
+        <TimerProvider>
+          <TodoItem
+            todo={todo}
+            onUpdateTodo={() => {}}
+            onHandlePlay={() => {}}
+            onHandlePause={() => {}}
+            isActiveTodo={true}
+            onSetActiveTodo={() => {}}
+            isCountdownActive={true}
+            isCountdownPaused={false}
+          ></TodoItem>
+        </TimerProvider>
+      );
+      const [firstTodo] = screen.getAllByLabelText(`Todo item ${todo.id}`);
+      expect(firstTodo).toBeInTheDocument();
+      expect(firstTodo).not.toHaveClass('car__green');
+
+      const playButton = await within(firstTodo).findByLabelText('Play');
+      expect(playButton).toHaveClass('hidden');
+
+      await waitFor(async () => {
+        await userEvent.hover(firstTodo);
+      });
+
+      await userEvent.click(playButton);
+
+      expect(firstTodo).toHaveClass('card__green');
+
+      const pauseButton = await within(firstTodo).findByRole('button');
+      expect(pauseButton).toBeInTheDocument();
+    });
   });
 });

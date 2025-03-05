@@ -11,7 +11,6 @@ interface PlayButtonProps {
 const PlayButton = ({
   onPlayCountdown,
   label = 'Start the countown',
-
   isTodoHover = true,
 }: PlayButtonProps) => {
   return (
