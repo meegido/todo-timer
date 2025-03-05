@@ -6,20 +6,6 @@ main {
   width: var(--container-width);
 }
 
-.list__wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 68px;
-  padding: 4em 0;
-  max-width: var(--container-width);
-  width: 100%;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-}
-
 .todo__timer__wrapper {
   display: flex;
   flex-direction: column-reverse;

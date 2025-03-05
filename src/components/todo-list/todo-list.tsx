@@ -5,10 +5,11 @@ import TimerContext from '../../context/timer-context';
 import React from 'react';
 
 interface TodoListProps {
-  todo: Todo;
+  todos: Todo[];
   onUpdateTodo: (id: string, handleUpdateTodo: Todo) => void;
 }
-const TodoList = ({ todo, onUpdateTodo }: TodoListProps) => {
+
+const TodoList = ({ todos, onUpdateTodo }: TodoListProps) => {
   const [activeTodo, setActiveTodo] = React.useState<string>('0');
 
   const timerContext = React.useContext(TimerContext);
@@ -23,19 +24,22 @@ const TodoList = ({ todo, onUpdateTodo }: TodoListProps) => {
   } = timerContext;
 
   return (
-    <article className={styles.card__wrapper}>
-      <TodoItem
-        todo={todo}
-        onUpdateTodo={onUpdateTodo}
-        onHandlePlay={handlePlayCountdown}
-        onHandlePause={handlePauseCountdown}
-        isActiveTodo={activeTodo === todo.id}
-        onSetActiveTodo={() => {
-          setActiveTodo(todo.id);
-        }}
-        isCountdownActive={isCountdownActive}
-        isCountdownPaused={isCountdownPaused}
-      />
+    <article className={styles.list__wrapper}>
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onUpdateTodo={onUpdateTodo}
+          onHandlePlay={handlePlayCountdown}
+          onHandlePause={handlePauseCountdown}
+          isActiveTodo={activeTodo === todo.id}
+          onSetActiveTodo={() => {
+            setActiveTodo(todo.id);
+          }}
+          isCountdownActive={isCountdownActive}
+          isCountdownPaused={isCountdownPaused}
+        />
+      ))}
     </article>
   );
 };
