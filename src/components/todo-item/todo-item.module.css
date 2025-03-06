@@ -46,6 +46,22 @@
   padding: 2rem 1rem;
   border-radius: 8px;
   background: aquamarine;
+
+  @media (min-width: 1440px) {
+    max-width: 550px;
+  }
+
+  @media (min-width: 1520px) {
+    max-width: 414px;
+  }
+
+  @media (min-width: 1920px) {
+    max-width: 466px;
+  }
+
+  @media (min-width: 2560px) {
+    max-width: 636px;
+  }
 }
 
 .card__yellow {
@@ -58,6 +74,22 @@
   padding: 2rem 1rem;
   border-radius: 8px;
   background: rgba(239, 239, 83, 0.892);
+
+  @media (min-width: 1440px) {
+    max-width: 550px;
+  }
+
+  @media (min-width: 1520px) {
+    max-width: 414px;
+  }
+
+  @media (min-width: 1920px) {
+    max-width: 466px;
+  }
+
+  @media (min-width: 2560px) {
+    max-width: 636px;
+  }
 }
 
 .content__wrapper {
