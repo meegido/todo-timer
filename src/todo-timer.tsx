@@ -12,11 +12,11 @@ export interface Todo {
 
 const data = [
   { title: 'Read the article about Testing Library', id: 'i234234' },
-  { title: 'UI Benchmark', id: '3w4hkljsd' },
-  { title: 'Split the tasks into small slices', id: '3549349348' },
-  { title: 'Understand container queries', id: 'i2¡3453244234' },
-  { title: 'Understand mix-max widht', id: '30909w4hkljsd' },
-  { title: `Don't forget to do a proper slicing`, id: '35493493432238' },
+  // { title: 'UI Benchmark', id: '3w4hkljsd' },
+  // { title: 'Split the tasks into small slices', id: '3549349348' },
+  // { title: 'Understand container queries', id: 'i2¡3453244234' },
+  // { title: 'Understand mix-max widht', id: '30909w4hkljsd' },
+  // { title: `Don't forget to do a proper slicing`, id: '35493493432238' },
 ];
 
 function TodoTimer() {
@@ -49,7 +49,13 @@ function TodoTimer() {
         </section>
 
         <section className={styles.list__wrapper}>
-          <TodoList todos={todos} onUpdateTodo={handleUpdateTodo} />
+          {todos.map((todo) => (
+            <TodoList
+              key={todo.id}
+              todo={todo}
+              onUpdateTodo={handleUpdateTodo}
+            />
+          ))}
         </section>
       </TimerProvider>
     </main>
