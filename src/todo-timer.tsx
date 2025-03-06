@@ -33,7 +33,6 @@ function TodoTimer() {
     handlePauseCountdown,
     handleResetCountdown,
     isCountdownActive,
-    isCountdownPaused,
   } = timerContext;
 
   const handleCreateTodo = () => {
@@ -70,7 +69,6 @@ function TodoTimer() {
         onHandlePlay={handlePlayCountdown}
         onHandlePause={handlePauseCountdown}
         isCountdownActive={isCountdownActive}
-        isCountdownPaused={isCountdownPaused}
       />
     </main>
   );

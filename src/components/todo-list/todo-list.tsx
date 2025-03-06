@@ -9,7 +9,6 @@ interface TodoListProps {
   onHandlePlay: () => void;
   onHandlePause: () => void;
   isCountdownActive: boolean;
-  isCountdownPaused: boolean;
 }
 
 const TodoList = ({
@@ -18,7 +17,6 @@ const TodoList = ({
   onHandlePlay,
   onHandlePause,
   isCountdownActive,
-  isCountdownPaused,
 }: TodoListProps) => {
   const [activeTodo, setActiveTodo] = React.useState<string>('0');
 
@@ -36,7 +34,6 @@ const TodoList = ({
             setActiveTodo(todo.id);
           }}
           isCountdownActive={isCountdownActive}
-          isCountdownPaused={isCountdownPaused}
         />
       ))}
     </section>

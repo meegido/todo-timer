@@ -14,7 +14,6 @@ interface TodoItemProps {
   onSetActiveTodo: () => void;
   isActiveTodo: boolean;
   isCountdownActive: boolean;
-  // isCountdownPaused: boolean;
 }
 
 const TodoItem = ({
@@ -25,7 +24,6 @@ const TodoItem = ({
   onSetActiveTodo,
   isActiveTodo,
   isCountdownActive,
-  // isCountdownPaused,
 }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
@@ -47,14 +45,6 @@ const TodoItem = ({
 
   const activeCardClass =
     isActiveTodo && isCountdownActive ? styles.card__green : styles.card;
-  // console.log(
-  //   'todo active-> ',
-  //   isActiveTodo,
-  //   'paused ->',
-  //   isCountdownPaused,
-  //   'countdown ->',
-  //   isCountdownActive
-  // );
 
   const pausedCardClass =
     isActiveTodo && !isCountdownActive ? styles.card__yellow : styles.card;
