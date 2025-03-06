@@ -39,7 +39,7 @@
     "eslint-plugin-testing-library": "^7.1.1",
     "globals": "^15.14.0",
     "jsdom": "^26.0.0",
-    "prettier": "3.5.1",
+    "prettier": "3.5.3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.0",
     "typescript-plugin-css-modules": "^5.1.0",
