@@ -14,7 +14,7 @@ interface TodoItemProps {
   onSetActiveTodo: () => void;
   isActiveTodo: boolean;
   isCountdownActive: boolean;
-  isCountdownPaused: boolean;
+  // isCountdownPaused: boolean;
 }
 
 const TodoItem = ({
@@ -25,7 +25,7 @@ const TodoItem = ({
   onSetActiveTodo,
   isActiveTodo,
   isCountdownActive,
-  isCountdownPaused,
+  // isCountdownPaused,
 }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
@@ -60,7 +60,7 @@ const TodoItem = ({
     isActiveTodo && !isCountdownActive ? styles.card__yellow : styles.card;
 
   return (
-    <div
+    <article
       className={activeCardClass || pausedCardClass}
       aria-label={`Todo item ${todo.id}`}
       onMouseEnter={() => setIsTodoHover(true)}
@@ -96,20 +96,20 @@ const TodoItem = ({
       {isActiveTodo && isCountdownActive ? (
         <PauseButton
           isTodoHover={isTodoHover}
-          label={`Pause the countdown on todo ${todo.id}`}
+          label={`Pause the countdown on todo`}
           onPauseCountdown={onHandlePause}
         />
       ) : (
         <PlayButton
           isTodoHover={isTodoHover}
-          label={`Start the countdown on todo ${todo.id}`}
+          label={`Start the countdown on todo`}
           onPlayCountdown={() => {
             onSetActiveTodo();
             onHandlePlay();
           }}
         />
       )}
-    </div>
+    </article>
   );
 };
 
