@@ -13,23 +13,26 @@
   align-items: center;
   gap: 8px;
   flex: 1 1 calc(33.333% - 16px);
-  min-width: 324px;
-  max-width: 494px;
-  width: 100%;
+  max-width: 550px;
   height: 80px;
   background: aliceblue;
   padding: 2rem 1rem;
   border-radius: 8px;
 
-  @media (min-width: 1200px) {
-    min-width: 456px;
-    /* max-width: 512px; */
-    max-width: 476px;
+  @media (min-width: 1440px) {
+    max-width: 550px;
+  }
+
+  @media (min-width: 1520px) {
+    max-width: 414px;
   }
 
   @media (min-width: 1920px) {
-    min-width: 456px;
-    max-width: 512px;
+    max-width: 466px;
+  }
+
+  @media (min-width: 2560px) {
+    max-width: 636px;
   }
 }
 
@@ -76,9 +79,14 @@
 .todo__title,
 .done {
   cursor: pointer;
-  text-wrap: wrap;
   font-size: 16px;
   line-height: 1.8;
+  /* to adapt the text when there's 
+  no container space and truncate the text.
+  Overflow other than visible, sets the min width to 0 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .done {

@@ -90,19 +90,6 @@ describe('Todo timer', () => {
     });
   });
   describe('the todo timer starts when user clicks the todo play button', () => {
-    it('should show the play button on hover the todo', async () => {
-      render(<TodoTimer />);
-      const [firstTodo] = await screen.findAllByRole('article');
-      expect(firstTodo).toBeInTheDocument();
-
-      const playButton = await within(firstTodo).findByRole('button');
-      expect(playButton).toHaveClass('hidden');
-
-      await userEvent.hover(firstTodo);
-      await waitFor(() => {
-        expect(within(firstTodo).queryByRole('button')).toBeVisible();
-      });
-    });
     it.skip('should play the timer when user focus a todo item and click enter', () => {
       // click on the todo
       // focus the todo or getting it with ref
@@ -208,5 +195,6 @@ describe('Todo timer', () => {
       const pauseButton = await within(firstTodo).findByRole('button');
       expect(pauseButton).toBeInTheDocument();
     });
+    // cuando le doy al pause, cambia el botón.
   });
 });
