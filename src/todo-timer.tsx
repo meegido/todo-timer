@@ -47,7 +47,10 @@ function TodoTimer() {
           />
           <Timer />
         </section>
-        <TodoList todos={todos} onUpdateTodo={handleUpdateTodo} />
+
+        <section className={styles.list__wrapper}>
+          <TodoList todos={todos} onUpdateTodo={handleUpdateTodo} />
+        </section>
       </TimerProvider>
     </main>
   );
