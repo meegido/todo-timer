@@ -1,7 +1,9 @@
+import React from 'react';
 import styles from './timer.module.css';
 import { RotateCcw } from 'lucide-react';
 import CountdownDisplay from './countdown-display/countdow-display';
 import PlayButton from '../../shared/play-button/play-button';
+import TimerContext from '../../context/timer-context';
 import PauseButton from '../../shared/pause-button/pause-button';
 
 export interface TimeLeft {
@@ -9,28 +11,32 @@ export interface TimeLeft {
   seconds: number;
 }
 
-interface TimerProps {
-  timeLeft: TimeLeft;
-  onHandlePlay: () => void;
-  onHandlePause: () => void;
-  onHandleReset: () => void;
-}
+const Timer = () => {
+  const timerContext = React.useContext(TimerContext);
 
-const Timer = ({
-  timeLeft,
-  onHandlePlay,
-  onHandlePause,
-  onHandleReset,
-}: TimerProps) => {
+  if (!timerContext) {
+    throw new Error('Timer must be used within a TimerProvider');
+  }
+
+  const {
+    timeLeft,
+    handlePlayCountdown,
+    handlePauseCountdown,
+    handleResetCountdown,
+  } = timerContext;
+
   return (
     <section className={styles.countdown__wrapper}>
       <CountdownDisplay timeLeft={timeLeft} />
       <section className={styles.controls__wrapper}>
-        <button aria-label="Reset the countown" onClick={onHandleReset}>
+        <button
+          aria-label="Reset the countown"
+          onClick={() => handleResetCountdown()}
+        >
           <RotateCcw size={18} />
         </button>
-        <PauseButton onPauseCountdown={onHandlePause} />
-        <PlayButton onPlayCountdown={onHandlePlay} />
+        <PauseButton onPauseCountdown={handlePauseCountdown} />
+        <PlayButton onPlayCountdown={handlePlayCountdown} />
       </section>
     </section>
   );

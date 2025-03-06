@@ -47,14 +47,14 @@ const TodoItem = ({
 
   const activeCardClass =
     isActiveTodo && isCountdownActive ? styles.card__green : styles.card;
-  // console.log(
-  //   'todo active-> ',
-  //   isActiveTodo,
-  //   'paused ->',
-  //   isCountdownPaused,
-  //   'countdown ->',
-  //   isCountdownActive
-  // );
+  console.log(
+    'todo active-> ',
+    isActiveTodo,
+    'paused ->',
+    isCountdownPaused,
+    'countdown ->',
+    isCountdownActive
+  );
 
   const pausedCardClass =
     isActiveTodo && !isCountdownActive ? styles.card__yellow : styles.card;
