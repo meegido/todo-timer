@@ -1,15 +1,13 @@
-.card__wrapper {
+.list__wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1 1 calc(33.333% - 16px);
-  min-width: 324px;
-  max-width: 494px;
+  flex-direction: column;
+  gap: 68px;
+  padding: 4em 0;
+  max-width: var(--container-width);
   width: 100%;
-  height: 120px;
 
-  @media (min-width: 1200px) {
-    min-width: 456px;
-    max-width: 512px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }
