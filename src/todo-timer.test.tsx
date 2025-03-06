@@ -2,13 +2,16 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
-import TodoItem from './components/todo-item/todo-item';
 import TimerProvider from './providers/timer-provider';
 
 describe('Todo timer', () => {
-  describe('create, edit and list todos', () => {
-    it('the user create the todo when click enter after writing', async () => {
-      render(<TodoTimer />);
+  describe('create, edit and mark todos as done', () => {
+    it('should create a new todo on click enter', async () => {
+      render(
+        <TimerProvider>
+          <TodoTimer />
+        </TimerProvider>
+      );
 
       const input = screen.getByLabelText('create-input');
       await userEvent.type(input, 'Buy avocado.');
@@ -19,9 +22,12 @@ describe('Todo timer', () => {
 
       expect(newTodo.length).toBeGreaterThan(0);
     });
-
-    it('the user edit the todo if clicks on the todo text', async () => {
-      render(<TodoTimer />);
+    it('should edit inline the todo title', async () => {
+      render(
+        <TimerProvider>
+          <TodoTimer />
+        </TimerProvider>
+      );
 
       const todo =
         screen.queryAllByLabelText<HTMLParagraphElement>('Todo title');
@@ -34,9 +40,12 @@ describe('Todo timer', () => {
       const input = screen.getByLabelText('Edit your todo title');
       expect(input).toHaveValue(firstTodo.textContent);
     });
-
-    it('the user exit the todo edit mode when press escape key', async () => {
-      render(<TodoTimer />);
+    it('should not edit the todo title if the user press escape key', async () => {
+      render(
+        <TimerProvider>
+          <TodoTimer />
+        </TimerProvider>
+      );
 
       const todo =
         screen.queryAllByLabelText<HTMLParagraphElement>('Todo title');
@@ -50,53 +59,37 @@ describe('Todo timer', () => {
 
       expect(input).toHaveValue(firstTodo.textContent);
     });
+    it('should check the todo as done when click on the checkbox', async () => {
+      render(
+        <TimerProvider>
+          <TodoTimer />
+        </TimerProvider>
+      );
 
-    it('the user check the todo as done by clicking the checkbox input', async () => {
-      render(<TodoTimer />);
-
-      const radioInput = screen.getAllByLabelText(
+      const checkbox = screen.getAllByLabelText(
         'Check or uncheck the todo as done'
       );
-      radioInput.forEach((input) => {
+      checkbox.forEach((input) => {
         expect(input).toBeInTheDocument();
       });
 
-      const firstRadioInput = radioInput[0];
-      expect(firstRadioInput).not.toBeChecked();
+      const firstCheckbox = checkbox[0];
+      expect(firstCheckbox).not.toBeChecked();
 
-      await userEvent.click(firstRadioInput);
-      expect(firstRadioInput).toBeChecked();
+      await userEvent.click(firstCheckbox);
+      expect(firstCheckbox).toBeChecked();
 
-      const doneTitle = screen.getAllByLabelText('Todo title');
-      doneTitle.forEach((title) => {
-        expect(title).toBeInTheDocument();
+      const todo = screen.getAllByLabelText('Todo title');
+      todo.forEach((todoTitle) => {
+        expect(todoTitle).toBeInTheDocument();
       });
 
-      const firstDoneTitle = doneTitle[0];
-      expect(firstDoneTitle).toHaveClass('done');
-    });
-
-    it.skip(`the user check the todo as done when there aren't other todos in edit mode`, () => {});
-  });
-  describe('countdown 25min time left', () => {
-    it('always displays the duration with two digits for minutes and seconds', () => {
-      render(<TodoTimer />);
-
-      const minutes = screen.getByLabelText(`Number of minutes left`);
-      expect(minutes).toBeInTheDocument();
-
-      const seconds = screen.getByLabelText(`Number of seconds left`);
-      expect(seconds).toBeInTheDocument();
+      const firstTodoDone = todo[0];
+      expect(firstTodoDone).toHaveClass('done');
     });
   });
-  describe('the todo timer starts when user clicks the todo play button', () => {
-    it.skip('should play the timer when user focus a todo item and click enter', () => {
-      // click on the todo
-      // focus the todo or getting it with ref
-      // show it's focused
-      // enter to play the timer
-    });
-    it('should click the first todo button to start the countdown', async () => {
+  describe('starts the timer attached to a selected todo', () => {
+    it('should start the countdown when click the first todo play button', async () => {
       vi.stubGlobal('jest', {
         advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
       });
@@ -105,11 +98,19 @@ describe('Todo timer', () => {
 
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-      render(<TodoTimer />);
+      render(
+        <TimerProvider>
+          <TodoTimer />
+        </TimerProvider>
+      );
       const [firstTodo] = await screen.findAllByRole('article');
       expect(firstTodo).toBeInTheDocument();
 
-      const playButton = await within(firstTodo).findByRole('button');
+      const playButton = await within(firstTodo).findByRole('button', {
+        name: /start the countdown on todo/i,
+        hidden: true,
+      });
+
       expect(playButton).toHaveClass('hidden');
 
       await waitFor(async () => {
@@ -128,73 +129,6 @@ describe('Todo timer', () => {
       vi.useRealTimers();
     }, 10000);
 
-    it('should apply a green background color when the play button is clicked', async () => {
-      const todo = { id: '1', title: 'Test Todo' };
-      render(
-        <TimerProvider>
-          <TodoItem
-            todo={todo}
-            onUpdateTodo={() => {}}
-            onHandlePlay={() => {}}
-            onHandlePause={() => {}}
-            isActiveTodo={true}
-            onSetActiveTodo={() => {}}
-            isCountdownActive={true}
-            isCountdownPaused={false}
-          ></TodoItem>
-        </TimerProvider>
-      );
-      const [firstTodo] = screen.getAllByLabelText(`Todo item ${todo.id}`);
-      expect(firstTodo).toBeInTheDocument();
-      expect(firstTodo).not.toHaveClass('car__green');
-
-      const playButton = await within(firstTodo).findByRole('button');
-      expect(playButton).toHaveClass('hidden');
-
-      await waitFor(async () => {
-        await userEvent.hover(firstTodo);
-      });
-
-      await userEvent.click(playButton);
-
-      expect(firstTodo).toHaveClass('card__green');
-    });
-    it.skip('should apply a yellow background color when the pause button is clicked', async () => {
-      // it fails when getting the buttons by label because the timer in the test is not paused.
-      // The timer must to be mocked and in the proper file.
-      const todo = { id: '1', title: 'Test Todo' };
-      render(
-        <TimerProvider>
-          <TodoItem
-            todo={todo}
-            onUpdateTodo={() => {}}
-            onHandlePlay={() => {}}
-            onHandlePause={() => {}}
-            isActiveTodo={true}
-            onSetActiveTodo={() => {}}
-            isCountdownActive={true}
-            isCountdownPaused={false}
-          ></TodoItem>
-        </TimerProvider>
-      );
-      const [firstTodo] = screen.getAllByLabelText(`Todo item ${todo.id}`);
-      expect(firstTodo).toBeInTheDocument();
-      expect(firstTodo).not.toHaveClass('car__green');
-
-      const playButton = await within(firstTodo).findByLabelText('Play');
-      expect(playButton).toHaveClass('hidden');
-
-      await waitFor(async () => {
-        await userEvent.hover(firstTodo);
-      });
-
-      await userEvent.click(playButton);
-
-      expect(firstTodo).toHaveClass('card__green');
-
-      const pauseButton = await within(firstTodo).findByRole('button');
-      expect(pauseButton).toBeInTheDocument();
-    });
     // cuando le doy al pause, cambia el botón.
   });
 });

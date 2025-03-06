@@ -23,7 +23,7 @@ const TodoList = ({
   const [activeTodo, setActiveTodo] = React.useState<string>('0');
 
   return (
-    <article className={styles.list__wrapper}>
+    <section className={styles.list__wrapper}>
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
@@ -39,7 +39,7 @@ const TodoList = ({
           isCountdownPaused={isCountdownPaused}
         />
       ))}
-    </article>
+    </section>
   );
 };
 
