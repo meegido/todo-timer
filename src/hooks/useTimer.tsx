@@ -28,13 +28,29 @@ const useTimer = (): Timer => {
     React.useState<boolean>(false);
 
   const intervalRef = React.useRef<number | null>(0);
+  const targetTimestampRef = React.useRef<number | null>(null);
 
-  const duration = timeLeft.minutes * 60 * 1000 + timeLeft.seconds * 1000; // Convert to milliseconds
-  const durationTimestamp = new Date().getTime() + duration; // Calculate the target timestamp - future
+  const handlePlayCountdown = () => {
+    const duration = timeLeft.minutes * 60 * 1000 + timeLeft.seconds * 1000; // duration in ms
+    targetTimestampRef.current = Date.now() + duration;
+
+    setIsCountdownActive(true);
+    setIsCountdownPaused(false);
+  };
 
   React.useEffect(() => {
     const updateCountdown = () => {
-      const remaining = durationTimestamp - new Date().getTime();
+      if (!targetTimestampRef.current) return;
+
+      const remaining = targetTimestampRef.current - Date.now();
+
+      if (remaining <= 0) {
+        setTimeLeft({ minutes: 0, seconds: 0 });
+        setIsCountdownActive(false);
+        window.clearInterval(intervalRef.current!);
+        return;
+      }
+
       setTimeLeft({
         minutes: Math.floor((remaining / 1000 / 60) % 60),
         seconds: Math.floor((remaining / 1000) % 60),
@@ -50,7 +66,7 @@ const useTimer = (): Timer => {
         window.clearInterval(intervalRef.current);
       }
     };
-  }, [durationTimestamp, isCountdownActive]);
+  }, [isCountdownActive]);
 
   const handleResetCountdown = () => {
     setIsCountdownActive(false);
@@ -60,10 +76,6 @@ const useTimer = (): Timer => {
         seconds: 0,
       };
     });
-  };
-
-  const handlePlayCountdown = () => {
-    setIsCountdownActive(true);
   };
 
   const handlePauseCountdown = () => {
