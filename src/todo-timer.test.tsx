@@ -1,15 +1,33 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 import TimerProvider from './providers/timer-provider';
+import { Todo, TodoClient } from './todo-client';
+
+class FakeTodoClient implements TodoClient {
+  retrieve = (): Todo[] => {
+    return [
+      { title: 'Read the article about Testing Library', id: 'i234234' },
+      { title: 'UI Benchmark', id: '3w4hkljsd' },
+      { title: 'Split the tasks into small slices', id: '3549349348' },
+      { title: 'Understand container queries', id: 'i2¡3453244234' },
+      { title: 'Understand mix-max widht', id: '30909w4hkljsd' },
+      { title: `Don't forget to do a proper slicing`, id: '35493493432238' },
+    ];
+  };
+}
 
 describe('Todo timer', () => {
+  let todoClient: TodoClient;
+  beforeEach(() => {
+    todoClient = new FakeTodoClient();
+  });
   describe('create, edit and mark todos as done', () => {
     it('should create a new todo on click enter', async () => {
       render(
         <TimerProvider>
-          <TodoTimer />
+          <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
 
@@ -21,19 +39,22 @@ describe('Todo timer', () => {
       const newTodo = screen.queryAllByLabelText('Todo title');
 
       expect(newTodo.length).toBeGreaterThan(0);
+      // supuestamente debería venir de un fetch. Encapsular que data devuelva algo en algún punto.
+      // Encapsular la fuente de datos y hacer una función que los devuelva y pueda mockear.
     });
     it('should edit inline the todo title', async () => {
       render(
         <TimerProvider>
-          <TodoTimer />
+          <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
 
       const todo =
         screen.queryAllByLabelText<HTMLParagraphElement>('Todo title');
       todo.forEach((text) => expect(text).toBeInTheDocument());
-
       const firstTodo = todo[0];
+      // const [todoEdited] = screen.getBy....
+
       expect(firstTodo).toBeInTheDocument();
       await userEvent.click(firstTodo);
 
@@ -43,7 +64,7 @@ describe('Todo timer', () => {
     it('should not edit the todo title if the user press escape key', async () => {
       render(
         <TimerProvider>
-          <TodoTimer />
+          <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
 
@@ -62,7 +83,7 @@ describe('Todo timer', () => {
     it('should check the todo as done when click on the checkbox', async () => {
       render(
         <TimerProvider>
-          <TodoTimer />
+          <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
 
@@ -100,7 +121,7 @@ describe('Todo timer', () => {
 
       render(
         <TimerProvider>
-          <TodoTimer />
+          <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
       const [firstTodo] = await screen.findAllByRole('article');
