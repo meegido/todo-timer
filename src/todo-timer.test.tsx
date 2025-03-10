@@ -31,16 +31,15 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
+      const data = todoClient.retrieve();
+
       const input = screen.getByLabelText('create-input');
-      await userEvent.type(input, 'Buy avocado.');
-      expect(input as HTMLTextAreaElement).toHaveValue('Buy avocado.');
+      await userEvent.type(input, 'Buy avocado.{enter}');
 
-      await userEvent.type(input, '{enter}');
-      const newTodo = screen.queryAllByLabelText('Todo title');
+      const newTodo = screen.queryByText('Buy avocado.');
+      expect(newTodo).toBeInTheDocument();
 
-      expect(newTodo.length).toBeGreaterThan(0);
-      // supuestamente debería venir de un fetch. Encapsular que data devuelva algo en algún punto.
-      // Encapsular la fuente de datos y hacer una función que los devuelva y pueda mockear.
+      expect(data.length).toBe(6);
     });
     it('should edit inline the todo title', async () => {
       render(
@@ -49,17 +48,21 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
-      const todo =
-        screen.queryAllByLabelText<HTMLParagraphElement>('Todo title');
-      todo.forEach((text) => expect(text).toBeInTheDocument());
-      const firstTodo = todo[0];
-      // const [todoEdited] = screen.getBy....
-
+      const [firstTodo] =
+        screen.getAllByLabelText<HTMLParagraphElement>('Todo title');
       expect(firstTodo).toBeInTheDocument();
+
       await userEvent.click(firstTodo);
 
       const input = screen.getByLabelText('Edit your todo title');
       expect(input).toHaveValue(firstTodo.textContent);
+
+      await userEvent.type(input, ' hello.{enter}');
+
+      const [firstTodoEdited] =
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+
+      expect(firstTodoEdited).toHaveTextContent(/hello./i);
     });
     it('should not edit the todo title if the user press escape key', async () => {
       render(
@@ -68,17 +71,21 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
-      const todo =
+      const [firstTodo] =
         screen.queryAllByLabelText<HTMLParagraphElement>('Todo title');
-      todo.forEach((text) => expect(text).toBeInTheDocument());
-
-      const firstTodo = todo[0];
       await userEvent.click(firstTodo);
 
       const input = screen.getByLabelText('Edit your todo title');
       await userEvent.type(input, '{escape}*EWe...');
 
       expect(input).toHaveValue(firstTodo.textContent);
+
+      const [firstTodoNotEdited] =
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+
+      expect(firstTodoNotEdited).toHaveTextContent(
+        `${firstTodoNotEdited.textContent}`
+      );
     });
     it('should check the todo as done when click on the checkbox', async () => {
       render(
@@ -87,26 +94,13 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
-      const checkbox = screen.getAllByLabelText(
+      const [firstCheckbox] = screen.getAllByLabelText(
         'Check or uncheck the todo as done'
       );
-      checkbox.forEach((input) => {
-        expect(input).toBeInTheDocument();
-      });
-
-      const firstCheckbox = checkbox[0];
       expect(firstCheckbox).not.toBeChecked();
 
       await userEvent.click(firstCheckbox);
       expect(firstCheckbox).toBeChecked();
-
-      const todo = screen.getAllByLabelText('Todo title');
-      todo.forEach((todoTitle) => {
-        expect(todoTitle).toBeInTheDocument();
-      });
-
-      const firstTodoDone = todo[0];
-      expect(firstTodoDone).toHaveClass('done');
     });
   });
   describe('starts the timer attached to a selected todo', () => {

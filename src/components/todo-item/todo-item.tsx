@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '../../todo-timer';
+import { Todo } from '../../todo-client';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';

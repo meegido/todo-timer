@@ -6,7 +6,7 @@ interface CountdownDisplayProps {
 }
 
 const CountdownDisplay = ({ timeLeft }: CountdownDisplayProps) => {
-  console.log(timeLeft, timeLeft);
+  // console.log(timeLeft, timeLeft);
   return (
     <section className={styles.timer__wrapper}>
       <div className={styles.time__wrapper}>
