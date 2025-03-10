@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeLeft } from '../hooks/useTimer';
+import { TimeLeft } from '../hooks/use-timer';
 
 interface TimerContextProps {
   timeLeft: TimeLeft;

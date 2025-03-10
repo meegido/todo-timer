@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import useTimer from '../hooks/useTimer';
+import useTimer from '../hooks/use-timer';
 import TimerContext from '../context/timer-context';
 
 export interface TimeLeft {

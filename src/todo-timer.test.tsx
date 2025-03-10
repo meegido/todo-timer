@@ -94,7 +94,9 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
-      const [firstCheckbox] = screen.getAllByLabelText(
+      const [firstTodo] = await screen.findAllByRole('article');
+
+      const firstCheckbox = within(firstTodo).getByLabelText(
         'Check or uncheck the todo as done'
       );
       expect(firstCheckbox).not.toBeChecked();
