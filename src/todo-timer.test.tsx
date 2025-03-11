@@ -107,9 +107,7 @@ describe('Todo timer', () => {
     });
   });
   describe('starts the timer attached to a selected todo', () => {
-    it.skip('should start the countdown when click the first todo play button', async () => {
-      const onPlayCountdown = vi.fn();
-
+    it('should change the card background color', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
@@ -130,9 +128,7 @@ describe('Todo timer', () => {
       });
 
       await userEvent.click(playButton);
-      expect(onPlayCountdown).toHaveBeenCalledTimes(1);
+      expect(firstTodo).toHaveClass('green');
     });
-
-    // cuando le doy al pause, cambia el botón.
   });
 });

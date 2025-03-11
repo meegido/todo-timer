@@ -44,14 +44,11 @@ const TodoItem = ({
   };
 
   const activeCardClass =
-    isActiveTodo && isCountdownActive ? styles.card__green : styles.card;
-
-  const pausedCardClass =
-    isActiveTodo && !isCountdownActive ? styles.card__yellow : styles.card;
+    isActiveTodo && isCountdownActive ? styles.green : styles.not__started;
 
   return (
     <article
-      className={activeCardClass || pausedCardClass}
+      className={`${styles.card} + ${activeCardClass}`}
       aria-label={`Todo item ${todo.id}`}
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}

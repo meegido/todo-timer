@@ -9,12 +9,6 @@
 }
 
 .card {
-  /* display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1 1 calc(33.333% - 16px);
-  max-width: 550px;
-   */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
@@ -22,9 +16,17 @@
   padding: 1rem;
   border-radius: 8px;
   height: 80px;
-  background: aliceblue;
+
   min-width: 324px;
   max-width: 680px;
+
+  &.not__started {
+    background: aliceblue;
+  }
+
+  &.green {
+    background-color: aquamarine;
+  }
 }
 
 .card button {
