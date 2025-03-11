@@ -1,4 +1,4 @@
-import { Todo } from '../../../todo-timer';
+import { Todo } from '../../../todo-client';
 import styles from './checkbox-done.module.css';
 
 interface CheckboxDoneProps {

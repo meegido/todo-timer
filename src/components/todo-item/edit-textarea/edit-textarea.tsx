@@ -31,7 +31,6 @@ const EditTextarea: React.FC<EditTextareaProps> = ({
         aria-label="Edit your todo title"
         placeholder={todo.title}
         maxLength={200}
-        rows={1}
         value={editTodoValue || todo.title}
         onChange={(event) => {
           setEditTodoValue(event.target.value);

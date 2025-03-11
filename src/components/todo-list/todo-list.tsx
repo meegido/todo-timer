@@ -1,7 +1,7 @@
 import styles from './todo-list.module.css';
-import { Todo } from '../../todo-timer';
 import TodoItem from '../todo-item/todo-item';
 import React from 'react';
+import { Todo } from '../../todo-client';
 
 interface TodoListProps {
   todos: Todo[];
