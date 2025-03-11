@@ -9,103 +9,45 @@
 }
 
 .card {
-  display: flex;
+  /* display: flex;
   align-items: center;
   gap: 8px;
   flex: 1 1 calc(33.333% - 16px);
   max-width: 550px;
-  height: 80px;
-  padding: 2rem 1rem;
+   */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: center;
+  padding: 1rem;
   border-radius: 8px;
+  height: 80px;
   background: aliceblue;
-
-  @media (min-width: 1440px) {
-    max-width: 550px;
-  }
-
-  @media (min-width: 1520px) {
-    max-width: 414px;
-  }
-
-  @media (min-width: 1920px) {
-    max-width: 466px;
-  }
-
-  @media (min-width: 2560px) {
-    max-width: 636px;
-  }
+  min-width: 324px;
+  max-width: 680px;
 }
 
-.card__green {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1 1 calc(33.333% - 16px);
-  max-width: 550px;
-  height: 80px;
-  padding: 2rem 1rem;
-  border-radius: 8px;
-  background: aquamarine;
-
-  @media (min-width: 1440px) {
-    max-width: 550px;
-  }
-
-  @media (min-width: 1520px) {
-    max-width: 414px;
-  }
-
-  @media (min-width: 1920px) {
-    max-width: 466px;
-  }
-
-  @media (min-width: 2560px) {
-    max-width: 636px;
-  }
-}
-
-.card__yellow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  width: 100%;
-  height: 80px;
-  padding: 2rem 1rem;
-  border-radius: 8px;
-  background: rgba(239, 239, 83, 0.892);
-
-  @media (min-width: 1440px) {
-    max-width: 550px;
-  }
-
-  @media (min-width: 1520px) {
-    max-width: 414px;
-  }
-
-  @media (min-width: 1920px) {
-    max-width: 466px;
-  }
-
-  @media (min-width: 2560px) {
-    max-width: 636px;
-  }
-}
-
-.content__wrapper {
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  gap: 8px;
-}
-
-.controls__wrapper {
-  display: flex;
-  flex-direction: flex-end;
+.card button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  justify-self: end;
 }
 
 .hidden {
   display: none;
+}
+
+.content__wrapper {
+  display: flex;
+  min-width: 250px;
+  max-width: 600px;
+  justify-content: flex-start;
+  gap: 8px;
+
+  @media (min-width: 750px) {
+    width: 100%;
+  }
 }
 
 .todo__title,
