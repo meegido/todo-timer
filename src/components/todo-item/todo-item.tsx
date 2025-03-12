@@ -3,7 +3,6 @@ import { Todo } from '../../todo-client';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
-import PlayButton from '../../shared/play-button/play-button';
 import { Play, Pause } from 'lucide-react';
 import ControlButton from '../../shared/control-button/control-button';
 
