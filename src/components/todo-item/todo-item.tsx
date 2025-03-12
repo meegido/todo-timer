@@ -4,7 +4,8 @@ import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
 import PlayButton from '../../shared/play-button/play-button';
-import PauseButton from '../../shared/pause-button/pause-button';
+import { Play, Pause } from 'lucide-react';
+import ControlButton from '../../shared/control-button/control-button';
 
 interface TodoItemProps {
   todo: Todo;
@@ -84,16 +85,18 @@ const TodoItem = ({
         )}
       </section>
       {isActiveTodo && isCountdownActive ? (
-        <PauseButton
+        <ControlButton
+          label="Pause the countdown on todo"
+          icon={Pause}
           isTodoHover={isTodoHover}
-          label={`Pause the countdown on todo`}
-          onPauseCountdown={onHandlePause}
+          onHandleCountdown={onHandlePause}
         />
       ) : (
-        <PlayButton
+        <ControlButton
+          label="Start the countdown on todo"
+          icon={Play}
           isTodoHover={isTodoHover}
-          label={`Start the countdown on todo`}
-          onPlayCountdown={() => {
+          onHandleCountdown={() => {
             onSetActiveTodo();
             onHandlePlay();
           }}
