@@ -5,7 +5,7 @@ import styles from './todo-timer.module.css';
 import Header from './shared/header/header';
 import Timer from './components/timer/timer';
 import TimerContext from './context/timer-context';
-import { Todo, TodoClient } from './todo-client';
+import { Todo, TodoClient, TodoVariant } from './todo-client';
 
 interface TodoTimerProps {
   todoClient: TodoClient;
@@ -30,7 +30,11 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
   const handleCreateTodo = () => {
     setTodos((prevTodos: Todo[]) => [
       ...prevTodos,
-      { id: Date.now().toString(), title: inputCreateValue },
+      {
+        id: Date.now().toString(),
+        title: inputCreateValue,
+        variant: TodoVariant.INACTIVE,
+      },
     ]);
     setInputCreateValue('');
   };
