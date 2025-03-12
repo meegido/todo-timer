@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '../../todo-client';
+import { Todo, TodoVariant } from '../../todo-client';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
@@ -29,6 +29,9 @@ const TodoItem = ({
   const [editTodoValue, setEditTodoValue] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
+  const [todoVariant, setTodoVariant] = React.useState<TodoVariant>(
+    TodoVariant.INACTIVE
+  );
 
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
 
@@ -43,12 +46,9 @@ const TodoItem = ({
     setIsEditMode(false);
   };
 
-  const activeCardClass =
-    isActiveTodo && isCountdownActive ? styles.green : styles.not__started;
-
   return (
     <article
-      className={`${styles.card} + ${activeCardClass}`}
+      className={`${styles.card} ${styles[todoVariant]}`}
       aria-label={`Todo item ${todo.id}`}
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}
@@ -57,7 +57,12 @@ const TodoItem = ({
         <CheckboxDone
           todo={todo}
           isTodoDone={isTodoDone}
-          setIsTodoDone={setIsTodoDone}
+          setIsTodoDone={() => {
+            setIsTodoDone(!isTodoDone);
+            setTodoVariant(
+              isTodoDone ? TodoVariant.INACTIVE : TodoVariant.DONE
+            );
+          }}
         />
 
         {isEditMode ? (
@@ -71,7 +76,7 @@ const TodoItem = ({
           />
         ) : (
           <p
-            className={isTodoDone ? styles.done : styles.todo__title}
+            className={isTodoDone ? styles.marked : styles.todo__title}
             key={todo.id}
             aria-label="Todo title"
             onClick={() => setIsEditMode(true)}
@@ -85,7 +90,10 @@ const TodoItem = ({
           label="Pause the countdown on todo"
           icon={Pause}
           isTodoHover={isTodoHover}
-          onHandleCountdown={onHandlePause}
+          onHandleCountdown={() => {
+            onHandlePause();
+            setTodoVariant(TodoVariant.PAUSED);
+          }}
         />
       ) : (
         <ControlButton
@@ -95,6 +103,7 @@ const TodoItem = ({
           onHandleCountdown={() => {
             onSetActiveTodo();
             onHandlePlay();
+            setTodoVariant(TodoVariant.ON_GOING);
           }}
         />
       )}
