@@ -58,6 +58,9 @@ const TodoItem = ({
           todo={todo}
           isTodoDone={isTodoDone}
           setIsTodoDone={() => {
+            if (isCountdownActive) {
+              return;
+            }
             setIsTodoDone(!isTodoDone);
             setTodoVariant(
               isTodoDone ? TodoVariant.INACTIVE : TodoVariant.DONE
@@ -89,7 +92,7 @@ const TodoItem = ({
         <ControlButton
           label="Pause the countdown on todo"
           icon={Pause}
-          isTodoHover={isTodoHover}
+          isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
           onHandleCountdown={() => {
             onHandlePause();
             setTodoVariant(TodoVariant.PAUSED);
@@ -99,8 +102,11 @@ const TodoItem = ({
         <ControlButton
           label="Start the countdown on todo"
           icon={Play}
-          isTodoHover={isTodoHover}
+          isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
           onHandleCountdown={() => {
+            if (isTodoDone) {
+              return;
+            }
             onSetActiveTodo();
             onHandlePlay();
             setTodoVariant(TodoVariant.ON_GOING);
