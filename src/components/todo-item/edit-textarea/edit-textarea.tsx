@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './edit-textarea.module.css';
-import { Todo } from '../../../todo-client';
+import { Todo } from '../../../client/in-memory-todo-client';
 
 interface EditTextareaProps {
   todo: Todo;

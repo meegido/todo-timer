@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client';
 import './main.css';
 import TodoTimer from './todo-timer.tsx';
 import TimerProvider from './providers/timer-provider.tsx';
-import { InMemoryTodoClient } from './todo-client.ts';
+import { SupabaseTodoClient } from './client/supabase-todo-client.ts';
 
-const todoClient = new InMemoryTodoClient();
+const todoClient = new SupabaseTodoClient();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

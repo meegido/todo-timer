@@ -10,13 +10,15 @@ export enum TodoVariant {
   PAUSED = 'paused',
   DONE = 'done',
 }
+
 export interface TodoClient {
-  retrieve: () => Todo[];
+  baseUrl?: string;
+  retrieveAll: () => Promise<Todo[]>;
 }
 
 export class InMemoryTodoClient implements TodoClient {
-  retrieve = (): Todo[] => {
-    return [
+  retrieveAll = (): Promise<Todo[]> => {
+    return Promise.resolve([
       {
         title: 'Read the article about Testing Library',
         id: 'i234234',
@@ -43,6 +45,6 @@ export class InMemoryTodoClient implements TodoClient {
         id: '35493493432238',
         variant: TodoVariant.INACTIVE,
       },
-    ];
+    ]);
   };
 }

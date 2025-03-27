@@ -3,11 +3,11 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 import TimerProvider from './providers/timer-provider';
-import { Todo, TodoClient, TodoVariant } from './todo-client';
+import { Todo, TodoClient, TodoVariant } from './client/in-memory-todo-client';
 
 class FakeTodoClient implements TodoClient {
-  retrieve = (): Todo[] => {
-    return [
+  retrieveAll = (): Promise<Todo[]> => {
+    return Promise.resolve([
       {
         title: 'Read the article about Testing Library',
         id: 'i234234',
@@ -34,7 +34,7 @@ class FakeTodoClient implements TodoClient {
         id: '35493493432238',
         variant: TodoVariant.INACTIVE,
       },
-    ];
+    ]);
   };
 }
 
@@ -52,12 +52,12 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
-      const data = todoClient.retrieve();
+      const data = await todoClient.retrieveAll();
 
-      const input = screen.getByLabelText('create-input');
+      const input = await screen.findByLabelText('create-input');
       await userEvent.type(input, 'Buy avocado.{enter}');
 
-      const newTodo = screen.queryByText('Buy avocado.');
+      const newTodo = await screen.findByText('Buy avocado.');
       expect(newTodo).toBeInTheDocument();
 
       expect(data.length).toBe(6);
@@ -70,12 +70,12 @@ describe('Todo timer', () => {
       );
 
       const [firstTodo] =
-        screen.getAllByLabelText<HTMLParagraphElement>('Todo title');
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
       expect(firstTodo).toBeInTheDocument();
 
       await userEvent.click(firstTodo);
 
-      const input = screen.getByLabelText('Edit your todo title');
+      const input = await screen.findByLabelText('Edit your todo title');
       expect(input).toHaveValue(firstTodo.textContent);
 
       await userEvent.type(input, ' hello.{enter}');
@@ -93,7 +93,7 @@ describe('Todo timer', () => {
       );
 
       const [firstTodo] =
-        screen.queryAllByLabelText<HTMLParagraphElement>('Todo title');
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
       await userEvent.click(firstTodo);
 
       const input = screen.getByLabelText('Edit your todo title');

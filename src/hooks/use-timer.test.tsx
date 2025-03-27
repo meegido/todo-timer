@@ -2,12 +2,12 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import TimerProvider from '../providers/timer-provider';
 import TodoTimer from '../todo-timer';
-import { Todo, TodoClient, TodoVariant } from '../todo-client';
+import { Todo, TodoClient, TodoVariant } from '../client/in-memory-todo-client';
 import userEvent from '@testing-library/user-event';
 
 class FakeTodoClient implements TodoClient {
-  retrieve = (): Todo[] => {
-    return [
+  retrieveAll = (): Promise<Todo[]> => {
+    return Promise.resolve([
       {
         title: 'Read the article about Testing Library',
         id: 'i234234',
@@ -34,7 +34,7 @@ class FakeTodoClient implements TodoClient {
         id: '35493493432238',
         variant: TodoVariant.INACTIVE,
       },
-    ];
+    ]);
   };
 }
 

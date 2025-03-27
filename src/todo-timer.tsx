@@ -5,15 +5,32 @@ import styles from './todo-timer.module.css';
 import Header from './shared/header/header';
 import Timer from './components/timer/timer';
 import TimerContext from './context/timer-context';
-import { Todo, TodoClient, TodoVariant } from './todo-client';
+import { Todo, TodoClient, TodoVariant } from './client/in-memory-todo-client';
 
 interface TodoTimerProps {
   todoClient: TodoClient;
 }
 
 function TodoTimer({ todoClient }: TodoTimerProps) {
-  const [todos, setTodos] = React.useState<Todo[]>(todoClient.retrieve());
+  const [todos, setTodos] = React.useState<Todo[]>([]);
   const [inputCreateValue, setInputCreateValue] = React.useState<string>('');
+
+  React.useEffect(() => {
+    async function retrieveTodos() {
+      const retrievedTodos = await todoClient.retrieveAll();
+      setTodos(retrievedTodos);
+    }
+    // const retrieveTodos = async () => {
+    //   try {
+    //     const retrievedTodos = await todoClient.retrieveAll();
+    //     setTodos(retrievedTodos);
+    //   } catch (error) {
+    //     console.log(`Error retrieving todos:`, error);
+    //   }
+    // };
+
+    retrieveTodos();
+  }, [todoClient]);
 
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
