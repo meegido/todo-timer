@@ -6,6 +6,10 @@
   gap: 0.5rem;
 }
 
+.time__wrapper {
+  display: block;
+}
+
 .time__wrapper span {
   align-items: flex-end;
 }
