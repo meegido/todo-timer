@@ -6,31 +6,14 @@ import Header from './shared/header/header';
 import Timer from './components/timer/timer';
 import TimerContext from './context/timer-context';
 import { Todo, TodoClient, TodoVariant } from './client/in-memory-todo-client';
+import TodoListGlimmer from './components/todo-list-glimmer/todo-list-glimmer';
 
 interface TodoTimerProps {
   todoClient: TodoClient;
 }
 
 function TodoTimer({ todoClient }: TodoTimerProps) {
-  const [todos, setTodos] = React.useState<Todo[]>([]);
   const [inputCreateValue, setInputCreateValue] = React.useState<string>('');
-
-  React.useEffect(() => {
-    async function retrieveTodos() {
-      const retrievedTodos = await todoClient.retrieveAll();
-      setTodos(retrievedTodos);
-    }
-    // const retrieveTodos = async () => {
-    //   try {
-    //     const retrievedTodos = await todoClient.retrieveAll();
-    //     setTodos(retrievedTodos);
-    //   } catch (error) {
-    //     console.log(`Error retrieving todos:`, error);
-    //   }
-    // };
-
-    retrieveTodos();
-  }, [todoClient]);
 
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
@@ -44,21 +27,17 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
     isCountdownActive,
   } = timerContext;
 
-  const handleCreateTodo = () => {
-    setTodos((prevTodos: Todo[]) => [
-      ...prevTodos,
-      {
-        id: Date.now().toString(),
-        title: inputCreateValue,
-        variant: TodoVariant.INACTIVE,
-      },
-    ]);
-    setInputCreateValue('');
-  };
-
-  const handleUpdateTodo = (id: string, updatedTodo: Todo) => {
-    setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
-  };
+  // const handleCreateTodo = () => {
+  //   setTodos((prevTodos: Todo[]) => [
+  //     ...prevTodos,
+  //     {
+  //       id: Date.now().toString(),
+  //       title: inputCreateValue,
+  //       variant: TodoVariant.INACTIVE,
+  //     },
+  //   ]);
+  //   setInputCreateValue('');
+  // };
 
   return (
     <main>
@@ -67,7 +46,7 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
         <CreateTodoItem
           inputCreateValue={inputCreateValue}
           setInputCreateValue={setInputCreateValue}
-          handleCreateTodo={handleCreateTodo}
+          // handleCreateTodo={handleCreateTodo}
         />
         <Timer
           timeLeft={timeLeft}
@@ -77,8 +56,7 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
         />
       </section>
       <TodoList
-        todos={todos}
-        onUpdateTodo={handleUpdateTodo}
+        todoClient={todoClient}
         onHandlePlay={handlePlayCountdown}
         onHandlePause={handlePauseCountdown}
         isCountdownActive={isCountdownActive}

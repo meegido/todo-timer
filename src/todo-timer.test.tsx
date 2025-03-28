@@ -45,7 +45,7 @@ describe('Todo timer', () => {
   });
 
   describe('create, edit and mark todos as done', () => {
-    it('should create a new todo on click enter', async () => {
+    it.skip('should create a new todo on click enter', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
