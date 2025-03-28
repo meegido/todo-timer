@@ -45,6 +45,16 @@ describe('Todo timer', () => {
   });
 
   describe('create, edit and mark todos as done', () => {
+    it('should be more than three todos in the first render', async () => {
+      render(
+        <TimerProvider>
+          <TodoTimer todoClient={todoClient} />
+        </TimerProvider>
+      );
+      const todos =
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+      expect(todos.length).toBe(6);
+    });
     it.skip('should create a new todo on click enter', async () => {
       render(
         <TimerProvider>

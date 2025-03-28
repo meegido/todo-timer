@@ -13,8 +13,7 @@
     "format": "prettier --check \"**/*.{js,ts,jsx,tsx}\"",
     "format:fix": "prettier  --write \"**/*.{js,ts,jsx,tsx}\"",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:api": "vitest --root src/"
+    "test": "vitest"
   },
   "dependencies": {
     "lucide-react": "^0.479.0",

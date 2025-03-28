@@ -1,6 +1,6 @@
 import { Todo, TodoVariant } from './in-memory-todo-client';
 
-export const mockResponseTodos: Todo[] = [
+export const todosMockResponse: Todo[] = [
   {
     title: 'Read the article about Testing Library',
     id: 'i234234',
