@@ -20,7 +20,7 @@ export default tseslint.config(
       eslintConfigPrettier,
       eslintPluginPrettierRecommended,
     ],
-    files: ['**/*.{ts,tsx, tests/**}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: {
