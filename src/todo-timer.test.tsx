@@ -30,7 +30,7 @@ describe('Todo timer', () => {
       expect(todo).toBeInTheDocument();
     });
 
-    it('handles error when fetching todos', () => {
+    it('handles error when fetching todos', async () => {
       server.use(
         http.get('https://web-production-e33d.up.railway.app/api/todos', () => {
           return new HttpResponse(null, { status: 500 });
@@ -43,7 +43,7 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
-      const errorMessage = screen.getByText('Error fetching your Todos');
+      const errorMessage = await screen.findByText('Error fetching your Todos');
       expect(errorMessage).toHaveTextContent(/error/i);
     });
     it.skip('should create a new todo on click enter', async () => {

@@ -28,10 +28,10 @@ const TodoList = ({
   const [status, setStatus] = React.useState<TodoStatus>(TodoStatus.Idle);
 
   React.useEffect(() => {
+    setStatus(TodoStatus.Loading);
     void (async () => {
       try {
         const retrievedTodos = await todoClient.retrieveAll();
-        console.log(retrievedTodos, 'API');
         setTodos(retrievedTodos);
         setStatus(TodoStatus.Success);
       } catch (error) {
@@ -45,9 +45,17 @@ const TodoList = ({
     setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
   };
 
+  if (status === TodoStatus.Loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (status === TodoStatus.Error) {
+    return <p>Error fetching your Todos</p>;
+  }
+
   return (
     <>
-      {status === TodoStatus.Success ? (
+      {status === TodoStatus.Success && (
         <section className={styles.list__wrapper}>
           {todos.map((todo) => (
             <TodoItem
@@ -64,8 +72,6 @@ const TodoList = ({
             />
           ))}{' '}
         </section>
-      ) : (
-        <p>Error fetching your Todos</p>
       )}
     </>
   );
