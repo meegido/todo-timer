@@ -28,3 +28,7 @@ export const todosMockResponse: Todo[] = [
     variant: TodoVariant.INACTIVE,
   },
 ];
+
+export const todosNotFoundResponse: Error = new Error(
+  'Error retrieving your Todos'
+);

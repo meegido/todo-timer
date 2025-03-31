@@ -1,9 +1,12 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 import TimerProvider from './providers/timer-provider';
 import { Todo, TodoClient, TodoVariant } from './client/in-memory-todo-client';
+import { server } from './mock/server';
+import { SupabaseTodoClient } from './client/supabase-todo-client';
 
 class FakeTodoClient implements TodoClient {
   retrieveAll = (): Promise<Todo[]> => {
@@ -44,6 +47,10 @@ describe('Todo timer', () => {
     todoClient = new FakeTodoClient();
   });
 
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
   describe('create, edit and mark todos as done', () => {
     it('should be more than three todos in the first render', async () => {
       render(
@@ -54,6 +61,23 @@ describe('Todo timer', () => {
       const todos =
         await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
       expect(todos.length).toBe(6);
+    });
+
+    it('handles error when fetching todos', () => {
+      server.use(
+        http.get('https://web-production-e33d.up.railway.app/api/todos', () => {
+          return new HttpResponse(null, { status: 500 });
+        })
+      );
+
+      render(
+        <TimerProvider>
+          <TodoTimer todoClient={new SupabaseTodoClient()} />
+        </TimerProvider>
+      );
+
+      const errorMessage = screen.getByText('Error fetching your Todos');
+      expect(errorMessage).toHaveTextContent(/error/i);
     });
     it.skip('should create a new todo on click enter', async () => {
       render(

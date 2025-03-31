@@ -10,6 +10,13 @@ interface TodoListProps {
   isCountdownActive: boolean;
 }
 
+enum TodoStatus {
+  Idle = 'idle',
+  Error = 'error',
+  Success = 'success',
+  Loading = 'loading',
+}
+
 const TodoList = ({
   todoClient,
   onHandlePlay,
@@ -18,20 +25,19 @@ const TodoList = ({
 }: TodoListProps) => {
   const [todos, setTodos] = React.useState<Todo[]>([]);
   const [activeTodo, setActiveTodo] = React.useState<string>('0');
+  const [status, setStatus] = React.useState<TodoStatus>(TodoStatus.Idle);
 
   React.useEffect(() => {
-    const retrieveTodos = async () => {
+    void (async () => {
       try {
         const retrievedTodos = await todoClient.retrieveAll();
         setTodos(retrievedTodos);
+        setStatus(TodoStatus.Success);
       } catch (error) {
-        console.log(`Error retrieving todos:`, error);
+        console.log(error);
+        setStatus(TodoStatus.Error);
       }
-    };
-
-    retrieveTodos().catch((error) =>
-      console.error(`Error 2 retrieving todos:`, error)
-    );
+    })();
   }, [todoClient]);
 
   const handleUpdateTodo = (id: string, updatedTodo: Todo) => {
@@ -40,20 +46,24 @@ const TodoList = ({
 
   return (
     <section className={styles.list__wrapper}>
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onUpdateTodo={handleUpdateTodo}
-          onHandlePlay={onHandlePlay}
-          onHandlePause={onHandlePause}
-          isActiveTodo={activeTodo === todo.id}
-          onSetActiveTodo={() => {
-            setActiveTodo(todo.id);
-          }}
-          isCountdownActive={isCountdownActive}
-        />
-      ))}
+      {status === TodoStatus.Success ? (
+        todos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onUpdateTodo={handleUpdateTodo}
+            onHandlePlay={onHandlePlay}
+            onHandlePause={onHandlePause}
+            isActiveTodo={activeTodo === todo.id}
+            onSetActiveTodo={() => {
+              setActiveTodo(todo.id);
+            }}
+            isCountdownActive={isCountdownActive}
+          />
+        ))
+      ) : (
+        <p>Error fetching your Todos</p>
+      )}
     </section>
   );
 };
