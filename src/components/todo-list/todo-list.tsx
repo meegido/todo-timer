@@ -31,6 +31,7 @@ const TodoList = ({
     void (async () => {
       try {
         const retrievedTodos = await todoClient.retrieveAll();
+        console.log(retrievedTodos, 'API');
         setTodos(retrievedTodos);
         setStatus(TodoStatus.Success);
       } catch (error) {
@@ -45,26 +46,28 @@ const TodoList = ({
   };
 
   return (
-    <section className={styles.list__wrapper}>
+    <>
       {status === TodoStatus.Success ? (
-        todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onUpdateTodo={handleUpdateTodo}
-            onHandlePlay={onHandlePlay}
-            onHandlePause={onHandlePause}
-            isActiveTodo={activeTodo === todo.id}
-            onSetActiveTodo={() => {
-              setActiveTodo(todo.id);
-            }}
-            isCountdownActive={isCountdownActive}
-          />
-        ))
+        <section className={styles.list__wrapper}>
+          {todos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onUpdateTodo={handleUpdateTodo}
+              onHandlePlay={onHandlePlay}
+              onHandlePause={onHandlePause}
+              isActiveTodo={activeTodo === todo.id}
+              onSetActiveTodo={() => {
+                setActiveTodo(todo.id);
+              }}
+              isCountdownActive={isCountdownActive}
+            />
+          ))}{' '}
+        </section>
       ) : (
         <p>Error fetching your Todos</p>
       )}
-    </section>
+    </>
   );
 };
 
