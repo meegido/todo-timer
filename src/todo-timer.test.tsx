@@ -85,7 +85,7 @@ describe('Todo timer', () => {
         await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
       expect(todos.length).toBe(7);
     });
-    it.only('should edit inline the todo title', async () => {
+    it('should edit inline the todo title', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
