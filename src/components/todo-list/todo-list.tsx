@@ -2,7 +2,7 @@ import styles from './todo-list.module.css';
 import TodoItem from '../todo-item/todo-item';
 import React from 'react';
 import { SupabaseTodoClient } from '../../client/supabase-todo-client';
-import { Todo } from '../../todo.types';
+import { Todo, TodoVariant } from '../../todo.types';
 
 interface TodoListProps {
   todoClient: SupabaseTodoClient;
@@ -45,8 +45,26 @@ const TodoList = ({
     })();
   }, [todoClient, setTodos]);
 
-  const handleUpdateTodo = (id: string, updatedTodo: Todo) => {
-    setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+  const handleUpdateTodo = async (
+    id: string,
+    updates: {
+      title: string;
+      completed: boolean;
+      variant: TodoVariant;
+    }
+  ) => {
+    try {
+      console.log(updates, 'the updates sending to the fetch');
+      const editedTodo = await todoClient.editTodo(id, { ...updates });
+      setTodos((prevTodos) => {
+        console.log(updates, 'updates');
+        return prevTodos.map((todo) => (todo.id === id ? editedTodo : todo));
+      });
+    } catch (error: unknown) {
+      const errorMsg =
+        error instanceof Error ? error.message : 'Unexpected error occurred';
+      console.error(errorMsg);
+    }
   };
 
   if (status === TodoStatus.Loading) {
@@ -65,7 +83,16 @@ const TodoList = ({
             <TodoItem
               key={todo.id}
               todo={todo}
-              onUpdateTodo={handleUpdateTodo}
+              onUpdateTodo={(updatedTodo: Partial<Todo>) => {
+                const updates = {
+                  title: updatedTodo.title!,
+                  completed: updatedTodo.completed!,
+                  variant: updatedTodo.variant!,
+                };
+                console.log(updatedTodo, 'en lio');
+
+                void handleUpdateTodo(todo.id, updates);
+              }}
               onHandlePlay={onHandlePlay}
               onHandlePause={onHandlePause}
               isActiveTodo={activeTodo === todo.id}

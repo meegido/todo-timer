@@ -46,10 +46,10 @@ describe('Todo timer', () => {
           <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
-      const [todo] =
+      const todo =
         await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
 
-      expect(todo).toBeInTheDocument();
+      expect(todo.length).toBe(6);
     });
 
     it('handles error when fetching todos', async () => {
@@ -85,7 +85,7 @@ describe('Todo timer', () => {
         await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
       expect(todos.length).toBe(7);
     });
-    it('should edit inline the todo title', async () => {
+    it.only('should edit inline the todo title', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />

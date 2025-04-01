@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { newMockTodo, todosMockResponse } from '../client/mock-todos';
+import { Todo } from '../todo.types';
 
 export const retrieveAllTodos = () => {
   return http.get(
@@ -27,4 +28,30 @@ export const createTodo = () => {
   );
 };
 
-export const todoHandlers = [retrieveAllTodos(), createTodo()];
+export const editTodo = () => {
+  return http.put(
+    `https://web-production-e33d.up.railway.app/api/todos/:id`,
+    async ({ request, params }) => {
+      const updates = (await request.json()) as Partial<Todo>;
+
+      const existingTodo = todosMockResponse.findIndex(
+        (todo) => todo.id === (params.id as string)
+      );
+
+      if (existingTodo === -1) {
+        return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
+      }
+
+      const updatedTodo: Todo = {
+        ...todosMockResponse[existingTodo],
+        ...updates,
+        id: params.id as string,
+      };
+
+      todosMockResponse[existingTodo] = updatedTodo;
+      return HttpResponse.json(updatedTodo, { status: 200 });
+    }
+  );
+};
+
+export const todoHandlers = [retrieveAllTodos(), createTodo(), editTodo()];

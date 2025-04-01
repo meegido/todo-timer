@@ -4,8 +4,8 @@ import { Todo } from '../../../todo.types';
 
 interface EditTextareaProps {
   todo: Todo;
-  editTodoValue: string;
-  setEditTodoValue: React.Dispatch<string>;
+  editTodoTitle: string;
+  setEditTodoTitle: React.Dispatch<string>;
   setIsEditMode: React.Dispatch<boolean>;
   onSave: () => void;
   inputRef: React.RefObject<HTMLTextAreaElement | null>;
@@ -13,8 +13,8 @@ interface EditTextareaProps {
 
 const EditTextarea: React.FC<EditTextareaProps> = ({
   todo,
-  editTodoValue,
-  setEditTodoValue,
+  editTodoTitle,
+  setEditTodoTitle,
   setIsEditMode,
   onSave,
   inputRef,
@@ -31,9 +31,9 @@ const EditTextarea: React.FC<EditTextareaProps> = ({
         aria-label="Edit your todo title"
         placeholder={todo.title}
         maxLength={200}
-        value={editTodoValue || todo.title}
+        value={editTodoTitle || todo.title}
         onChange={(event) => {
-          setEditTodoValue(event.target.value);
+          setEditTodoTitle(event.target.value);
         }}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
@@ -44,13 +44,13 @@ const EditTextarea: React.FC<EditTextareaProps> = ({
           if (event.key === 'Escape') {
             event.preventDefault();
             setIsEditMode(false);
-            setEditTodoValue(todo.title);
+            setEditTodoTitle(todo.title);
           }
         }}
         onBlur={(event) => {
           event.preventDefault();
           setIsEditMode(false);
-          setEditTodoValue(todo.title);
+          setEditTodoTitle(todo.title);
         }}
       />
     </div>

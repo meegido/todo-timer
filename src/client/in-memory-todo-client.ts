@@ -13,4 +13,16 @@ export class InMemoryTodoClient implements TodoClient {
       completed: false,
     });
   };
+  editTodo = (id: string, updatedTodo: Partial<Todo>): Promise<Todo> => {
+    if (!id) {
+      throw new Error('Todo id is required for editing.');
+    }
+
+    return Promise.resolve({
+      id: id,
+      title: updatedTodo.title ?? 'Default Title',
+      variant: updatedTodo.variant ?? TodoVariant.INACTIVE,
+      completed: updatedTodo.completed ?? false,
+    });
+  };
 }

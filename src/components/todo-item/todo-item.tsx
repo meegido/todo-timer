@@ -8,7 +8,7 @@ import { Todo, TodoVariant } from '../../todo.types';
 
 interface TodoItemProps {
   todo: Todo;
-  onUpdateTodo: (id: string, handleUpdateTodo: Todo) => void;
+  onUpdateTodo: (updatedTodo: Partial<Todo>) => void;
   onHandlePlay: () => void;
   onHandlePause: () => void;
   onSetActiveTodo: () => void;
@@ -26,7 +26,7 @@ const TodoItem = ({
   isCountdownActive,
 }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
-  const [editTodoValue, setEditTodoValue] = React.useState<string>('');
+  const [editTodoTitle, setEditTodoTitle] = React.useState<string>('');
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
   const [todoVariant, setTodoVariant] = React.useState<TodoVariant>(
@@ -42,7 +42,13 @@ const TodoItem = ({
   }, [isEditMode]);
 
   const handleSave = () => {
-    onUpdateTodo(todo.id, { ...todo, title: editTodoValue });
+    console.log(editTodoTitle, isTodoDone, todoVariant, 'en item');
+
+    onUpdateTodo({
+      title: editTodoTitle,
+      completed: isTodoDone,
+      variant: todoVariant,
+    });
     setIsEditMode(false);
   };
 
@@ -63,7 +69,7 @@ const TodoItem = ({
             }
             setIsTodoDone(!isTodoDone);
             setTodoVariant(
-              isTodoDone ? TodoVariant.INACTIVE : TodoVariant.DONE
+              isTodoDone ? TodoVariant.DONE : TodoVariant.INACTIVE
             );
           }}
         />
@@ -71,8 +77,8 @@ const TodoItem = ({
         {isEditMode ? (
           <EditTextarea
             todo={todo}
-            editTodoValue={editTodoValue}
-            setEditTodoValue={setEditTodoValue}
+            editTodoTitle={editTodoTitle}
+            setEditTodoTitle={setEditTodoTitle}
             setIsEditMode={setIsEditMode}
             onSave={handleSave}
             inputRef={inputRef}

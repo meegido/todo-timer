@@ -16,4 +16,5 @@ export interface TodoClient {
   baseUrl?: string;
   retrieveAll: () => Promise<Todo[]>;
   createTodo: (title: string) => Promise<Todo>;
+  editTodo: (id: string, updatedTodo: Partial<Todo>) => Promise<Todo>;
 }
