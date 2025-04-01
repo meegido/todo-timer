@@ -24,12 +24,6 @@ const CreateTodoItem = ({ todoClient, setTodos }: CreateTodoItemProps) => {
     }
   }, [todoClient, inputCreateValue, setInputCreateValue, setTodos]);
 
-  React.useEffect(() => {
-    if (inputCreateValue) {
-      void createTodo();
-    }
-  }, [inputCreateValue, createTodo]);
-
   return (
     <section className={styles.todo__input__wrapper}>
       <fieldset className={`${styles.todo__input}`}>

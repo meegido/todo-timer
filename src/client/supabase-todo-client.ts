@@ -18,6 +18,9 @@ export class SupabaseTodoClient implements TodoClient {
       {
         method: 'POST',
         headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+          'Access-Control-Allow-Headers': '*',
           'Content-Type': 'application/json',
         },
         body: todoTitle,
