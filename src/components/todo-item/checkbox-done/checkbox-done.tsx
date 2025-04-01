@@ -1,4 +1,4 @@
-import { Todo } from '../../../client/in-memory-todo-client';
+import { Todo } from '../../../todo.types';
 import styles from './checkbox-done.module.css';
 
 interface CheckboxDoneProps {

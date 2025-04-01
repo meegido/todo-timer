@@ -27,4 +27,4 @@ export const createTodo = () => {
   );
 };
 
-export const todoHandlers = [retrieveAllTodos()];
+export const todoHandlers = [retrieveAllTodos(), createTodo()];

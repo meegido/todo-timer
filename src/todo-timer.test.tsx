@@ -68,7 +68,7 @@ describe('Todo timer', () => {
       const errorMessage = await screen.findByText('Error fetching your Todos');
       expect(errorMessage).toHaveTextContent(/error/i);
     });
-    it.only('should create a new todo on click enter', async () => {
+    it('should create a new todo on click enter', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
