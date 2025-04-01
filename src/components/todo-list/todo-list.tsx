@@ -1,10 +1,13 @@
 import styles from './todo-list.module.css';
 import TodoItem from '../todo-item/todo-item';
 import React from 'react';
-import { Todo, TodoClient } from '../../client/in-memory-todo-client';
+import { SupabaseTodoClient } from '../../client/supabase-todo-client';
+import { Todo } from '../../todo.types';
 
 interface TodoListProps {
-  todoClient: TodoClient;
+  todoClient: SupabaseTodoClient;
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   onHandlePlay: () => void;
   onHandlePause: () => void;
   isCountdownActive: boolean;
@@ -19,11 +22,12 @@ enum TodoStatus {
 
 const TodoList = ({
   todoClient,
+  setTodos,
+  todos,
   onHandlePlay,
   onHandlePause,
   isCountdownActive,
 }: TodoListProps) => {
-  const [todos, setTodos] = React.useState<Todo[]>([]);
   const [activeTodo, setActiveTodo] = React.useState<string>('0');
   const [status, setStatus] = React.useState<TodoStatus>(TodoStatus.Idle);
 
@@ -39,7 +43,7 @@ const TodoList = ({
         setStatus(TodoStatus.Error);
       }
     })();
-  }, [todoClient]);
+  }, [todoClient, setTodos]);
 
   const handleUpdateTodo = (id: string, updatedTodo: Todo) => {
     setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));

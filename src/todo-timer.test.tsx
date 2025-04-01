@@ -1,21 +1,42 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 import TimerProvider from './providers/timer-provider';
-import { TodoClient } from './client/in-memory-todo-client';
 import { server } from './mock/server';
 import { SupabaseTodoClient } from './client/supabase-todo-client';
+import { TodoClient } from './todo.types';
 
+const onUnhandledRequest = vi.fn();
 describe('Todo timer', () => {
   let todoClient: TodoClient;
+  beforeAll(() => {
+    server.listen({
+      onUnhandledRequest,
+    });
+  });
+
   beforeEach(() => {
     todoClient = new SupabaseTodoClient();
   });
 
   afterEach(() => {
     server.resetHandlers();
+    onUnhandledRequest.mockClear();
+  });
+
+  afterAll(() => {
+    server.close();
   });
 
   describe('create, edit and mark todos as done', () => {
@@ -27,6 +48,7 @@ describe('Todo timer', () => {
       );
       const [todo] =
         await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+
       expect(todo).toBeInTheDocument();
     });
 
@@ -46,22 +68,22 @@ describe('Todo timer', () => {
       const errorMessage = await screen.findByText('Error fetching your Todos');
       expect(errorMessage).toHaveTextContent(/error/i);
     });
-    it.skip('should create a new todo on click enter', async () => {
+    it.only('should create a new todo on click enter', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
 
-      const data = await todoClient.retrieveAll();
-
       const input = await screen.findByLabelText('create-input');
-      await userEvent.type(input, 'Buy avocado.{enter}');
 
-      const newTodo = await screen.findByText('Buy avocado.');
-      expect(newTodo).toBeInTheDocument();
+      await waitFor(async () => {
+        await userEvent.type(input, 'Buy avocado.{enter}');
+      });
 
-      expect(data.length).toBe(6);
+      const todos =
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+      expect(todos.length).toBe(7);
     });
     it('should edit inline the todo title', async () => {
       render(

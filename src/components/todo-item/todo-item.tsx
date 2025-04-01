@@ -1,10 +1,10 @@
 import React from 'react';
-import { Todo, TodoVariant } from '../../client/in-memory-todo-client';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
 import { Play, Pause } from 'lucide-react';
 import ControlButton from '../../shared/control-button/control-button';
+import { Todo, TodoVariant } from '../../todo.types';
 
 interface TodoItemProps {
   todo: Todo;

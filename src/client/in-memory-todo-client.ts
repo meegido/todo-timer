@@ -1,52 +1,16 @@
-import { mockResponseTodos } from './mock-todos';
-
-export interface Todo {
-  id: string;
-  title: string;
-  variant: TodoVariant;
-}
-
-export enum TodoVariant {
-  INACTIVE = 'inactive',
-  ON_GOING = 'on__going',
-  PAUSED = 'paused',
-  DONE = 'done',
-}
-
-export interface TodoClient {
-  baseUrl?: string;
-  retrieveAll: () => Promise<Todo[]>;
-}
+import { Todo, TodoClient, TodoVariant } from '../todo.types';
+import { todosMockResponse } from './mock-todos';
 
 export class InMemoryTodoClient implements TodoClient {
   retrieveAll = (): Promise<Todo[]> => {
-    return Promise.resolve([
-      {
-        title: 'Read the article about Testing Library',
-        id: 'i234234',
-        variant: TodoVariant.INACTIVE,
-      },
-      { title: 'UI Benchmark', id: '3w4hkljsd', variant: TodoVariant.INACTIVE },
-      {
-        title: 'Split the tasks into small slices',
-        id: '3549349348',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: 'Understand container queries',
-        id: 'i2¡3453244234',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: 'Understand mix-max widht',
-        id: '30909w4hkljsd',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: `Don't forget to do a proper slicing`,
-        id: '35493493432238',
-        variant: TodoVariant.INACTIVE,
-      },
-    ]);
+    return Promise.resolve(todosMockResponse);
+  };
+  createTodo = (title: string): Promise<Todo> => {
+    return Promise.resolve({
+      id: '234234234234234',
+      title: title,
+      variant: TodoVariant.INACTIVE,
+      completed: false,
+    });
   };
 }

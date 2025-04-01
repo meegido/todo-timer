@@ -5,15 +5,14 @@ import styles from './todo-timer.module.css';
 import Header from './shared/header/header';
 import Timer from './components/timer/timer';
 import TimerContext from './context/timer-context';
-import { Todo, TodoClient, TodoVariant } from './client/in-memory-todo-client';
-import TodoListGlimmer from './components/todo-list-glimmer/todo-list-glimmer';
+import { Todo, TodoClient } from './todo.types';
 
 interface TodoTimerProps {
   todoClient: TodoClient;
 }
 
 function TodoTimer({ todoClient }: TodoTimerProps) {
-  const [inputCreateValue, setInputCreateValue] = React.useState<string>('');
+  const [todos, setTodos] = React.useState<Todo[]>([]);
 
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
@@ -27,27 +26,11 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
     isCountdownActive,
   } = timerContext;
 
-  // const handleCreateTodo = () => {
-  //   setTodos((prevTodos: Todo[]) => [
-  //     ...prevTodos,
-  //     {
-  //       id: Date.now().toString(),
-  //       title: inputCreateValue,
-  //       variant: TodoVariant.INACTIVE,
-  //     },
-  //   ]);
-  //   setInputCreateValue('');
-  // };
-
   return (
     <main>
       <Header />
       <section className={styles.todo__timer__wrapper}>
-        <CreateTodoItem
-          inputCreateValue={inputCreateValue}
-          setInputCreateValue={setInputCreateValue}
-          // handleCreateTodo={handleCreateTodo}
-        />
+        <CreateTodoItem todoClient={todoClient} setTodos={setTodos} />
         <Timer
           timeLeft={timeLeft}
           onHandlePlay={handlePlayCountdown}
@@ -57,6 +40,8 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
       </section>
       <TodoList
         todoClient={todoClient}
+        todos={todos}
+        setTodos={setTodos}
         onHandlePlay={handlePlayCountdown}
         onHandlePause={handlePauseCountdown}
         isCountdownActive={isCountdownActive}

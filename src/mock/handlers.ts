@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { todosMockResponse } from '../client/mock-todos';
+import { newMockTodo, todosMockResponse } from '../client/mock-todos';
 
 export const retrieveAllTodos = () => {
   return http.get(
@@ -11,6 +11,18 @@ export const retrieveAllTodos = () => {
           'Content-Type': 'application/json',
         },
       });
+    }
+  );
+};
+
+export const createTodo = () => {
+  const allTodos = new Map();
+  return http.post(
+    'https://web-production-e33d.up.railway.app/api/todos',
+    async ({ request }) => {
+      const newTodo = await request.json();
+      allTodos.set(newMockTodo.title, newTodo);
+      return HttpResponse.json(newTodo, { status: 201 });
     }
   );
 };
