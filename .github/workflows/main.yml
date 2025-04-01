@@ -14,7 +14,7 @@ jobs:
           node-version: '20.x'
 
       - name: install dependencies
-        run: npm install
+        run: npm ci
 
       - name: run ESLint
         run: npm run lint
