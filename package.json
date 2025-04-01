@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:mocks": "vite --mode mocks && vite",
+    "msw-init": "npx msw init ./public --save",
     "build": "tsc -b && vite build",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
     "lint:fix": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\" --fix",
@@ -39,6 +41,7 @@
     "eslint-plugin-testing-library": "^7.1.1",
     "globals": "^16.0.0",
     "jsdom": "^26.0.0",
+    "msw": "^2.7.3",
     "prettier": "3.5.3",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.29.0",

@@ -2,46 +2,14 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import TimerProvider from '../providers/timer-provider';
 import TodoTimer from '../todo-timer';
-import { Todo, TodoClient, TodoVariant } from '../todo-client';
 import userEvent from '@testing-library/user-event';
-
-class FakeTodoClient implements TodoClient {
-  retrieve = (): Todo[] => {
-    return [
-      {
-        title: 'Read the article about Testing Library',
-        id: 'i234234',
-        variant: TodoVariant.INACTIVE,
-      },
-      { title: 'UI Benchmark', id: '3w4hkljsd', variant: TodoVariant.INACTIVE },
-      {
-        title: 'Split the tasks into small slices',
-        id: '3549349348',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: 'Understand container queries',
-        id: 'i2¡3453244234',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: 'Understand mix-max widht',
-        id: '30909w4hkljsd',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: `Don't forget to do a proper slicing`,
-        id: '35493493432238',
-        variant: TodoVariant.INACTIVE,
-      },
-    ];
-  };
-}
+import { TodoClient } from '../todo.types';
+import { SupabaseTodoClient } from '../client/supabase-todo-client';
 
 describe('The timer countdown', () => {
   let todoClient: TodoClient;
   beforeEach(() => {
-    todoClient = new FakeTodoClient();
+    todoClient = new SupabaseTodoClient();
   });
 
   it('should start the countdown after user clicks on todo item', async () => {

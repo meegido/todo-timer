@@ -1,50 +1,73 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import TodoTimer from './todo-timer';
 import userEvent from '@testing-library/user-event';
 import TimerProvider from './providers/timer-provider';
-import { Todo, TodoClient, TodoVariant } from './todo-client';
+import { server } from './mock/server';
+import { SupabaseTodoClient } from './client/supabase-todo-client';
+import { TodoClient } from './todo.types';
 
-class FakeTodoClient implements TodoClient {
-  retrieve = (): Todo[] => {
-    return [
-      {
-        title: 'Read the article about Testing Library',
-        id: 'i234234',
-        variant: TodoVariant.INACTIVE,
-      },
-      { title: 'UI Benchmark', id: '3w4hkljsd', variant: TodoVariant.INACTIVE },
-      {
-        title: 'Split the tasks into small slices',
-        id: '3549349348',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: 'Understand container queries',
-        id: 'i2¡3453244234',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: 'Understand mix-max widht',
-        id: '30909w4hkljsd',
-        variant: TodoVariant.INACTIVE,
-      },
-      {
-        title: `Don't forget to do a proper slicing`,
-        id: '35493493432238',
-        variant: TodoVariant.INACTIVE,
-      },
-    ];
-  };
-}
-
+const onUnhandledRequest = vi.fn();
 describe('Todo timer', () => {
   let todoClient: TodoClient;
+  beforeAll(() => {
+    server.listen({
+      onUnhandledRequest,
+    });
+  });
+
   beforeEach(() => {
-    todoClient = new FakeTodoClient();
+    todoClient = new SupabaseTodoClient();
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+    onUnhandledRequest.mockClear();
+  });
+
+  afterAll(() => {
+    server.close();
   });
 
   describe('create, edit and mark todos as done', () => {
+    it('should be more than three todos in the first render', async () => {
+      render(
+        <TimerProvider>
+          <TodoTimer todoClient={todoClient} />
+        </TimerProvider>
+      );
+      const [todo] =
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+
+      expect(todo).toBeInTheDocument();
+    });
+
+    it('handles error when fetching todos', async () => {
+      server.use(
+        http.get('https://web-production-e33d.up.railway.app/api/todos', () => {
+          return new HttpResponse(null, { status: 500 });
+        })
+      );
+
+      render(
+        <TimerProvider>
+          <TodoTimer todoClient={todoClient} />
+        </TimerProvider>
+      );
+
+      const errorMessage = await screen.findByText('Error fetching your Todos');
+      expect(errorMessage).toHaveTextContent(/error/i);
+    });
     it('should create a new todo on click enter', async () => {
       render(
         <TimerProvider>
@@ -52,15 +75,15 @@ describe('Todo timer', () => {
         </TimerProvider>
       );
 
-      const data = todoClient.retrieve();
+      const input = await screen.findByLabelText('create-input');
 
-      const input = screen.getByLabelText('create-input');
-      await userEvent.type(input, 'Buy avocado.{enter}');
+      await waitFor(async () => {
+        await userEvent.type(input, 'Buy avocado.{enter}');
+      });
 
-      const newTodo = screen.queryByText('Buy avocado.');
-      expect(newTodo).toBeInTheDocument();
-
-      expect(data.length).toBe(6);
+      const todos =
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+      expect(todos.length).toBe(7);
     });
     it('should edit inline the todo title', async () => {
       render(
@@ -70,12 +93,12 @@ describe('Todo timer', () => {
       );
 
       const [firstTodo] =
-        screen.getAllByLabelText<HTMLParagraphElement>('Todo title');
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
       expect(firstTodo).toBeInTheDocument();
 
       await userEvent.click(firstTodo);
 
-      const input = screen.getByLabelText('Edit your todo title');
+      const input = await screen.findByLabelText('Edit your todo title');
       expect(input).toHaveValue(firstTodo.textContent);
 
       await userEvent.type(input, ' hello.{enter}');
@@ -93,7 +116,7 @@ describe('Todo timer', () => {
       );
 
       const [firstTodo] =
-        screen.queryAllByLabelText<HTMLParagraphElement>('Todo title');
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
       await userEvent.click(firstTodo);
 
       const input = screen.getByLabelText('Edit your todo title');

@@ -5,15 +5,14 @@ import styles from './todo-timer.module.css';
 import Header from './shared/header/header';
 import Timer from './components/timer/timer';
 import TimerContext from './context/timer-context';
-import { Todo, TodoClient, TodoVariant } from './todo-client';
+import { Todo, TodoClient } from './todo.types';
 
 interface TodoTimerProps {
   todoClient: TodoClient;
 }
 
 function TodoTimer({ todoClient }: TodoTimerProps) {
-  const [todos, setTodos] = React.useState<Todo[]>(todoClient.retrieve());
-  const [inputCreateValue, setInputCreateValue] = React.useState<string>('');
+  const [todos, setTodos] = React.useState<Todo[]>([]);
 
   const timerContext = React.useContext(TimerContext);
   if (!timerContext) {
@@ -27,31 +26,11 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
     isCountdownActive,
   } = timerContext;
 
-  const handleCreateTodo = () => {
-    setTodos((prevTodos: Todo[]) => [
-      ...prevTodos,
-      {
-        id: Date.now().toString(),
-        title: inputCreateValue,
-        variant: TodoVariant.INACTIVE,
-      },
-    ]);
-    setInputCreateValue('');
-  };
-
-  const handleUpdateTodo = (id: string, updatedTodo: Todo) => {
-    setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
-  };
-
   return (
     <main>
       <Header />
       <section className={styles.todo__timer__wrapper}>
-        <CreateTodoItem
-          inputCreateValue={inputCreateValue}
-          setInputCreateValue={setInputCreateValue}
-          handleCreateTodo={handleCreateTodo}
-        />
+        <CreateTodoItem todoClient={todoClient} setTodos={setTodos} />
         <Timer
           timeLeft={timeLeft}
           onHandlePlay={handlePlayCountdown}
@@ -60,8 +39,9 @@ function TodoTimer({ todoClient }: TodoTimerProps) {
         />
       </section>
       <TodoList
+        todoClient={todoClient}
         todos={todos}
-        onUpdateTodo={handleUpdateTodo}
+        setTodos={setTodos}
         onHandlePlay={handlePlayCountdown}
         onHandlePause={handlePauseCountdown}
         isCountdownActive={isCountdownActive}

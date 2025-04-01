@@ -1,18 +1,29 @@
 import React from 'react';
 import styles from './create-todo-item.module.css';
 import { Plus } from 'lucide-react';
+import { SupabaseTodoClient } from '../../client/supabase-todo-client';
+import { Todo } from '../../todo.types';
 
 interface CreateTodoItemProps {
-  inputCreateValue: string;
-  setInputCreateValue: React.Dispatch<React.SetStateAction<string>>;
-  handleCreateTodo: () => void;
+  todoClient: SupabaseTodoClient;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const CreateTodoItem = ({
-  inputCreateValue,
-  setInputCreateValue,
-  handleCreateTodo,
-}: CreateTodoItemProps) => {
+const CreateTodoItem = ({ todoClient, setTodos }: CreateTodoItemProps) => {
+  const [inputCreateValue, setInputCreateValue] = React.useState<string>('');
+
+  const createTodo = React.useCallback(async () => {
+    try {
+      const newTodo = await todoClient.createTodo(inputCreateValue);
+      setTodos((prevTodos: Todo[]) => [...prevTodos, newTodo]);
+      setInputCreateValue('');
+    } catch (error: unknown) {
+      const errorMsg =
+        error instanceof Error ? error.message : 'Unexpected error occurred';
+      console.error(errorMsg);
+    }
+  }, [todoClient, inputCreateValue, setInputCreateValue, setTodos]);
+
   return (
     <section className={styles.todo__input__wrapper}>
       <fieldset className={`${styles.todo__input}`}>
@@ -33,7 +44,7 @@ const CreateTodoItem = ({
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
               event.preventDefault();
-              handleCreateTodo();
+              void createTodo();
             }
           }}
         />

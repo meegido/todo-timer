@@ -3,14 +3,26 @@ import { createRoot } from 'react-dom/client';
 import './main.css';
 import TodoTimer from './todo-timer.tsx';
 import TimerProvider from './providers/timer-provider.tsx';
-import { InMemoryTodoClient } from './todo-client.ts';
+import { SupabaseTodoClient } from './client/supabase-todo-client.ts';
 
-const todoClient = new InMemoryTodoClient();
+async function enableMocking() {
+  if (import.meta.env.VITE_APP_MOCKS !== true) {
+    return;
+  }
+  const { worker } = await import('./mock/browser');
+  return worker.start();
+}
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <TimerProvider>
-      <TodoTimer todoClient={todoClient} />
-    </TimerProvider>
-  </StrictMode>
-);
+const todoClient = new SupabaseTodoClient();
+
+enableMocking()
+  .then(() => {
+    createRoot(document.getElementById('root')!).render(
+      <StrictMode>
+        <TimerProvider>
+          <TodoTimer todoClient={todoClient} />
+        </TimerProvider>
+      </StrictMode>
+    );
+  })
+  .catch((err) => console.error(err));
