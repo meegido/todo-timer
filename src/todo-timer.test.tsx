@@ -16,7 +16,6 @@ import TimerProvider from './providers/timer-provider';
 import { server } from './mock/server';
 import { SupabaseTodoClient } from './client/supabase-todo-client';
 import { TodoClient } from './todo.types';
-import { build } from 'vite';
 
 const onUnhandledRequest = vi.fn();
 describe('Todo timer', () => {

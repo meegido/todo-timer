@@ -25,4 +25,12 @@ export class InMemoryTodoClient implements TodoClient {
       completed: updatedTodo.completed ?? false,
     });
   };
+
+  deleteTodo = (id: string) => {
+    if (!id) {
+      throw new Error('Todo id is required for deleting.');
+    }
+
+    return Promise.resolve();
+  };
 }
