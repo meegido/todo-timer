@@ -21,3 +21,14 @@
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
+
+@keyframes toast {
+  from {
+    transform: translateX(calc(100% + 64px));
+  }
+}
+
+.toast__wrapper {
+  animation: toast 800ms cubic-bezier(0, 0.46, 0, 1.04) both;
+  will-change: transform;
+}

@@ -1,0 +1,52 @@
+.visually__hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0); /* Legacy property for Internet Explorer */
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.toast {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 16px;
+  color: black;
+  color-scheme: light;
+  max-width: 100%;
+  width: 350px;
+  box-shadow: var(--shadow-elevation-medium);
+}
+
+.content {
+  flex: 1;
+  padding: 12px 0px;
+  font-weight: 600;
+}
+
+.icon__container {
+  flex-shrink: 0;
+  padding: 24px 16px;
+  padding-right: 0px;
+}
+.icon__container svg {
+  display: block;
+}
+
+.close_button {
+  flex-shrink: 0;
+  border: none;
+  background-color: transparent;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.success {
+  background: hsl(120deg 90% 96%);
+}
+.success .iconContainer {
+  color: hsl(120deg 80% 35%);
+}

@@ -3,6 +3,7 @@ import TodoItem from '../todo-item/todo-item';
 import React from 'react';
 import { SupabaseTodoClient } from '../../client/supabase-todo-client';
 import { Todo, TodoVariant } from '../../todo.types';
+import Toast from '../../shared/toast/toast';
 
 interface TodoListProps {
   todoClient: SupabaseTodoClient;
@@ -30,6 +31,19 @@ const TodoList = ({
 }: TodoListProps) => {
   const [activeTodo, setActiveTodo] = React.useState<string>('0');
   const [status, setStatus] = React.useState<TodoStatus>(TodoStatus.Idle);
+  const [showToast, setShowToast] = React.useState<boolean>(false);
+
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    if (event.code === 'Escape') {
+      setShowToast(false);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  });
 
   React.useEffect(() => {
     setStatus(TodoStatus.Loading);
@@ -72,6 +86,7 @@ const TodoList = ({
     try {
       await todoClient.deleteTodo(id);
       setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+      setShowToast(true);
     } catch (error) {
       const errorMsg =
         error instanceof Error ? error.message : 'Unexpected error occurred';
@@ -115,6 +130,16 @@ const TodoList = ({
               isCountdownActive={isCountdownActive}
             />
           ))}{' '}
+        </section>
+      )}
+      {showToast && (
+        <section className={styles.toast__wrapper}>
+          <Toast
+            onDismiss={() => setShowToast(false)}
+            onPressEscape={() =>
+              handleKeyDown({ code: 'Escape' } as KeyboardEvent)
+            }
+          />
         </section>
       )}
     </>
