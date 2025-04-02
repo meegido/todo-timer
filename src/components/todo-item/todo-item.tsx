@@ -59,66 +59,68 @@ const TodoItem = ({
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}
     >
-      <section className={styles.content__wrapper}>
-        <CheckboxDone
-          todo={todo}
-          isTodoDone={isTodoDone}
-          setIsTodoDone={() => {
-            if (isCountdownActive) {
-              return;
-            }
-            setIsTodoDone(!isTodoDone);
-            setTodoVariant(
-              isTodoDone ? TodoVariant.DONE : TodoVariant.INACTIVE
-            );
-          }}
-        />
-
-        {isEditMode ? (
-          <EditTextarea
+      <div className={styles.card__wrapper}>
+        <section className={styles.content__wrapper}>
+          <CheckboxDone
             todo={todo}
-            editTodoTitle={editTodoTitle}
-            setEditTodoTitle={setEditTodoTitle}
-            setIsEditMode={setIsEditMode}
-            onSave={handleSave}
-            inputRef={inputRef}
+            isTodoDone={isTodoDone}
+            setIsTodoDone={() => {
+              if (isCountdownActive) {
+                return;
+              }
+              setIsTodoDone(!isTodoDone);
+              setTodoVariant(
+                isTodoDone ? TodoVariant.DONE : TodoVariant.INACTIVE
+              );
+            }}
+          />
+
+          {isEditMode ? (
+            <EditTextarea
+              todo={todo}
+              editTodoTitle={editTodoTitle}
+              setEditTodoTitle={setEditTodoTitle}
+              setIsEditMode={setIsEditMode}
+              onSave={handleSave}
+              inputRef={inputRef}
+            />
+          ) : (
+            <p
+              className={isTodoDone ? styles.marked : styles.todo__title}
+              key={todo.id}
+              aria-label="Todo title"
+              onClick={() => setIsEditMode(true)}
+            >
+              {todo.title}
+            </p>
+          )}
+        </section>
+        {isActiveTodo && isCountdownActive ? (
+          <ControlButton
+            label="Pause the countdown on todo"
+            icon={Pause}
+            isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
+            onHandleCountdown={() => {
+              onHandlePause();
+              setTodoVariant(TodoVariant.PAUSED);
+            }}
           />
         ) : (
-          <p
-            className={isTodoDone ? styles.marked : styles.todo__title}
-            key={todo.id}
-            aria-label="Todo title"
-            onClick={() => setIsEditMode(true)}
-          >
-            {todo.title}
-          </p>
+          <ControlButton
+            label="Start the countdown on todo"
+            icon={Play}
+            isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
+            onHandleCountdown={() => {
+              if (isTodoDone) {
+                return;
+              }
+              onSetActiveTodo();
+              onHandlePlay();
+              setTodoVariant(TodoVariant.ON_GOING);
+            }}
+          />
         )}
-      </section>
-      {isActiveTodo && isCountdownActive ? (
-        <ControlButton
-          label="Pause the countdown on todo"
-          icon={Pause}
-          isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
-          onHandleCountdown={() => {
-            onHandlePause();
-            setTodoVariant(TodoVariant.PAUSED);
-          }}
-        />
-      ) : (
-        <ControlButton
-          label="Start the countdown on todo"
-          icon={Play}
-          isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
-          onHandleCountdown={() => {
-            if (isTodoDone) {
-              return;
-            }
-            onSetActiveTodo();
-            onHandlePlay();
-            setTodoVariant(TodoVariant.ON_GOING);
-          }}
-        />
-      )}
+      </div>
     </article>
   );
 };
