@@ -68,9 +68,9 @@ export const deleteTodo = () => {
 
       console.log(existingTodo);
 
-      const [deletedTodo] = todosMockResponse.splice(existingTodo, 1);
+      todosMockResponse.splice(existingTodo, 1);
 
-      return HttpResponse.json(deletedTodo, {
+      return HttpResponse.json('', {
         status: 204,
         headers: {
           'Content-Type': 'application/json',

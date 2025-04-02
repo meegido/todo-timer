@@ -81,6 +81,22 @@
   align-items: center;
 }
 
-.task__options {
+.options__wrapper {
   grid-row: 2;
+  border-top: 1px solid rgba(0, 0, 0, 0.195);
+  padding-top: 8px;
+}
+
+.options {
+  display: grid;
+  justify-self: end;
+}
+
+.delete__button {
+  background-color: transparent;
+  border: unset;
+}
+
+.delete__button:hover {
+  outline: none;
 }

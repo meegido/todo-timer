@@ -17,5 +17,5 @@ export interface TodoClient {
   retrieveAll: () => Promise<Todo[]>;
   createTodo: (title: string) => Promise<Todo>;
   editTodo: (id: string, updatedTodo: Partial<Todo>) => Promise<Todo>;
-  delteTodo: (id: string) => Promise<Todo>;
+  deleteTodo: (id: string) => Promise<void>;
 }

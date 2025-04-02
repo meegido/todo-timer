@@ -70,4 +70,26 @@ export class SupabaseTodoClient implements TodoClient {
 
     return newTodo;
   };
+
+  deleteTodo = async (id: string): Promise<void> => {
+    if (!id) {
+      throw new Error('Todo id is required for deleting.');
+    }
+
+    const response = await fetch(
+      `https://web-production-e33d.up.railway.app/api/todos/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error deleting  todo: ${response.statusText}`);
+    }
+
+    return;
+  };
 }

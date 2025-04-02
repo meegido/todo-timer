@@ -47,10 +47,10 @@ describe('Todo timer', () => {
           <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
-      const todo =
+      const todos =
         await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
 
-      expect(todo.length).toBe(6);
+      expect(todos.length).toBe(6);
     });
 
     it('handles error when fetching todos', async () => {
@@ -149,14 +149,27 @@ describe('Todo timer', () => {
       await userEvent.click(firstCheckbox);
       expect(firstCheckbox).toBeChecked();
     });
-    it('should delete a todo when click trash icon', () => {
+    it('should delete a todo when click trash icon', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
         </TimerProvider>
       );
-      const trashIcon = screen.getByRole('button', { name: 'trash-icon' });
-      expect(trashIcon).toBeInTheDocument();
+
+      const [firstTodo] = await screen.findAllByRole('article');
+
+      const trashButton = await within(firstTodo).findByRole('button', {
+        name: /delete todo/i,
+        hidden: false,
+      });
+      expect(trashButton).toBeInTheDocument();
+
+      await userEvent.click(trashButton);
+
+      const todos =
+        await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
+
+      expect(todos.length).toBe(5);
     });
   });
   describe('starts the timer attached to a selected todo', () => {

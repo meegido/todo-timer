@@ -9,6 +9,7 @@ import { Todo, TodoVariant } from '../../todo.types';
 interface TodoItemProps {
   todo: Todo;
   onUpdateTodo: (updatedTodo: Partial<Todo>) => void;
+  onDeleteTodo: () => void;
   onHandlePlay: () => void;
   onHandlePause: () => void;
   onSetActiveTodo: () => void;
@@ -19,6 +20,7 @@ interface TodoItemProps {
 const TodoItem = ({
   todo,
   onUpdateTodo,
+  onDeleteTodo,
   onHandlePlay,
   onHandlePause,
   onSetActiveTodo,
@@ -121,10 +123,16 @@ const TodoItem = ({
           />
         )}
       </div>
-      <div className={styles.task__options}>
-        <button className={styles.delete__button}>
-          <Trash size={16} />
-        </button>
+      <div className={styles.options__wrapper}>
+        <section className={styles.options}>
+          <button
+            className={styles.delete__button}
+            aria-label={'delete todo'}
+            onClick={onDeleteTodo}
+          >
+            <Trash size={16} />
+          </button>
+        </section>
       </div>
     </article>
   );

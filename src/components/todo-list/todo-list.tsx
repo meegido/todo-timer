@@ -67,6 +67,18 @@ const TodoList = ({
     }
   };
 
+  const handleDeleteTodo = async (id: string) => {
+    console.log(`Delted todo with id: ${id}`);
+    try {
+      await todoClient.deleteTodo(id);
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      const errorMsg =
+        error instanceof Error ? error.message : 'Unexpected error occurred';
+      console.log(errorMsg);
+    }
+  };
+
   if (status === TodoStatus.Loading) {
     return <p>Loading...</p>;
   }
@@ -93,6 +105,7 @@ const TodoList = ({
 
                 void handleUpdateTodo(todo.id, updates);
               }}
+              onDeleteTodo={() => void handleDeleteTodo(todo.id)}
               onHandlePlay={onHandlePlay}
               onHandlePause={onHandlePause}
               isActiveTodo={activeTodo === todo.id}
