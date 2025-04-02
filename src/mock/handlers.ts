@@ -54,4 +54,35 @@ export const editTodo = () => {
   );
 };
 
-export const todoHandlers = [retrieveAllTodos(), createTodo(), editTodo()];
+export const deleteTodo = () => {
+  return http.delete(
+    'https://web-production-e33d.up.railway.app/api/todos/:id',
+    ({ params }) => {
+      const existingTodo = todosMockResponse.findIndex(
+        (todo) => todo.id === (params.id as string)
+      );
+
+      if (existingTodo === -1) {
+        return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
+      }
+
+      console.log(existingTodo);
+
+      const [deletedTodo] = todosMockResponse.splice(existingTodo, 1);
+
+      return HttpResponse.json(deletedTodo, {
+        status: 204,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+  );
+};
+
+export const todoHandlers = [
+  retrieveAllTodos(),
+  createTodo(),
+  editTodo(),
+  deleteTodo(),
+];

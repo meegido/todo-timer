@@ -16,6 +16,7 @@ import TimerProvider from './providers/timer-provider';
 import { server } from './mock/server';
 import { SupabaseTodoClient } from './client/supabase-todo-client';
 import { TodoClient } from './todo.types';
+import { build } from 'vite';
 
 const onUnhandledRequest = vi.fn();
 describe('Todo timer', () => {
@@ -147,6 +148,15 @@ describe('Todo timer', () => {
 
       await userEvent.click(firstCheckbox);
       expect(firstCheckbox).toBeChecked();
+    });
+    it('should delete a todo when click trash icon', () => {
+      render(
+        <TimerProvider>
+          <TodoTimer todoClient={todoClient} />
+        </TimerProvider>
+      );
+      const trashIcon = screen.getByRole('button', { name: 'trash-icon' });
+      expect(trashIcon).toBeInTheDocument();
     });
   });
   describe('starts the timer attached to a selected todo', () => {
