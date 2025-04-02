@@ -148,7 +148,7 @@ describe('Todo timer', () => {
       await userEvent.click(firstCheckbox);
       expect(firstCheckbox).toBeChecked();
     });
-    it('should delete a todo when click trash icon', async () => {
+    it('should show a status toast after deleting a todo', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
@@ -169,6 +169,18 @@ describe('Todo timer', () => {
         await screen.findAllByLabelText<HTMLParagraphElement>('Todo title');
 
       expect(todos.length).toBe(5);
+
+      const toast = await screen.findByRole('status');
+
+      await waitFor(() => {
+        expect(toast).toBeInTheDocument();
+      });
+
+      await userEvent.type(toast, '{escape}');
+
+      await waitFor(() => {
+        expect(toast).not.toBeInTheDocument();
+      });
     });
   });
   describe('starts the timer attached to a selected todo', () => {

@@ -8,7 +8,11 @@ interface ToastProps {
 
 const Toast = ({ onDismiss, onPressEscape }: ToastProps) => {
   return (
-    <section className={`${styles.toast} ${styles.success}`}>
+    <section
+      role="status"
+      aria-live="polite"
+      className={`${styles.toast} ${styles.success}`}
+    >
       <div className={styles.icon__container}>
         <Info size={24} />
       </div>
