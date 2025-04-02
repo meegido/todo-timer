@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './todo-item.module.css';
 import EditTextarea from './edit-textarea/edit-textarea';
 import CheckboxDone from './checkbox-done/checkbox-done';
-import { Play, Pause } from 'lucide-react';
+import { Play, Pause, Trash } from 'lucide-react';
 import ControlButton from '../../shared/control-button/control-button';
 import { Todo, TodoVariant } from '../../todo.types';
 
@@ -59,8 +59,8 @@ const TodoItem = ({
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}
     >
-      <div className={styles.card__wrapper}>
-        <section className={styles.content__wrapper}>
+      <div className={styles.task__wrapper}>
+        <section className={styles.task__content}>
           <CheckboxDone
             todo={todo}
             isTodoDone={isTodoDone}
@@ -120,6 +120,11 @@ const TodoItem = ({
             }}
           />
         )}
+      </div>
+      <div className={styles.task__options}>
+        <button className={styles.delete__button}>
+          <Trash size={16} />
+        </button>
       </div>
     </article>
   );
