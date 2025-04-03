@@ -5,12 +5,14 @@ interface CheckboxDoneProps {
   todo: Todo;
   isTodoDone: boolean;
   setIsTodoDone: React.Dispatch<boolean>;
+  // onSave: () => void;
 }
 
 const CheckboxDone = ({
   todo,
   isTodoDone,
   setIsTodoDone,
+  // onSave,
 }: CheckboxDoneProps) => {
   return (
     <div className={styles.check__wrapper}>
@@ -24,7 +26,10 @@ const CheckboxDone = ({
         value="done"
         aria-label="Check or uncheck the todo as done"
         checked={isTodoDone}
-        onChange={() => setIsTodoDone(!isTodoDone)}
+        onChange={() => {
+          setIsTodoDone(!isTodoDone);
+          // onSave();
+        }}
       />
     </div>
   );

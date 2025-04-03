@@ -75,6 +75,7 @@ const TodoItem = ({
                 isTodoDone ? TodoVariant.DONE : TodoVariant.INACTIVE
               );
             }}
+            // onSave={handleSave}
           />
 
           {isEditMode ? (

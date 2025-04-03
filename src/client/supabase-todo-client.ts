@@ -1,4 +1,4 @@
-import { Todo, TodoClient, TodoVariant } from '../todo.types';
+import { Todo, TodoClient, TodoVariant, UpdatedTodo } from '../todo.types';
 
 export class SupabaseTodoClient implements TodoClient {
   retrieveAll = async (): Promise<Todo[]> => {
@@ -32,7 +32,7 @@ export class SupabaseTodoClient implements TodoClient {
     return newTodo;
   };
 
-  editTodo = async (id: string, updatedTodo: Partial<Todo>): Promise<Todo> => {
+  editTodo = async (id: string, updatedTodo: UpdatedTodo): Promise<Todo> => {
     if (!id) {
       throw new Error('Todo id is required for editing.');
     }
@@ -42,11 +42,11 @@ export class SupabaseTodoClient implements TodoClient {
     const response = await fetch(
       `https://web-production-e33d.up.railway.app/api/todos/${id}`,
       {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...updatedTodo }),
+        body: JSON.stringify(updatedTodo),
       }
     );
 
@@ -54,21 +54,7 @@ export class SupabaseTodoClient implements TodoClient {
       throw new Error(`Error updating  todo: ${response.statusText}`);
     }
 
-    const rawTodo = (await response.json()) as {
-      id: string;
-      title?: string;
-      variant?: TodoVariant;
-      completed?: boolean;
-    };
-
-    const newTodo: Todo = {
-      id: rawTodo.id,
-      title: rawTodo.title!,
-      variant: rawTodo.variant!,
-      completed: rawTodo.completed!,
-    };
-
-    return newTodo;
+    return (await response.json()) as Todo;
   };
 
   deleteTodo = async (id: string): Promise<void> => {

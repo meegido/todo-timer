@@ -2,7 +2,7 @@ import styles from './todo-list.module.css';
 import TodoItem from '../todo-item/todo-item';
 import React from 'react';
 import { SupabaseTodoClient } from '../../client/supabase-todo-client';
-import { Todo, TodoVariant } from '../../todo.types';
+import { Todo, TodoVariant, UpdatedTodo } from '../../todo.types';
 import Toast from '../../shared/toast/toast';
 
 interface TodoListProps {
@@ -59,19 +59,11 @@ const TodoList = ({
     })();
   }, [todoClient, setTodos]);
 
-  const handleUpdateTodo = async (
-    id: string,
-    updates: {
-      title: string;
-      completed: boolean;
-      variant: TodoVariant;
-    }
-  ) => {
+  const handleUpdateTodo = async (id: string, updates: UpdatedTodo) => {
     try {
       console.log(updates, 'the updates sending to the fetch');
       const editedTodo = await todoClient.editTodo(id, { ...updates });
       setTodos((prevTodos) => {
-        console.log(updates, 'updates');
         return prevTodos.map((todo) => (todo.id === id ? editedTodo : todo));
       });
     } catch (error: unknown) {
@@ -110,7 +102,7 @@ const TodoList = ({
             <TodoItem
               key={todo.id}
               todo={todo}
-              onUpdateTodo={(updatedTodo: Partial<Todo>) => {
+              onUpdateTodo={(updatedTodo: UpdatedTodo) => {
                 const updates = {
                   title: updatedTodo.title!,
                   completed: updatedTodo.completed!,

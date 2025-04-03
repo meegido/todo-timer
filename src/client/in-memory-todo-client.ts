@@ -1,4 +1,4 @@
-import { Todo, TodoClient, TodoVariant } from '../todo.types';
+import { Todo, TodoClient, TodoVariant, UpdatedTodo } from '../todo.types';
 import { todosMockResponse } from './mock-todos';
 
 export class InMemoryTodoClient implements TodoClient {
@@ -13,16 +13,27 @@ export class InMemoryTodoClient implements TodoClient {
       completed: false,
     });
   };
-  editTodo = (id: string, updatedTodo: Partial<Todo>): Promise<Todo> => {
-    if (!id) {
-      throw new Error('Todo id is required for editing.');
+
+  editTodo = (id: string, updatedTodo: UpdatedTodo): Promise<Todo> => {
+    const existingTodo = todosMockResponse.find((todo) => todo.id === id);
+    if (!existingTodo) {
+      throw new Error('Todo not found.');
     }
 
     return Promise.resolve({
       id: id,
-      title: updatedTodo.title ?? 'Default Title',
-      variant: updatedTodo.variant ?? TodoVariant.INACTIVE,
-      completed: updatedTodo.completed ?? false,
+      title:
+        updatedTodo.title !== undefined
+          ? updatedTodo.title
+          : existingTodo.title,
+      variant:
+        updatedTodo.variant !== undefined
+          ? updatedTodo.variant
+          : existingTodo.variant,
+      completed:
+        updatedTodo.completed !== undefined
+          ? updatedTodo.completed
+          : existingTodo.completed,
     });
   };
 

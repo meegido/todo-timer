@@ -16,6 +16,7 @@ import TimerProvider from './providers/timer-provider';
 import { server } from './mock/server';
 import { SupabaseTodoClient } from './client/supabase-todo-client';
 import { TodoClient } from './todo.types';
+import { wait } from '@testing-library/user-event/dist/cjs/utils/index.js';
 
 const onUnhandledRequest = vi.fn();
 describe('Todo timer', () => {
@@ -51,7 +52,6 @@ describe('Todo timer', () => {
 
       expect(todos.length).toBe(6);
     });
-
     it('handles error when fetching todos', async () => {
       server.use(
         http.get('https://web-production-e33d.up.railway.app/api/todos', () => {
@@ -147,6 +147,7 @@ describe('Todo timer', () => {
 
       await userEvent.click(firstCheckbox);
       expect(firstCheckbox).toBeChecked();
+      expect(firstTodo).toHaveClass('done');
     });
     it('should show a status toast after deleting a todo', async () => {
       render(

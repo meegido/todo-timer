@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { newMockTodo, todosMockResponse } from '../client/mock-todos';
-import { Todo } from '../todo.types';
+import { Todo, UpdatedTodo } from '../todo.types';
 
 export const retrieveAllTodos = () => {
   return http.get(
@@ -29,10 +29,10 @@ export const createTodo = () => {
 };
 
 export const editTodo = () => {
-  return http.put(
+  return http.patch(
     `https://web-production-e33d.up.railway.app/api/todos/:id`,
     async ({ request, params }) => {
-      const updates = (await request.json()) as Partial<Todo>;
+      const updates = (await request.json()) as UpdatedTodo;
 
       const existingTodo = todosMockResponse.findIndex(
         (todo) => todo.id === (params.id as string)
