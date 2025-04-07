@@ -1,4 +1,4 @@
-import { Todo, TodoClient, TodoVariant, UpdatedTodo } from '../todo.types';
+import { Todo, TodoClient, UpdatedTodo } from '../todo.types';
 
 export class SupabaseTodoClient implements TodoClient {
   retrieveAll = async (): Promise<Todo[]> => {

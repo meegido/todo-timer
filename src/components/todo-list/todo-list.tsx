@@ -2,7 +2,7 @@ import styles from './todo-list.module.css';
 import TodoItem from '../todo-item/todo-item';
 import React from 'react';
 import { SupabaseTodoClient } from '../../client/supabase-todo-client';
-import { Todo, TodoVariant, UpdatedTodo } from '../../todo.types';
+import { Todo, UpdatedTodo } from '../../todo.types';
 import Toast from '../../shared/toast/toast';
 
 interface TodoListProps {
