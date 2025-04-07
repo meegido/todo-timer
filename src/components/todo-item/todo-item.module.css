@@ -36,6 +36,15 @@
   }
 }
 
+.hiddenControlButton {
+  opacity: 0;
+}
+
+/* When the parent is hovered and not done, you might have a different class */
+.card:hover .showControlButton {
+  opacity: 1;
+}
+
 .task__wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

@@ -29,7 +29,7 @@ const TodoItem = ({
 }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoTitle, setEditTodoTitle] = React.useState<string>(todo.title);
-  const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
+  const [isTodoDone, setIsTodoDone] = React.useState<boolean>(todo.completed);
   const [variant, setVariant] = React.useState<TodoVariant>(todo.variant);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
 
@@ -73,6 +73,8 @@ const TodoItem = ({
   };
 
   const variantClass = `${styles.card} ${isTodoDone ? styles.done : styles[variant]}`;
+  const controlButtonClass =
+    todo.completed || !isTodoHover ? styles.hiddenControlButton : '';
 
   return (
     <article
@@ -113,7 +115,7 @@ const TodoItem = ({
           <ControlButton
             label="Pause the countdown on todo"
             icon={Pause}
-            isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
+            className={controlButtonClass}
             onHandleCountdown={() => {
               onHandlePause();
               setVariant(TodoVariant.PAUSED);
@@ -128,7 +130,7 @@ const TodoItem = ({
           <ControlButton
             label="Start the countdown on todo"
             icon={Play}
-            isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
+            className={controlButtonClass}
             onHandleCountdown={() => {
               if (isTodoDone) {
                 return;

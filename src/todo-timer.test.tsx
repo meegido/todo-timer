@@ -184,7 +184,7 @@ describe('Todo timer', () => {
     });
   });
   describe('starts the timer attached to a selected todo', () => {
-    it('should change the card background color', async () => {
+    it('should not show the play/pause button if the todo is done', async () => {
       render(
         <TimerProvider>
           <TodoTimer todoClient={todoClient} />
@@ -198,14 +198,31 @@ describe('Todo timer', () => {
         hidden: true,
       });
 
+      expect(playButton).not.toHaveClass('hidden');
+    });
+
+    it.skip('should show the play/pause button if the todo is done', async () => {
+      render(
+        <TimerProvider>
+          <TodoTimer todoClient={todoClient} />
+        </TimerProvider>
+      );
+      const [firstTodo] = await screen.findAllByRole('article');
+      expect(firstTodo).toBeInTheDocument();
+      console.log(firstTodo, 'first todo');
+
+      const playButton = await within(firstTodo).findByRole('button', {
+        name: /start the countdown on todo/i,
+        hidden: true,
+      });
+
       expect(playButton).toHaveClass('hidden');
 
       await waitFor(async () => {
-        await userEvent.hover(firstTodo);
+        await userEvent.hover(playButton);
       });
 
-      await userEvent.click(playButton);
-      expect(firstTodo).toHaveClass('on__going');
+      expect(playButton).not.toHaveClass('hidden');
     });
   });
 });

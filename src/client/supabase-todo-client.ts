@@ -54,8 +54,6 @@ export class SupabaseTodoClient implements TodoClient {
       throw new Error(`Error updating  todo: ${response.statusText}`);
     }
 
-    console.log(await response.json(), 'returned object');
-
     return (await response.json()) as Todo;
   };
 

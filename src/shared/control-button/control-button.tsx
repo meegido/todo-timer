@@ -5,17 +5,16 @@ interface ControlButtonProps {
   icon: React.ComponentType<{ size: number }>;
   label: string;
   className?: string;
-  isTodoHover?: boolean;
 }
 const ControlButton = ({
   onHandleCountdown,
   label,
-  isTodoHover = true,
   icon: Icon,
+  className,
 }: ControlButtonProps) => {
   return (
     <button
-      className={`${isTodoHover ? styles.control__button : styles.hidden}`}
+      className={`${styles.control__button} ${className || ''}`.trim()}
       aria-label={label}
       onClick={onHandleCountdown}
     >

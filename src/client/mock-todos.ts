@@ -4,20 +4,20 @@ export const todosMockResponse: Todo[] = [
   {
     title: 'Read the article about Testing Library',
     id: 'i234234',
-    variant: TodoVariant.ON_GOING,
+    variant: TodoVariant.INACTIVE,
     completed: false,
   },
   {
     title: 'UI Benchmark',
     id: '3w4hkljsd',
     variant: TodoVariant.INACTIVE,
-    completed: true,
+    completed: false,
   },
   {
     title: 'Split the tasks into small slices',
     id: '3549349348',
     variant: TodoVariant.DONE,
-    completed: false,
+    completed: true,
   },
   {
     title: 'Understand container queries',
@@ -29,7 +29,7 @@ export const todosMockResponse: Todo[] = [
     title: 'Understand mix-max widht',
     id: '30909w4hkljsd',
     variant: TodoVariant.INACTIVE,
-    completed: true,
+    completed: false,
   },
   {
     title: `Don't forget to do a proper slicing`,

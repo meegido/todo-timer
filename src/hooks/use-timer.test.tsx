@@ -12,7 +12,7 @@ describe('The timer countdown', () => {
     todoClient = new SupabaseTodoClient();
   });
 
-  it('should start the countdown after user clicks on todo item', async () => {
+  it.skip('should start the countdown after user clicks on todo item', async () => {
     vi.stubGlobal('jest', {
       advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
     });

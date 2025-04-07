@@ -33,6 +33,8 @@ const TodoList = ({
   const [status, setStatus] = React.useState<TodoStatus>(TodoStatus.Idle);
   const [showToast, setShowToast] = React.useState<boolean>(false);
 
+  console.log(todos, 'Todos in todo list');
+
   const handleKeyDown = (event: KeyboardEvent): void => {
     if (event.code === 'Escape') {
       setShowToast(false);
