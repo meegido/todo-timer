@@ -104,9 +104,9 @@ const TodoList = ({
               todo={todo}
               onUpdateTodo={(updatedTodo: UpdatedTodo) => {
                 const updates = {
-                  title: updatedTodo.title!,
-                  completed: updatedTodo.completed!,
-                  variant: updatedTodo.variant!,
+                  title: updatedTodo.title,
+                  completed: updatedTodo.completed,
+                  variant: updatedTodo.variant,
                 };
                 console.log(updatedTodo, 'en lio');
 

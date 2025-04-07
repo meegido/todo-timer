@@ -43,8 +43,8 @@ const TodoItem = ({
     }
   }, [isEditMode]);
 
-  const handleSave = () => {
-    console.log(editTodoTitle, isTodoDone, todoVariant, 'en item');
+  const handleTitleUpdate = () => {
+    console.log(editTodoTitle, isTodoDone, todoVariant, 'en update title');
 
     onUpdateTodo({
       title: editTodoTitle,
@@ -54,9 +54,29 @@ const TodoItem = ({
     setIsEditMode(false);
   };
 
+  const handleDoneUpdate = () => {
+    if (isCountdownActive) {
+      return;
+    }
+
+    const newDone = !isTodoDone;
+    setIsTodoDone(newDone);
+    setTodoVariant(newDone ? TodoVariant.DONE : TodoVariant.INACTIVE);
+
+    onUpdateTodo({
+      title: editTodoTitle,
+      completed: newDone,
+      variant: TodoVariant.DONE,
+    });
+
+    console.log(editTodoTitle, isTodoDone, todoVariant, 'en done update');
+  };
+
+  const variantClass = `${styles.card} ${isTodoDone ? styles.done : styles[todoVariant]}`;
+
   return (
     <article
-      className={`${styles.card} ${styles[todoVariant]}`}
+      className={variantClass}
       aria-label={`Todo item ${todo.id}`}
       onMouseEnter={() => setIsTodoHover(true)}
       onMouseLeave={() => setIsTodoHover(false)}
@@ -66,16 +86,7 @@ const TodoItem = ({
           <CheckboxDone
             todo={todo}
             isTodoDone={isTodoDone}
-            setIsTodoDone={() => {
-              if (isCountdownActive) {
-                return;
-              }
-              setIsTodoDone(!isTodoDone);
-              setTodoVariant(
-                isTodoDone ? TodoVariant.DONE : TodoVariant.INACTIVE
-              );
-            }}
-            // onSave={handleSave}
+            setIsTodoDone={handleDoneUpdate}
           />
 
           {isEditMode ? (
@@ -84,7 +95,7 @@ const TodoItem = ({
               editTodoTitle={editTodoTitle}
               setEditTodoTitle={setEditTodoTitle}
               setIsEditMode={setIsEditMode}
-              onSave={handleSave}
+              onSave={handleTitleUpdate}
               inputRef={inputRef}
             />
           ) : (
