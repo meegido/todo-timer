@@ -52,6 +52,7 @@ const TodoList = ({
         const retrievedTodos = await todoClient.retrieveAll();
         setTodos(retrievedTodos);
         setStatus(TodoStatus.Success);
+        console.log(retrievedTodos, 'retrieved todos');
       } catch (error) {
         console.log(error);
         setStatus(TodoStatus.Error);
@@ -64,7 +65,9 @@ const TodoList = ({
       console.log(updates, 'the updates sending to the fetch');
       const editedTodo = await todoClient.editTodo(id, { ...updates });
       setTodos((prevTodos) => {
-        return prevTodos.map((todo) => (todo.id === id ? editedTodo : todo));
+        return prevTodos.map((todo) =>
+          todo.id === editedTodo.id ? { ...todo, ...updates } : todo
+        );
       });
     } catch (error: unknown) {
       const errorMsg =

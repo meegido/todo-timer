@@ -30,6 +30,7 @@ const TodoItem = ({
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const [editTodoTitle, setEditTodoTitle] = React.useState<string>(todo.title);
   const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
+  const [variant, setVariant] = React.useState<TodoVariant>(todo.variant);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
 
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
@@ -40,23 +41,15 @@ const TodoItem = ({
     }
   }, [isEditMode]);
 
-  const newVariant = React.useMemo(() => {
-    if (isTodoDone) return TodoVariant.DONE;
-    if (isActiveTodo)
-      return isCountdownActive ? TodoVariant.ON_GOING : TodoVariant.PAUSED;
-
-    return TodoVariant.INACTIVE;
-  }, [isTodoDone, isCountdownActive, isActiveTodo]);
-
   const handleTitleUpdate = () => {
     onUpdateTodo({
       title: editTodoTitle,
       completed: isTodoDone,
-      variant: newVariant,
+      variant: variant,
     });
 
     setIsEditMode(false);
-    console.log(editTodoTitle, isTodoDone, newVariant, 'en update title');
+    console.log(editTodoTitle, isTodoDone, variant, 'en update title');
   };
 
   const handleDoneUpdate = () => {
@@ -67,16 +60,19 @@ const TodoItem = ({
     const newDone = !isTodoDone;
     setIsTodoDone(newDone);
 
+    const updatedVariant = newDone ? TodoVariant.DONE : variant;
+    setVariant(updatedVariant);
+
     onUpdateTodo({
       title: editTodoTitle,
       completed: newDone,
-      variant: TodoVariant.DONE,
+      variant: updatedVariant,
     });
 
-    console.log(editTodoTitle, isTodoDone, newVariant, 'en done update');
+    console.log(editTodoTitle, isTodoDone, variant, 'en done update');
   };
 
-  const variantClass = `${styles.card} ${isTodoDone ? styles.done : styles[newVariant]}`;
+  const variantClass = `${styles.card} ${isTodoDone ? styles.done : styles[variant]}`;
 
   return (
     <article
@@ -120,6 +116,7 @@ const TodoItem = ({
             isTodoHover={isTodoDone ? !isTodoHover : isTodoHover}
             onHandleCountdown={() => {
               onHandlePause();
+              setVariant(TodoVariant.PAUSED);
               onUpdateTodo({
                 title: editTodoTitle,
                 completed: isTodoDone,
@@ -138,6 +135,7 @@ const TodoItem = ({
               }
               onSetActiveTodo();
               onHandlePlay();
+              setVariant(TodoVariant.ON_GOING);
               onUpdateTodo({
                 title: editTodoTitle,
                 completed: isTodoDone,
