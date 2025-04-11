@@ -200,29 +200,5 @@ describe('Todo timer', () => {
 
       expect(playButton).not.toHaveClass('hidden');
     });
-
-    it.skip('should show the play/pause button if the todo is done', async () => {
-      render(
-        <TimerProvider>
-          <TodoTimer todoClient={todoClient} />
-        </TimerProvider>
-      );
-      const [firstTodo] = await screen.findAllByRole('article');
-      expect(firstTodo).toBeInTheDocument();
-      console.log(firstTodo, 'first todo');
-
-      const playButton = await within(firstTodo).findByRole('button', {
-        name: /start the countdown on todo/i,
-        hidden: true,
-      });
-
-      expect(playButton).toHaveClass('hidden');
-
-      await waitFor(async () => {
-        await userEvent.hover(playButton);
-      });
-
-      expect(playButton).not.toHaveClass('hidden');
-    });
   });
 });

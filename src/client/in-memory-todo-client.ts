@@ -10,7 +10,6 @@ export class InMemoryTodoClient implements TodoClient {
       id: '234234234234234',
       title: title,
       variant: TodoVariant.INACTIVE,
-      completed: false,
     });
   };
 
@@ -30,10 +29,6 @@ export class InMemoryTodoClient implements TodoClient {
         updatedTodo.variant !== undefined
           ? updatedTodo.variant
           : existingTodo.variant,
-      completed:
-        updatedTodo.completed !== undefined
-          ? updatedTodo.completed
-          : existingTodo.completed,
     });
   };
 

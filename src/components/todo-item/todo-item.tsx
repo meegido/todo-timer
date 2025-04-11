@@ -28,8 +28,8 @@ const TodoItem = ({
   isCountdownActive,
 }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
+  const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
   const [editTodoTitle, setEditTodoTitle] = React.useState<string>(todo.title);
-  const [isTodoDone, setIsTodoDone] = React.useState<boolean>(todo.completed);
   const [variant, setVariant] = React.useState<TodoVariant>(todo.variant);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
 
@@ -44,12 +44,11 @@ const TodoItem = ({
   const handleTitleUpdate = () => {
     onUpdateTodo({
       title: editTodoTitle,
-      completed: isTodoDone,
       variant: variant,
     });
 
     setIsEditMode(false);
-    console.log(editTodoTitle, isTodoDone, variant, 'en update title');
+    console.log(editTodoTitle, variant, 'en update title');
   };
 
   const handleDoneUpdate = () => {
@@ -65,16 +64,14 @@ const TodoItem = ({
 
     onUpdateTodo({
       title: editTodoTitle,
-      completed: newDone,
       variant: updatedVariant,
     });
 
     console.log(editTodoTitle, isTodoDone, variant, 'en done update');
   };
 
-  const variantClass = `${styles.card} ${isTodoDone ? styles.done : styles[variant]}`;
-  const controlButtonClass =
-    todo.completed || !isTodoHover ? styles.hiddenControlButton : '';
+  const variantClass = `${styles.card} ${styles[variant]}`;
+  const controlButtonClass = isTodoHover ? '' : styles.hiddenControlButton;
 
   return (
     <article
@@ -102,7 +99,11 @@ const TodoItem = ({
             />
           ) : (
             <p
-              className={isTodoDone ? styles.marked : styles.todo__title}
+              className={
+                variant === TodoVariant.DONE
+                  ? styles.marked
+                  : styles.todo__title
+              }
               key={todo.id}
               aria-label="Todo title"
               onClick={() => setIsEditMode(true)}
@@ -121,7 +122,6 @@ const TodoItem = ({
               setVariant(TodoVariant.PAUSED);
               onUpdateTodo({
                 title: editTodoTitle,
-                completed: isTodoDone,
                 variant: TodoVariant.PAUSED,
               });
             }}
@@ -132,7 +132,7 @@ const TodoItem = ({
             icon={Play}
             className={controlButtonClass}
             onHandleCountdown={() => {
-              if (isTodoDone) {
+              if (variant === TodoVariant.DONE) {
                 return;
               }
               onSetActiveTodo();
@@ -140,7 +140,6 @@ const TodoItem = ({
               setVariant(TodoVariant.ON_GOING);
               onUpdateTodo({
                 title: editTodoTitle,
-                completed: isTodoDone,
                 variant: TodoVariant.ON_GOING,
               });
             }}

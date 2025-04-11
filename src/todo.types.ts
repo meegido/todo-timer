@@ -2,7 +2,6 @@ export interface Todo {
   id: string;
   title: string;
   variant: TodoVariant;
-  completed: boolean;
 }
 
 export type UpdatedTodo = Partial<Todo>;
