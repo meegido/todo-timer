@@ -57,6 +57,23 @@ const TodoItem = ({
     });
   };
 
+  const handleCountdown = (mode: 'play' | 'pause') => {
+    if (variant === TodoVariant.DONE) {
+      return;
+    }
+
+    if (mode === 'play') {
+      onSetActiveTodo();
+      onHandlePlay();
+      handleVariantUpdate(TodoVariant.ON_GOING);
+    }
+
+    if (mode === 'pause') {
+      onHandlePause();
+      handleVariantUpdate(TodoVariant.PAUSED);
+    }
+  };
+
   const variantClass = `${styles.card} ${styles[variant]}`;
   const controlButtonClass = isTodoHover ? '' : styles.hiddenControlButton;
   const doneClass =
@@ -102,24 +119,14 @@ const TodoItem = ({
             label="Pause the countdown on todo"
             icon={Pause}
             className={controlButtonClass}
-            onHandleCountdown={() => {
-              onHandlePause();
-              handleVariantUpdate(TodoVariant.PAUSED);
-            }}
+            onHandleCountdown={() => handleCountdown('pause')}
           />
         ) : (
           <ControlButton
             label="Start the countdown on todo"
             icon={Play}
             className={controlButtonClass}
-            onHandleCountdown={() => {
-              if (variant === TodoVariant.DONE) {
-                return;
-              }
-              onSetActiveTodo();
-              onHandlePlay();
-              handleVariantUpdate(TodoVariant.ON_GOING);
-            }}
+            onHandleCountdown={() => handleCountdown('play')}
           />
         )}
       </div>
