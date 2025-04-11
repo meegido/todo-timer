@@ -1,13 +1,15 @@
-import { Todo } from '../../../todo.types';
+import { Todo, TodoVariant } from '../../../todo.types';
 import styles from './checkbox-done.module.css';
 
 interface CheckboxDoneProps {
   todo: Todo;
-  isDone: boolean;
-  setIsDone: React.Dispatch<boolean>;
+  variant: TodoVariant;
+  onToggle: (newVariant: TodoVariant) => void;
 }
 
-const CheckboxDone = ({ todo, isDone, setIsDone }: CheckboxDoneProps) => {
+const CheckboxDone = ({ todo, variant, onToggle }: CheckboxDoneProps) => {
+  const isDone = variant === TodoVariant.DONE;
+
   return (
     <div className={styles.check__wrapper}>
       <label htmlFor={`done-${todo.id}`} className={styles.visually__hidden}>
@@ -20,7 +22,10 @@ const CheckboxDone = ({ todo, isDone, setIsDone }: CheckboxDoneProps) => {
         aria-label="Check or uncheck the todo as done"
         checked={isDone}
         onChange={(event) => {
-          setIsDone(event?.target.checked);
+          const newVariant = event.target.checked
+            ? TodoVariant.DONE
+            : TodoVariant.INACTIVE;
+          onToggle(newVariant);
         }}
       />
     </div>
