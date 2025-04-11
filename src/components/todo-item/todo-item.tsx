@@ -47,20 +47,20 @@ const TodoItem = ({
     });
 
     setIsEditMode(false);
-    console.log(editTodoTitle, variant, 'en update title');
   };
 
-  const handleCheckboxToggle = (newVariant: TodoVariant) => {
+  const handleVariantUpdate = (newVariant: TodoVariant) => {
     setVariant(newVariant);
     onUpdateTodo({
       title: editTodoTitle,
       variant: newVariant,
     });
-    console.log(editTodoTitle, newVariant, 'checkbox toggled');
   };
 
   const variantClass = `${styles.card} ${styles[variant]}`;
   const controlButtonClass = isTodoHover ? '' : styles.hiddenControlButton;
+  const doneClass =
+    variant === TodoVariant.DONE ? styles.marked : styles.todo__title;
 
   return (
     <article
@@ -74,7 +74,7 @@ const TodoItem = ({
           <CheckboxDone
             todo={todo}
             variant={variant}
-            onToggle={handleCheckboxToggle}
+            onToggle={handleVariantUpdate}
           />
 
           {isEditMode ? (
@@ -88,11 +88,7 @@ const TodoItem = ({
             />
           ) : (
             <p
-              className={
-                variant === TodoVariant.DONE
-                  ? styles.marked
-                  : styles.todo__title
-              }
+              className={doneClass}
               key={todo.id}
               aria-label="Todo title"
               onClick={() => setIsEditMode(true)}
@@ -108,11 +104,7 @@ const TodoItem = ({
             className={controlButtonClass}
             onHandleCountdown={() => {
               onHandlePause();
-              setVariant(TodoVariant.PAUSED);
-              onUpdateTodo({
-                title: editTodoTitle,
-                variant: TodoVariant.PAUSED,
-              });
+              handleVariantUpdate(TodoVariant.PAUSED);
             }}
           />
         ) : (
@@ -126,11 +118,7 @@ const TodoItem = ({
               }
               onSetActiveTodo();
               onHandlePlay();
-              setVariant(TodoVariant.ON_GOING);
-              onUpdateTodo({
-                title: editTodoTitle,
-                variant: TodoVariant.ON_GOING,
-              });
+              handleVariantUpdate(TodoVariant.ON_GOING);
             }}
           />
         )}
