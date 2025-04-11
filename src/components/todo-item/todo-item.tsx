@@ -28,7 +28,7 @@ const TodoItem = ({
   isCountdownActive,
 }: TodoItemProps) => {
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
-  const [isTodoDone, setIsTodoDone] = React.useState<boolean>(false);
+  const [isDone, setIsDone] = React.useState<boolean>(false);
   const [editTodoTitle, setEditTodoTitle] = React.useState<string>(todo.title);
   const [variant, setVariant] = React.useState<TodoVariant>(todo.variant);
   const [isTodoHover, setIsTodoHover] = React.useState<boolean>(false);
@@ -51,13 +51,13 @@ const TodoItem = ({
     console.log(editTodoTitle, variant, 'en update title');
   };
 
-  const handleDoneUpdate = () => {
+  const handleVariantUpdate = () => {
     if (isCountdownActive) {
       return;
     }
 
-    const newDone = !isTodoDone;
-    setIsTodoDone(newDone);
+    const newDone = !isDone;
+    setIsDone(newDone);
 
     const updatedVariant = newDone ? TodoVariant.DONE : variant;
     setVariant(updatedVariant);
@@ -67,7 +67,7 @@ const TodoItem = ({
       variant: updatedVariant,
     });
 
-    console.log(editTodoTitle, isTodoDone, variant, 'en done update');
+    console.log(editTodoTitle, isDone, variant, 'en done update');
   };
 
   const variantClass = `${styles.card} ${styles[variant]}`;
@@ -84,8 +84,8 @@ const TodoItem = ({
         <section className={styles.task__content}>
           <CheckboxDone
             todo={todo}
-            isTodoDone={isTodoDone}
-            setIsTodoDone={handleDoneUpdate}
+            isDone={todo.variant === TodoVariant.DONE ? isDone : !isDone}
+            setIsDone={handleVariantUpdate}
           />
 
           {isEditMode ? (
